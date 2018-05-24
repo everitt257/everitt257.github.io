@@ -1,9 +1,18 @@
 ---
 layout: post
-title:  "Welcome to Jekyll!"
-date:   2018-05-23 11:31:55 +0800
+title: Welcome to Jekyll!
+date: '2018-05-23 11:31:55 +0800'
 categories: blog
 tags: welcome
+comments:
+  - author:
+      type: full
+      displayName: everitt257
+      url: 'https://github.com/everitt257'
+      picture: 'https://avatars0.githubusercontent.com/u/22927151?v=4&s=73'
+    content: ddd
+    date: 2018-05-24T14:00:46.465Z
+
 ---
 You’ll find this post in your `_posts` directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run `jekyll serve`, which launches a web server and auto-regenerates your site when a file is updated.
 
