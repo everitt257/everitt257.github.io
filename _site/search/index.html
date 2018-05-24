@@ -29,19 +29,17 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.5.0 -->
-<title>tag2 | Everitt’s blog</title>
+<title>Search | Everitt’s blog</title>
 <meta name="generator" content="Jekyll v3.8.2" />
-<meta property="og:title" content="tag2" />
+<meta property="og:title" content="Search" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="Only for testing." />
-<meta property="og:description" content="Only for testing." />
-<link rel="canonical" href="http://localhost:4000/blog/2018/05/24/test_tag2.html" />
-<meta property="og:url" content="http://localhost:4000/blog/2018/05/24/test_tag2.html" />
+<meta name="description" content="This site fancies machine learning and problems in engineerning in general." />
+<meta property="og:description" content="This site fancies machine learning and problems in engineerning in general." />
+<link rel="canonical" href="http://localhost:4000/search/" />
+<meta property="og:url" content="http://localhost:4000/search/" />
 <meta property="og:site_name" content="Everitt’s blog" />
-<meta property="og:type" content="article" />
-<meta property="article:published_time" content="2018-05-24T00:00:00+08:00" />
 <script type="application/ld+json">
-{"description":"Only for testing.","@type":"BlogPosting","url":"http://localhost:4000/blog/2018/05/24/test_tag2.html","headline":"tag2","dateModified":"2018-05-24T00:00:00+08:00","datePublished":"2018-05-24T00:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/blog/2018/05/24/test_tag2.html"},"@context":"http://schema.org"}</script>
+{"description":"This site fancies machine learning and problems in engineerning in general.","@type":"WebPage","url":"http://localhost:4000/search/","headline":"Search","@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Everitt's blog" /></head>
 <body><header class="site-header" role="banner">
@@ -61,92 +59,37 @@
 </header>
 <main class="page-content" aria-label="Content">
       <div class="wrapper">
-        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+        <article class="post">
 
-  <header class="post-header">
-    <h1 class="post-title p-name" itemprop="name headline">tag2</h1>
-    <p class="post-meta">
-      <time class="dt-published" datetime="2018-05-24T00:00:00+08:00" itemprop="datePublished">May 24, 2018
-      </time></p>
-  </header>
-
-  <!-- Tags -->
-  <ul class="tags">
-    
-      <li><a href="/tags#js" class="tag">js</a></li>
-    
-      <li><a href="/tags#html" class="tag">html</a></li>
-    
-  </ul>
-
-  <!-- Body -->
-  <div class="post-content e-content" itemprop="articleBody">
-    <p>Only for testing.</p>
-
-  </div>
+    <header class="post-header">
+      <h1 class="post-title">Search for posts or stories</h1>
+    </header>
   
-  <!-- Related posts -->
-  
-  
-  
-    <div class="row related-posts">
-      <h2 class="text-center" style="font-family: initial">Related blog posts:</h2>
-      <div class="medium-12 small-12 columns">
-        
-          
+    <div class="post-content">
+      <!-- Html Elements for Search -->
+<div id="search-container">
+    <input type="text" id="search-input" placeholder="search...">
+    <ul id="results-container"></ul>
+</div>
 
-           <h3>
-            <a href="http://localhost:4000/blog/2018/05/24/instant-search.html">
-              Implement Jekyll instant search
-            </a>
-           </h3>
+<!-- Script pointing to search-script.js -->
+<script src="/js/simple-jekyll-search.min.js" type="text/javascript"></script>
 
-          
-        
-          
-        
-          
-
-           <h3>
-            <a href="http://localhost:4000/blog/2018/05/24/test_tag1.html">
-              How to add related posts in jekyll
-            </a>
-           </h3>
-
-          
-        
-      </div>
+<!-- Configuration -->
+<script>
+SimpleJekyllSearch({
+    searchResultTemplate: '<div><a href="{url}"><h1>{title}</h1></a><span>{date}</span></div>',
+    searchInput: document.getElementById('search-input'),
+    resultsContainer: document.getElementById('results-container'),
+    json: '/search.json'
+})
+</script>
     </div>
   
-
-
-  <!-- Disqus --><a class="u-url" href="/blog/2018/05/24/test_tag2.html" hidden></a>
-</article>
-
-<div id="disqus_thread"></div>
-<script>
-
-/**
-*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
-*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
-/*
-var disqus_config = function () {
-this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
-this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-};
-*/
-(function() { // DON'T EDIT BELOW THIS LINE
-var d = document, s = d.createElement('script');
-s.src = 'https://everitt257.disqus.com/embed.js';
-s.setAttribute('data-timestamp', +new Date());
-(d.head || d.body).appendChild(s);
-})();
-</script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-
-
-<script id="dsq-count-scr" src="//everitt257.disqus.com/count.js" async></script>
-
+    <div style="font-size: 12px; font-family: initial">
+        Due to some unknown reason, the search bar on homepage doesn't work on github site. It does work locally however.
+    </div>
+  </article>
       </div>
     </main><footer class="site-footer h-card">
   <data class="u-url" href="/"></data>
