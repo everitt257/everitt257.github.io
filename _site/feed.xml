@@ -1,6 +1,93 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2018-05-24T21:30:19+08:00</updated><id>http://localhost:4000/</id><title type="html">Everitt’s blog</title><subtitle>This site fancies machine learning and problems in engineerning in general.</subtitle><entry><title type="html">Implement Jekyll instant search</title><link href="http://localhost:4000/blog/2018/05/24/instant-search.html" rel="alternate" type="text/html" title="Implement Jekyll instant search" /><published>2018-05-24T00:00:00+08:00</published><updated>2018-05-24T00:00:00+08:00</updated><id>http://localhost:4000/blog/2018/05/24/instant-search</id><content type="html" xml:base="http://localhost:4000/blog/2018/05/24/instant-search.html">&lt;p&gt;Since Jekyll has no server side execution, we have to rely on storing all the required content in a single file and search our keyword from that file.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2018-05-25T00:16:22+08:00</updated><id>http://localhost:4000/</id><title type="html">Everitt’s blog</title><subtitle>This site fancies machine learning and problems in engineerning in general.</subtitle><entry><title type="html">Implement Jekyll instant search</title><link href="http://localhost:4000/blog/2018/05/24/instant-search.html" rel="alternate" type="text/html" title="Implement Jekyll instant search" /><published>2018-05-24T00:00:00+08:00</published><updated>2018-05-24T00:00:00+08:00</updated><id>http://localhost:4000/blog/2018/05/24/instant-search</id><content type="html" xml:base="http://localhost:4000/blog/2018/05/24/instant-search.html">&lt;p&gt;Since Jekyll has no server side execution, we have to rely on storing all the required content in a single file and search our keyword from that file.&lt;/p&gt;
 
-&lt;p&gt;&lt;a href=&quot;https://blog.webjeda.com/instant-jekyll-search/&quot;&gt;Instant Search Implementation.&lt;/a&gt;&lt;/p&gt;</content><author><name></name></author><category term="jekyll" /><category term="json" /><summary type="html">Since Jekyll has no server side execution, we have to rely on storing all the required content in a single file and search our keyword from that file.</summary></entry><entry><title type="html">tag2</title><link href="http://localhost:4000/blog/2018/05/24/test_tag2.html" rel="alternate" type="text/html" title="tag2" /><published>2018-05-24T00:00:00+08:00</published><updated>2018-05-24T00:00:00+08:00</updated><id>http://localhost:4000/blog/2018/05/24/test_tag2</id><content type="html" xml:base="http://localhost:4000/blog/2018/05/24/test_tag2.html">&lt;p&gt;Only for testing.&lt;/p&gt;</content><author><name></name></author><category term="blog" /><category term="js" /><category term="html" /><summary type="html">Only for testing.</summary></entry><entry><title type="html">tag1</title><link href="http://localhost:4000/blog/2018/05/24/test_tag1.html" rel="alternate" type="text/html" title="tag1" /><published>2018-05-24T00:00:00+08:00</published><updated>2018-05-24T00:00:00+08:00</updated><id>http://localhost:4000/blog/2018/05/24/test_tag1</id><content type="html" xml:base="http://localhost:4000/blog/2018/05/24/test_tag1.html">&lt;p&gt;Only for testing.&lt;/p&gt;</content><author><name></name></author><category term="blog" /><category term="js" /><category term="html" /><summary type="html">Only for testing.</summary></entry><entry><title type="html">Testing mermaid library</title><link href="http://localhost:4000/blog/2018/05/24/mermaid.html" rel="alternate" type="text/html" title="Testing mermaid library" /><published>2018-05-24T00:00:00+08:00</published><updated>2018-05-24T00:00:00+08:00</updated><id>http://localhost:4000/blog/2018/05/24/mermaid</id><content type="html" xml:base="http://localhost:4000/blog/2018/05/24/mermaid.html">&lt;h2 id=&quot;this-is-a-mermaid-ready-static-blogging-site&quot;&gt;This is a mermaid ready-static blogging site&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&quot;https://blog.webjeda.com/instant-jekyll-search/&quot;&gt;Instant Search Implementation.&lt;/a&gt;&lt;/p&gt;</content><author><name></name></author><category term="blog" /><category term="jekyll" /><category term="json" /><summary type="html">Since Jekyll has no server side execution, we have to rely on storing all the required content in a single file and search our keyword from that file.</summary></entry><entry><title type="html">变压器厂家聚类分析</title><link href="http://localhost:4000/story/2018/05/24/transformer-cluster-trial.html" rel="alternate" type="text/html" title="变压器厂家聚类分析" /><published>2018-05-24T00:00:00+08:00</published><updated>2018-05-24T00:00:00+08:00</updated><id>http://localhost:4000/story/2018/05/24/transformer-cluster-trial</id><content type="html" xml:base="http://localhost:4000/story/2018/05/24/transformer-cluster-trial.html">&lt;h2 id=&quot;变压器厂家名字聚类重建预测可视化&quot;&gt;变压器厂家名字聚类，重建预测，可视化&lt;/h2&gt;
+&lt;p&gt;这是一次对变压器的厂家名字做聚类与重建预测和可视化的尝试。使用了以下手段：&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;分词&lt;/li&gt;
+  &lt;li&gt;短句向量化, 采用简单统计词频方式做向量，没有采用ifidf,因为效果不理想，且短句子用简单的方式效果更好&lt;/li&gt;
+  &lt;li&gt;t-sne降维，没有用过pca的原因是效果不理想，重建预测时候学习曲线非常低&lt;/li&gt;
+  &lt;li&gt;t-sne 2D可视化&lt;/li&gt;
+  &lt;li&gt;其他探索：word2vec词频空间探索相似度高的单词，效果不理想，放弃&lt;/li&gt;
+  &lt;li&gt;其他探索：word2vec词频空间可视化&lt;/li&gt;
+  &lt;li&gt;重建预测，使用t-sne降维到10维度的空间做初始特征&lt;/li&gt;
+  &lt;li&gt;简单4层神经网络，$l = |x’ - x| + \lambda*(\theta)$, lambda是常数，theta是权重&lt;/li&gt;
+  &lt;li&gt;神经元：12+6+6+10 = 34个神经元&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;结果与图&quot;&gt;结果与图&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;T-SNE，2维聚类，CountVector，已更新
+&lt;img src=&quot;http://localhost:4000/data/img/new_result0.png&quot; alt=&quot;T-SNE 2维聚类&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;T-SNE，2维聚类，序号标注，CountVector，已更新
+&lt;img src=&quot;http://localhost:4000/data/img/COUNT2_TSNE_Visualize.png&quot; alt=&quot;序号标注&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;T-SNE，2维聚类，序号标注，TfidfVector，已过期，前面有些初始化的数据不对
+&lt;img src=&quot;http://localhost:4000/data/img/TFIDF_TSNE_with_numbers.png&quot; alt=&quot; &quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Word2Vec词频空间可视化，这个说明不了太多问题，已过期
+&lt;img src=&quot;http://localhost:4000/data/img/result3.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;K-Means 40个聚类，这个说明不了太多问题，已过期
+&lt;img src=&quot;http://localhost:4000/data/img/result4.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Autoencoder(重建预测)，T-SNE，10维降维，学习曲线，横轴是尝试次数，最后稳定在92%的准确性 已更新
+&lt;img src=&quot;http://localhost:4000/data/img/autoencoder10_learning_tendency.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Autoencoder(重建预测)，T-SNE，10维降维，预测与实际的L2距离, 横轴是序号，已更新
+&lt;img src=&quot;http://localhost:4000/data/img/autoencoder10_prediction_result.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;罗列部分文字结果&quot;&gt;罗列部分文字结果&lt;/h2&gt;
+&lt;p&gt;这里的文字结果，是取重建预测中预测的比较差的前10个。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;前10个可能出现问题的厂家名字：&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;可能有问题的序列号: 5879, 序列号对应的厂家: 西安西北电力电器制造公司西安西北电力电器制造公司&lt;/li&gt;
+  &lt;li&gt;可能有问题的序列号: 2927, 序列号对应的厂家: 广东番禺明珠电器有限责任公司 广东番禺世纪变压器有限公司&lt;/li&gt;
+  &lt;li&gt;可能有问题的序列号: 4206, 序列号对应的厂家: 安徽赛普电气有限公司&lt;/li&gt;
+  &lt;li&gt;可能有问题的序列号: 4277, 序列号对应的厂家: 博世（bosch）&lt;/li&gt;
+  &lt;li&gt;可能有问题的序列号: 5108, 序列号对应的厂家: Kelong&lt;/li&gt;
+  &lt;li&gt;可能有问题的序列号: 6129, 序列号对应的厂家: 加拿大罗杰康有限公司&lt;/li&gt;
+  &lt;li&gt;可能有问题的序列号: 6395, 序列号对应的厂家: 金宏威&lt;/li&gt;
+  &lt;li&gt;可能有问题的序列号: 7289, 序列号对应的厂家: 新安宝&lt;/li&gt;
+  &lt;li&gt;可能有问题的序列号: 2377, 序列号对应的厂家: LG牌电视机&lt;/li&gt;
+  &lt;li&gt;可能有问题的序列号: 5536, 序列号对应的厂家: 杭州德赢科技有限公司&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;使用余弦像似性作为衡量标准，取它们对应的相似的前4个：&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;[‘西安西北电力电器制造公司’ ‘西安西北电力电器制造公司西安西北电力电器制造公司’ ‘西安电力制造公司’ ‘西安翰德电力电器制造有限公司’]&lt;/li&gt;
+  &lt;li&gt;[‘广东番禺明珠电器有限责任公司 广东番禺世纪变压器有限公司’ ‘广州番禺明珠电器有限责任公司’ ‘广东番禺电缆实业有限公司’
+ ‘广东番禺电气设备制造有限公司’]&lt;/li&gt;
+  &lt;li&gt;[‘安徽赛普电气有限公司’ ‘安徽泰隆电气有限公司’ ‘安徽巨森电气有限公司’ ‘安徽龙波电气有限公司’]&lt;/li&gt;
+  &lt;li&gt;[‘博世（bosch）’ ‘博世’ ‘BOSCH’ ‘BOSCH（中国）’]&lt;/li&gt;
+  &lt;li&gt;[‘Kelong’ ‘KELONG’ ‘杭州华立仪表有限公司’ ‘河北保定特种变压器厂’]&lt;/li&gt;
+  &lt;li&gt;[‘加拿大罗杰康有限公司’ ‘加拿大’ ‘加拿大HARRIS’ ‘罗杰康（中国）有限公司’]&lt;/li&gt;
+  &lt;li&gt;[‘金宏威’ ‘深圳市金宏威技术股份有限公司’ ‘深圳市金宏威实业发展有限公司’ ‘杭州永德电气公司’]&lt;/li&gt;
+  &lt;li&gt;[‘新安宝’ ‘深圳市新安电力设备厂’ ‘杭州华立仪表有限公司’ ‘杭州永德电气公司’]&lt;/li&gt;
+  &lt;li&gt;[‘LG牌电视机’ ‘LG’ ‘三星牌电视机’ ‘LG公司’]&lt;/li&gt;
+  &lt;li&gt;[‘杭州德赢科技有限公司’ ‘杭州传恒科技有限公司’ ‘杭州鸿程科技有限公司’ ‘杭州易斯特科技有限公司’]&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;结论&quot;&gt;结论&lt;/h2&gt;
+&lt;p&gt;这是一个发现异常的问题，因为没有标签所以是无监督学习。去除冗余，样本的多样性依旧较大，在数据量比较小的情况下（7k）去发现文字的异常是意见比较困难的事情。这里尝试了多种方式去可视化，效果不是特别明显，也从侧面验证了当特征值数量大而样本数量较小的时，数据挖掘欠拟合的问题。&lt;/p&gt;
+
+&lt;h2 id=&quot;参考&quot;&gt;参考&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&quot;https://www.kaggle.com/jeffd23/visualizing-word-vectors-with-t-sne&quot;&gt;Visualize t-SNE&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://medium.com/@curiousily/credit-card-fraud-detection-using-autoencoders-in-keras-tensorflow-for-hackers-part-vii-20e0c85301bd&quot;&gt;Credit Card Fraud-detection using autoencoders&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://scikit-learn.org/stable/modules/feature_extraction.html#text-feature-extraction&quot;&gt;Feature Extraction sklearn&lt;/a&gt;&lt;/p&gt;</content><author><name></name></author><category term="story" /><category term="algorithm" /><category term="tf-idf" /><category term="deep-learning" /><summary type="html">变压器厂家名字聚类，重建预测，可视化 这是一次对变压器的厂家名字做聚类与重建预测和可视化的尝试。使用了以下手段： 分词 短句向量化, 采用简单统计词频方式做向量，没有采用ifidf,因为效果不理想，且短句子用简单的方式效果更好 t-sne降维，没有用过pca的原因是效果不理想，重建预测时候学习曲线非常低 t-sne 2D可视化 其他探索：word2vec词频空间探索相似度高的单词，效果不理想，放弃 其他探索：word2vec词频空间可视化 重建预测，使用t-sne降维到10维度的空间做初始特征 简单4层神经网络，$l = |x’ - x| + \lambda*(\theta)$, lambda是常数，theta是权重 神经元：12+6+6+10 = 34个神经元</summary></entry><entry><title type="html">tag2</title><link href="http://localhost:4000/blog/2018/05/24/test_tag2.html" rel="alternate" type="text/html" title="tag2" /><published>2018-05-24T00:00:00+08:00</published><updated>2018-05-24T00:00:00+08:00</updated><id>http://localhost:4000/blog/2018/05/24/test_tag2</id><content type="html" xml:base="http://localhost:4000/blog/2018/05/24/test_tag2.html">&lt;p&gt;Only for testing.&lt;/p&gt;</content><author><name></name></author><category term="blog" /><category term="js" /><category term="html" /><summary type="html">Only for testing.</summary></entry><entry><title type="html">How to add related posts in jekyll</title><link href="http://localhost:4000/blog/2018/05/24/test_tag1.html" rel="alternate" type="text/html" title="How to add related posts in jekyll" /><published>2018-05-24T00:00:00+08:00</published><updated>2018-05-24T00:00:00+08:00</updated><id>http://localhost:4000/blog/2018/05/24/test_tag1</id><content type="html" xml:base="http://localhost:4000/blog/2018/05/24/test_tag1.html">&lt;p&gt;This is a record showing how to do the following: 
+&lt;a href=&quot;https://alligator.io/jekyll/related-posts-in-jekyll/&quot;&gt;How to add relatd post in jekyll&lt;/a&gt;&lt;/p&gt;</content><author><name></name></author><category term="blog" /><category term="js" /><category term="html" /><summary type="html">This is a record showing how to do the following: How to add relatd post in jekyll</summary></entry><entry><title type="html">Testing mermaid library</title><link href="http://localhost:4000/blog/2018/05/24/mermaid.html" rel="alternate" type="text/html" title="Testing mermaid library" /><published>2018-05-24T00:00:00+08:00</published><updated>2018-05-24T00:00:00+08:00</updated><id>http://localhost:4000/blog/2018/05/24/mermaid</id><content type="html" xml:base="http://localhost:4000/blog/2018/05/24/mermaid.html">&lt;h2 id=&quot;this-is-a-mermaid-ready-static-blogging-site&quot;&gt;This is a mermaid ready-static blogging site&lt;/h2&gt;
 
 &lt;div class=&quot;mermaid&quot;&gt;
 sequenceDiagram
@@ -14,7 +101,51 @@ sequenceDiagram
     John--&amp;gt;Alice: Great!
     John-&amp;gt;Bob: How about you?
     Bob--&amp;gt;John: Jolly good!
-&lt;/div&gt;</content><author><name></name></author><category term="blog" /><category term="mermaid" /><category term="js" /><summary type="html">This is a mermaid ready-static blogging site</summary></entry><entry><title type="html">Welcome to Jekyll!</title><link href="http://localhost:4000/blog/2018/05/23/welcome-to-jekyll.html" rel="alternate" type="text/html" title="Welcome to Jekyll!" /><published>2018-05-23T11:31:55+08:00</published><updated>2018-05-23T11:31:55+08:00</updated><id>http://localhost:4000/blog/2018/05/23/welcome-to-jekyll</id><content type="html" xml:base="http://localhost:4000/blog/2018/05/23/welcome-to-jekyll.html">&lt;p&gt;You’ll find this post in your &lt;code class=&quot;highlighter-rouge&quot;&gt;_posts&lt;/code&gt; directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run &lt;code class=&quot;highlighter-rouge&quot;&gt;jekyll serve&lt;/code&gt;, which launches a web server and auto-regenerates your site when a file is updated.&lt;/p&gt;
+&lt;/div&gt;</content><author><name></name></author><category term="blog" /><category term="mermaid" /><category term="js" /><summary type="html">This is a mermaid ready-static blogging site</summary></entry><entry><title type="html">大数据实验室计划</title><link href="http://localhost:4000/story/2018/05/24/bigdatalab.html" rel="alternate" type="text/html" title="大数据实验室计划" /><published>2018-05-24T00:00:00+08:00</published><updated>2018-05-24T00:00:00+08:00</updated><id>http://localhost:4000/story/2018/05/24/bigdatalab</id><content type="html" xml:base="http://localhost:4000/story/2018/05/24/bigdatalab.html">&lt;p&gt;计划如下：&lt;/p&gt;
+
+&lt;div class=&quot;mermaid&quot;&gt;
+gantt
+    title 大数据实验室计划
+    dateFormat YYYY-MM-DD
+    
+    section 硬件环境       
+    机房布置 : done, a1, 2018-04-17, 30d
+    
+    section 软件环境
+    购置Tableu : active, a2, 2018-04-17, 60d
+    完善Sophon : active, a3, 2018-04-17, 30d
+    
+    section 数据资源
+    编制数据资源申请流程 : done, a4, 2018-04-23, 10d
+    内部数据资源准备 : active, i1, 2018-04-18, 14d
+
+    section 运营方案
+    编制管理规范 : done,a5, 2018-04-18, 15d
+    编制操作指引 : done, a6, 2018-04-18, 15d
+    编制课题评审标准 : crit, a7, after a6, 5d
+    编制积分奖励机制 : a8, after a7, 10d
+    拟定数据创新竞赛方案 : a9, after a7, 10d
+
+    section 组织培训
+    数据可视化资源准备 : active, l1, 2018-04-18,  7d
+    数据可视化入门培训 : d1, 2018-05-10 , 2018-05-20
+    数据可视化进阶培训 : d2, 2018-06-10 , 5d
+
+    section 课题研究
+    征集研究课题 : k1, 2018-07-30, 14d
+    组织专家评审 : k2, after k1, 7d
+    开展课题研究 : k3, after k2, 30d
+
+    section 课题发布
+    搭建数据创新分享平台 : x1, 2018-06-01, 60d
+    与员工知识社区互为入口 : x2, 2018-06-20, 50d
+    
+    section 长远规划
+    与高校展开联合认证 : r1, 2018-10-01, 60d
+    固话大数据实验室成国 : r2, 2018-10-15, 90d
+    制定申报流程 : r3, 2018-10-15, 20d
+    支撑竞争性业务 : r4, after r1, 60d
+&lt;/div&gt;</content><author><name></name></author><category term="story" /><category term="news" /><summary type="html">计划如下：</summary></entry><entry><title type="html">Welcome to Jekyll!</title><link href="http://localhost:4000/blog/2018/05/23/welcome-to-jekyll.html" rel="alternate" type="text/html" title="Welcome to Jekyll!" /><published>2018-05-23T11:31:55+08:00</published><updated>2018-05-23T11:31:55+08:00</updated><id>http://localhost:4000/blog/2018/05/23/welcome-to-jekyll</id><content type="html" xml:base="http://localhost:4000/blog/2018/05/23/welcome-to-jekyll.html">&lt;p&gt;You’ll find this post in your &lt;code class=&quot;highlighter-rouge&quot;&gt;_posts&lt;/code&gt; directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run &lt;code class=&quot;highlighter-rouge&quot;&gt;jekyll serve&lt;/code&gt;, which launches a web server and auto-regenerates your site when a file is updated.&lt;/p&gt;
 
 &lt;p&gt;To add new posts, simply add a file in the &lt;code class=&quot;highlighter-rouge&quot;&gt;_posts&lt;/code&gt; directory that follows the convention &lt;code class=&quot;highlighter-rouge&quot;&gt;YYYY-MM-DD-name-of-post.ext&lt;/code&gt; and includes the necessary front matter. Take a look at the source for this post to get an idea about how it works.&lt;/p&gt;
 
@@ -43,4 +174,6 @@ $a = b + c$&lt;/p&gt;
 
 &lt;script type=&quot;math/tex; mode=display&quot;&gt;mean = \frac{\displaystyle\sum_{i=1}^{n} x_{i}}{n}&lt;/script&gt;
 
-&lt;p&gt;support for chinese: 你好我是徐炫东&lt;/p&gt;</content><author><name></name></author><category term="blog" /><category term="math" /><category term="excerpt" /><category term="code-hightlight" /><summary type="html">this is a test to see excerpt</summary></entry></feed>
+&lt;p&gt;support for chinese: 你好我是徐炫东&lt;/p&gt;
+
+&lt;p&gt;$l = |x| + \lambda*(\theta)$&lt;/p&gt;</content><author><name></name></author><category term="blog" /><category term="math" /><category term="excerpt" /><category term="code-hightlight" /><summary type="html">this is a test to see excerpt</summary></entry></feed>

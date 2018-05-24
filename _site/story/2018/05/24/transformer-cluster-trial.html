@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<!-- custom.css -->
+<link rel="stylesheet", href="/css/custom.css">
+
+<!-- mathjax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    TeX: {
+      equationNumbers: {
+        autoNumber: "AMS"
+      }
+    },
+    tex2jax: {
+      inlineMath: [ ['$','$'], ['\(', '\)'] ],
+      processEscapes: true,
+    }
+  });
+</script>
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+<!-- mermaid -->
+<script src="/js/mermaid.min.js"></script>
+<script>mermaid.initialize({startOnLoad:true});</script>
+
+<!-- body -->
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.5.0 -->
+<title>变压器厂家聚类分析 | Everitt’s blog</title>
+<meta name="generator" content="Jekyll v3.8.2" />
+<meta property="og:title" content="变压器厂家聚类分析" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="变压器厂家名字聚类，重建预测，可视化 这是一次对变压器的厂家名字做聚类与重建预测和可视化的尝试。使用了以下手段： 分词 短句向量化, 采用简单统计词频方式做向量，没有采用ifidf,因为效果不理想，且短句子用简单的方式效果更好 t-sne降维，没有用过pca的原因是效果不理想，重建预测时候学习曲线非常低 t-sne 2D可视化 其他探索：word2vec词频空间探索相似度高的单词，效果不理想，放弃 其他探索：word2vec词频空间可视化 重建预测，使用t-sne降维到10维度的空间做初始特征 简单4层神经网络，$l = |x’ - x| + \lambda*(\theta)$, lambda是常数，theta是权重 神经元：12+6+6+10 = 34个神经元" />
+<meta property="og:description" content="变压器厂家名字聚类，重建预测，可视化 这是一次对变压器的厂家名字做聚类与重建预测和可视化的尝试。使用了以下手段： 分词 短句向量化, 采用简单统计词频方式做向量，没有采用ifidf,因为效果不理想，且短句子用简单的方式效果更好 t-sne降维，没有用过pca的原因是效果不理想，重建预测时候学习曲线非常低 t-sne 2D可视化 其他探索：word2vec词频空间探索相似度高的单词，效果不理想，放弃 其他探索：word2vec词频空间可视化 重建预测，使用t-sne降维到10维度的空间做初始特征 简单4层神经网络，$l = |x’ - x| + \lambda*(\theta)$, lambda是常数，theta是权重 神经元：12+6+6+10 = 34个神经元" />
+<link rel="canonical" href="http://localhost:4000/story/2018/05/24/transformer-cluster-trial.html" />
+<meta property="og:url" content="http://localhost:4000/story/2018/05/24/transformer-cluster-trial.html" />
+<meta property="og:site_name" content="Everitt’s blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-05-24T00:00:00+08:00" />
+<script type="application/ld+json">
+{"description":"变压器厂家名字聚类，重建预测，可视化 这是一次对变压器的厂家名字做聚类与重建预测和可视化的尝试。使用了以下手段： 分词 短句向量化, 采用简单统计词频方式做向量，没有采用ifidf,因为效果不理想，且短句子用简单的方式效果更好 t-sne降维，没有用过pca的原因是效果不理想，重建预测时候学习曲线非常低 t-sne 2D可视化 其他探索：word2vec词频空间探索相似度高的单词，效果不理想，放弃 其他探索：word2vec词频空间可视化 重建预测，使用t-sne降维到10维度的空间做初始特征 简单4层神经网络，$l = |x’ - x| + \\lambda*(\\theta)$, lambda是常数，theta是权重 神经元：12+6+6+10 = 34个神经元","@type":"BlogPosting","url":"http://localhost:4000/story/2018/05/24/transformer-cluster-trial.html","headline":"变压器厂家聚类分析","dateModified":"2018-05-24T00:00:00+08:00","datePublished":"2018-05-24T00:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/story/2018/05/24/transformer-cluster-trial.html"},"@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Everitt's blog" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Everitt&#39;s blog</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a><a class="page-link" href="/category/blog.html">Blog</a><a class="page-link" href="/category/story.html">Story</a><a class="page-link" href="/tags.html">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">变压器厂家聚类分析</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2018-05-24T00:00:00+08:00" itemprop="datePublished">May 24, 2018
+      </time></p>
+  </header>
+
+  <!-- Tags -->
+  <ul class="tags">
+    
+      <li><a href="/tags#algorithm" class="tag">algorithm</a></li>
+    
+      <li><a href="/tags#tf-idf" class="tag">tf-idf</a></li>
+    
+      <li><a href="/tags#deep-learning" class="tag">deep-learning</a></li>
+    
+  </ul>
+
+  <!-- Body -->
+  <div class="post-content e-content" itemprop="articleBody">
+    <h2 id="变压器厂家名字聚类重建预测可视化">变压器厂家名字聚类，重建预测，可视化</h2>
+<p>这是一次对变压器的厂家名字做聚类与重建预测和可视化的尝试。使用了以下手段：</p>
+<ol>
+  <li>分词</li>
+  <li>短句向量化, 采用简单统计词频方式做向量，没有采用ifidf,因为效果不理想，且短句子用简单的方式效果更好</li>
+  <li>t-sne降维，没有用过pca的原因是效果不理想，重建预测时候学习曲线非常低</li>
+  <li>t-sne 2D可视化</li>
+  <li>其他探索：word2vec词频空间探索相似度高的单词，效果不理想，放弃</li>
+  <li>其他探索：word2vec词频空间可视化</li>
+  <li>重建预测，使用t-sne降维到10维度的空间做初始特征</li>
+  <li>简单4层神经网络，$l = |x’ - x| + \lambda*(\theta)$, lambda是常数，theta是权重</li>
+  <li>神经元：12+6+6+10 = 34个神经元</li>
+</ol>
+
+<h2 id="结果与图">结果与图</h2>
+<ul>
+  <li>
+    <p>T-SNE，2维聚类，CountVector，已更新
+<img src="http://localhost:4000/data/img/new_result0.png" alt="T-SNE 2维聚类" /></p>
+  </li>
+  <li>
+    <p>T-SNE，2维聚类，序号标注，CountVector，已更新
+<img src="http://localhost:4000/data/img/COUNT2_TSNE_Visualize.png" alt="序号标注" /></p>
+  </li>
+  <li>
+    <p>T-SNE，2维聚类，序号标注，TfidfVector，已过期，前面有些初始化的数据不对
+<img src="http://localhost:4000/data/img/TFIDF_TSNE_with_numbers.png" alt=" " /></p>
+  </li>
+  <li>
+    <p>Word2Vec词频空间可视化，这个说明不了太多问题，已过期
+<img src="http://localhost:4000/data/img/result3.png" alt="" /></p>
+  </li>
+  <li>
+    <p>K-Means 40个聚类，这个说明不了太多问题，已过期
+<img src="http://localhost:4000/data/img/result4.png" alt="" /></p>
+  </li>
+  <li>
+    <p>Autoencoder(重建预测)，T-SNE，10维降维，学习曲线，横轴是尝试次数，最后稳定在92%的准确性 已更新
+<img src="http://localhost:4000/data/img/autoencoder10_learning_tendency.png" alt="" /></p>
+  </li>
+  <li>
+    <p>Autoencoder(重建预测)，T-SNE，10维降维，预测与实际的L2距离, 横轴是序号，已更新
+<img src="http://localhost:4000/data/img/autoencoder10_prediction_result.png" alt="" /></p>
+  </li>
+</ul>
+
+<h2 id="罗列部分文字结果">罗列部分文字结果</h2>
+<p>这里的文字结果，是取重建预测中预测的比较差的前10个。</p>
+
+<p><strong>前10个可能出现问题的厂家名字：</strong></p>
+<ul>
+  <li>可能有问题的序列号: 5879, 序列号对应的厂家: 西安西北电力电器制造公司西安西北电力电器制造公司</li>
+  <li>可能有问题的序列号: 2927, 序列号对应的厂家: 广东番禺明珠电器有限责任公司 广东番禺世纪变压器有限公司</li>
+  <li>可能有问题的序列号: 4206, 序列号对应的厂家: 安徽赛普电气有限公司</li>
+  <li>可能有问题的序列号: 4277, 序列号对应的厂家: 博世（bosch）</li>
+  <li>可能有问题的序列号: 5108, 序列号对应的厂家: Kelong</li>
+  <li>可能有问题的序列号: 6129, 序列号对应的厂家: 加拿大罗杰康有限公司</li>
+  <li>可能有问题的序列号: 6395, 序列号对应的厂家: 金宏威</li>
+  <li>可能有问题的序列号: 7289, 序列号对应的厂家: 新安宝</li>
+  <li>可能有问题的序列号: 2377, 序列号对应的厂家: LG牌电视机</li>
+  <li>可能有问题的序列号: 5536, 序列号对应的厂家: 杭州德赢科技有限公司</li>
+</ul>
+
+<p><strong>使用余弦像似性作为衡量标准，取它们对应的相似的前4个：</strong></p>
+<ul>
+  <li>[‘西安西北电力电器制造公司’ ‘西安西北电力电器制造公司西安西北电力电器制造公司’ ‘西安电力制造公司’ ‘西安翰德电力电器制造有限公司’]</li>
+  <li>[‘广东番禺明珠电器有限责任公司 广东番禺世纪变压器有限公司’ ‘广州番禺明珠电器有限责任公司’ ‘广东番禺电缆实业有限公司’
+ ‘广东番禺电气设备制造有限公司’]</li>
+  <li>[‘安徽赛普电气有限公司’ ‘安徽泰隆电气有限公司’ ‘安徽巨森电气有限公司’ ‘安徽龙波电气有限公司’]</li>
+  <li>[‘博世（bosch）’ ‘博世’ ‘BOSCH’ ‘BOSCH（中国）’]</li>
+  <li>[‘Kelong’ ‘KELONG’ ‘杭州华立仪表有限公司’ ‘河北保定特种变压器厂’]</li>
+  <li>[‘加拿大罗杰康有限公司’ ‘加拿大’ ‘加拿大HARRIS’ ‘罗杰康（中国）有限公司’]</li>
+  <li>[‘金宏威’ ‘深圳市金宏威技术股份有限公司’ ‘深圳市金宏威实业发展有限公司’ ‘杭州永德电气公司’]</li>
+  <li>[‘新安宝’ ‘深圳市新安电力设备厂’ ‘杭州华立仪表有限公司’ ‘杭州永德电气公司’]</li>
+  <li>[‘LG牌电视机’ ‘LG’ ‘三星牌电视机’ ‘LG公司’]</li>
+  <li>[‘杭州德赢科技有限公司’ ‘杭州传恒科技有限公司’ ‘杭州鸿程科技有限公司’ ‘杭州易斯特科技有限公司’]</li>
+</ul>
+
+<h2 id="结论">结论</h2>
+<p>这是一个发现异常的问题，因为没有标签所以是无监督学习。去除冗余，样本的多样性依旧较大，在数据量比较小的情况下（7k）去发现文字的异常是意见比较困难的事情。这里尝试了多种方式去可视化，效果不是特别明显，也从侧面验证了当特征值数量大而样本数量较小的时，数据挖掘欠拟合的问题。</p>
+
+<h2 id="参考">参考</h2>
+<p><a href="https://www.kaggle.com/jeffd23/visualizing-word-vectors-with-t-sne">Visualize t-SNE</a></p>
+
+<p><a href="https://medium.com/@curiousily/credit-card-fraud-detection-using-autoencoders-in-keras-tensorflow-for-hackers-part-vii-20e0c85301bd">Credit Card Fraud-detection using autoencoders</a></p>
+
+<p><a href="http://scikit-learn.org/stable/modules/feature_extraction.html#text-feature-extraction">Feature Extraction sklearn</a></p>
+
+
+  </div>
+  
+  <!-- Related posts -->
+  
+  
+  
+    <div class="row related-posts">
+      <h2 class="text-center" style="font-family: initial">Related story posts:</h2>
+      <div class="medium-12 small-12 columns">
+        
+          
+        
+          
+
+           <h3>
+            <a href="http://localhost:4000/story/2018/05/24/bigdatalab.html">
+              大数据实验室计划
+            </a>
+           </h3>
+
+          
+        
+      </div>
+    </div>
+  
+
+
+  <!-- Disqus --><a class="u-url" href="/story/2018/05/24/transformer-cluster-trial.html" hidden></a>
+</article>
+
+<div id="disqus_thread"></div>
+<script>
+
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = 'https://everitt257.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+<script id="dsq-count-scr" src="//everitt257.disqus.com/count.js" async></script>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Everitt&#39;s blog</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Everitt&#39;s blog</li><li><a class="u-email" href="mailto:everitt257@gmail.com">everitt257@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/everitt257"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">everitt257</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>This site fancies machine learning and problems in engineerning in general.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

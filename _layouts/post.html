@@ -23,10 +23,34 @@ layout: default
     {% endfor %}
   </ul>
 
+  <!-- Body -->
   <div class="post-content e-content" itemprop="articleBody">
     {{ content }}
   </div>
   
+  <!-- Related posts -->
+  {% unless page.category == null %}
+  {% capture pageCategory %}{{ page.category }}{% endcapture %}
+  {% unless site.categories[pageCategory].size == 1 %}
+    <div class="row related-posts">
+      <h2 class="text-center" style="font-family: initial">Related {{ page.category }} posts:</h2>
+      <div class="medium-12 small-12 columns">
+        {% for post in site.categories[pageCategory] limit:3 %}
+          {% unless post.title == page.title %}
+
+           <h3>
+            <a href="{{ site.url }}{{ site.baseurl }}{{ post.url }}">
+              {{ post.title }}
+            </a>
+           </h3>
+
+          {% endunless %}
+        {% endfor %}
+      </div>
+    </div>
+  {% endunless %}
+{% endunless %}
+
   <!-- Disqus -->
   {%- if site.disqus.shortname -%}
     {%- include disqus_comments.html -%}

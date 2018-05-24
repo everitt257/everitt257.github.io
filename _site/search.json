@@ -6,8 +6,17 @@
       "url"      : "/blog/2018/05/24/instant-search.html",
       "category" : "blog",
       "tags"     : "jekyll, json",
-      "date"     : "2018-05-24 00:00:00 +0800",
-      "discription" : "Since Jekyll has no server side execution, we have to rely on storing all the required content in a single file and search our keyword from that file."
+      "date"     : "2018-05-24 00:00:00 +0800"
+      
+    } ,
+  
+    {
+    
+      "title"    : "变压器厂家聚类分析",
+      "url"      : "/story/2018/05/24/transformer-cluster-trial.html",
+      "category" : "story",
+      "tags"     : "algorithm, tf-idf, deep-learning",
+      "date"     : "2018-05-24 00:00:00 +0800"
       
     } ,
   
@@ -17,19 +26,17 @@
       "url"      : "/blog/2018/05/24/test_tag2.html",
       "category" : "blog",
       "tags"     : "js, html",
-      "date"     : "2018-05-24 00:00:00 +0800",
-      "discription" : "Only for testing."
+      "date"     : "2018-05-24 00:00:00 +0800"
       
     } ,
   
     {
     
-      "title"    : "tag1",
+      "title"    : "How to add related posts in jekyll",
       "url"      : "/blog/2018/05/24/test_tag1.html",
       "category" : "blog",
       "tags"     : "js, html",
-      "date"     : "2018-05-24 00:00:00 +0800",
-      "discription" : "Only for testing."
+      "date"     : "2018-05-24 00:00:00 +0800"
       
     } ,
   
@@ -39,8 +46,17 @@
       "url"      : "/blog/2018/05/24/mermaid.html",
       "category" : "blog",
       "tags"     : "mermaid, js",
-      "date"     : "2018-05-24 00:00:00 +0800",
-      "discription" : "This is a mermaid ready-static blogging site"
+      "date"     : "2018-05-24 00:00:00 +0800"
+      
+    } ,
+  
+    {
+    
+      "title"    : "大数据实验室计划",
+      "url"      : "/story/2018/05/24/bigdatalab.html",
+      "category" : "story",
+      "tags"     : "news",
+      "date"     : "2018-05-24 00:00:00 +0800"
       
     } ,
   
@@ -50,8 +66,7 @@
       "url"      : "/blog/2018/05/23/welcome-to-jekyll.html",
       "category" : "blog",
       "tags"     : "welcome",
-      "date"     : "2018-05-23 11:31:55 +0800",
-      "discription" : "You’ll find this post in your _posts directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run jekyll serve, which launches a web server and auto-regenerates your site when a file is updated."
+      "date"     : "2018-05-23 11:31:55 +0800"
       
     } ,
   
@@ -61,8 +76,7 @@
       "url"      : "/blog/2018/05/23/test_md1.html",
       "category" : "blog",
       "tags"     : "math, excerpt, code-hightlight",
-      "date"     : "2018-05-23 00:00:00 +0800",
-      "discription" : "this is a test to see excerpt"
+      "date"     : "2018-05-23 00:00:00 +0800"
       
     } 
   

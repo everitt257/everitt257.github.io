@@ -54,7 +54,7 @@
           </span>
         </label>
 
-        <div class="trigger"><a class="page-link" href="/about/">About</a><a class="page-link" href="/category/blog.html">Blog</a><a class="page-link" href="/tags.html">Tags</a></div>
+        <div class="trigger"><a class="page-link" href="/about/">About</a><a class="page-link" href="/category/blog.html">Blog</a><a class="page-link" href="/category/story.html">Story</a><a class="page-link" href="/tags.html">Tags</a></div>
       </nav></div>
 </header>
 <main class="page-content" aria-label="Content">
@@ -75,7 +75,6 @@
 SimpleJekyllSearch({
   searchResultTemplate: '<div><a href="{url}"><h1>{title}</h1></a><span>{date}</span></div>',
   searchInput: document.getElementById('search-input'),
-  noResultsText ("No result found!") ,
   resultsContainer: document.getElementById('results-container'),
   json: '/search.json'
 })
@@ -93,6 +92,34 @@ SimpleJekyllSearch({
             Implement Jekyll instant search
           </a>
         </h3><p>Since Jekyll has no server side execution, we have to rely on storing all the required content in a single file and search our keyword from that file.</p>
+
+</li><li>
+          <ul class="tags">
+              
+                <li><a href="/tags#algorithm" class="tag">algorithm</a></li>
+              
+                <li><a href="/tags#tf-idf" class="tag">tf-idf</a></li>
+              
+                <li><a href="/tags#deep-learning" class="tag">deep-learning</a></li>
+              
+              </ul><span class="post-meta">May 24, 2018</span>
+        <h3>
+          <a class="post-link" href="/story/2018/05/24/transformer-cluster-trial.html">
+            变压器厂家聚类分析
+          </a>
+        </h3><h2 id="变压器厂家名字聚类重建预测可视化">变压器厂家名字聚类，重建预测，可视化</h2>
+<p>这是一次对变压器的厂家名字做聚类与重建预测和可视化的尝试。使用了以下手段：</p>
+<ol>
+  <li>分词</li>
+  <li>短句向量化, 采用简单统计词频方式做向量，没有采用ifidf,因为效果不理想，且短句子用简单的方式效果更好</li>
+  <li>t-sne降维，没有用过pca的原因是效果不理想，重建预测时候学习曲线非常低</li>
+  <li>t-sne 2D可视化</li>
+  <li>其他探索：word2vec词频空间探索相似度高的单词，效果不理想，放弃</li>
+  <li>其他探索：word2vec词频空间可视化</li>
+  <li>重建预测，使用t-sne降维到10维度的空间做初始特征</li>
+  <li>简单4层神经网络，$l = |x’ - x| + \lambda*(\theta)$, lambda是常数，theta是权重</li>
+  <li>神经元：12+6+6+10 = 34个神经元</li>
+</ol>
 
 </li><li>
           <ul class="tags">
@@ -117,9 +144,10 @@ SimpleJekyllSearch({
               </ul><span class="post-meta">May 24, 2018</span>
         <h3>
           <a class="post-link" href="/blog/2018/05/24/test_tag1.html">
-            tag1
+            How to add related posts in jekyll
           </a>
-        </h3><p>Only for testing.</p>
+        </h3><p>This is a record showing how to do the following: 
+<a href="https://alligator.io/jekyll/related-posts-in-jekyll/">How to add relatd post in jekyll</a></p>
 </li><li>
           <ul class="tags">
               
@@ -133,6 +161,18 @@ SimpleJekyllSearch({
             Testing mermaid library
           </a>
         </h3><h2 id="this-is-a-mermaid-ready-static-blogging-site">This is a mermaid ready-static blogging site</h2>
+
+</li><li>
+          <ul class="tags">
+              
+                <li><a href="/tags#news" class="tag">news</a></li>
+              
+              </ul><span class="post-meta">May 24, 2018</span>
+        <h3>
+          <a class="post-link" href="/story/2018/05/24/bigdatalab.html">
+            大数据实验室计划
+          </a>
+        </h3><p>计划如下：</p>
 
 </li><li>
           <ul class="tags">

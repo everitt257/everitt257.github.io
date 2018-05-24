@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Implement Jekyll instant search
-categories: blog
+category: blog
 tags: [jekyll, json]
 comments: true
 ---
