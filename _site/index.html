@@ -1,5 +1,8 @@
 <!DOCTYPE html>
+<!-- custom.css -->
 <link rel="stylesheet", href="/css/custom.css">
+
+<!-- mathjax -->
 <script type="text/x-mathjax-config">
   MathJax.Hub.Config({
     TeX: {
@@ -17,6 +20,11 @@
   src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML">
 </script>
 
+<!-- mermaid -->
+<script src="/js/mermaid.min.js"></script>
+<script>mermaid.initialize({startOnLoad:true});</script>
+
+<!-- body -->
 <html lang="en"><head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -52,33 +60,80 @@
 <main class="page-content" aria-label="Content">
       <div class="wrapper">
         <div class="home">
-<h2 class="post-list-heading">Posts</h2>
+
+<!-- Html Elements for Search -->
+<div id="search-container">
+  <input type="text" id="search-input" placeholder="search...">
+  <ul id="results-container"></ul>
+</div>
+
+<!-- Script pointing to search-script.js -->
+<script src="../js/simple-jekyll-search.min.js" type="text/javascript"></script>
+
+<!-- Configuration -->
+<script>
+SimpleJekyllSearch({
+  searchResultTemplate: '<div><a href="{url}"><h1>{title}</h1></a><span>{date}</span></div>',
+  searchInput: document.getElementById('search-input'),
+  noResultsText ("No result found!") ,
+  resultsContainer: document.getElementById('results-container'),
+  json: '/search.json'
+})
+</script><h2 class="post-list-heading">Posts</h2>
     <ul class="post-list"><li>
           <ul class="tags">
               
-                <li><a href="/tags#linux" class="tag">linux</a></li>
-              
                 <li><a href="/tags#jekyll" class="tag">jekyll</a></li>
+              
+                <li><a href="/tags#json" class="tag">json</a></li>
+              
+              </ul><span class="post-meta">May 24, 2018</span>
+        <h3>
+          <a class="post-link" href="/blog/2018/05/24/instant-search.html">
+            Implement Jekyll instant search
+          </a>
+        </h3><p>Since Jekyll has no server side execution, we have to rely on storing all the required content in a single file and search our keyword from that file.</p>
+
+</li><li>
+          <ul class="tags">
+              
+                <li><a href="/tags#js" class="tag">js</a></li>
+              
+                <li><a href="/tags#html" class="tag">html</a></li>
               
               </ul><span class="post-meta">May 24, 2018</span>
         <h3>
           <a class="post-link" href="/blog/2018/05/24/test_tag2.html">
             tag2
           </a>
-        </h3>
+        </h3><p>Only for testing.</p>
 </li><li>
           <ul class="tags">
               
-                <li><a href="/tags#linux" class="tag">linux</a></li>
+                <li><a href="/tags#js" class="tag">js</a></li>
               
-                <li><a href="/tags#writings" class="tag">writings</a></li>
+                <li><a href="/tags#html" class="tag">html</a></li>
               
               </ul><span class="post-meta">May 24, 2018</span>
         <h3>
           <a class="post-link" href="/blog/2018/05/24/test_tag1.html">
             tag1
           </a>
-        </h3>
+        </h3><p>Only for testing.</p>
+</li><li>
+          <ul class="tags">
+              
+                <li><a href="/tags#mermaid" class="tag">mermaid</a></li>
+              
+                <li><a href="/tags#js" class="tag">js</a></li>
+              
+              </ul><span class="post-meta">May 24, 2018</span>
+        <h3>
+          <a class="post-link" href="/blog/2018/05/24/mermaid.html">
+            Testing mermaid library
+          </a>
+        </h3><h2 id="this-is-a-mermaid-ready-static-blogging-site">This is a mermaid ready-static blogging site</h2>
+
 </li><li>
           <ul class="tags">
               
@@ -98,9 +153,11 @@
               
                 <li><a href="/tags#excerpt" class="tag">excerpt</a></li>
               
+                <li><a href="/tags#code-hightlight" class="tag">code-hightlight</a></li>
+              
               </ul><span class="post-meta">May 23, 2018</span>
         <h3>
-          <a class="post-link" href="/story/2018/05/23/test_md1.html">
+          <a class="post-link" href="/blog/2018/05/23/test_md1.html">
             Testing mathjax library
           </a>
         </h3>this is a test to see excerpt</li></ul>

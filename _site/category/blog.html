@@ -1,5 +1,8 @@
 <!DOCTYPE html>
+<!-- custom.css -->
 <link rel="stylesheet", href="/css/custom.css">
+
+<!-- mathjax -->
 <script type="text/x-mathjax-config">
   MathJax.Hub.Config({
     TeX: {
@@ -17,6 +20,11 @@
   src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML">
 </script>
 
+<!-- mermaid -->
+<script src="/js/mermaid.min.js"></script>
+<script>mermaid.initialize({startOnLoad:true});</script>
+
+<!-- body -->
 <html lang="en"><head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -58,18 +66,38 @@
   </header>
 
   <div class="post-content">
-    
-    <a href="http://localhost:4000/blog/2018/05/24/test_tag2.html">
+    <style type="text/css">
+  .labels {
+    padding: 10px;
+  }
+</style>
+
+
+    <a class="labels" href="http://localhost:4000/blog/2018/05/24/instant-search.html">
+      Implement Jekyll instant search
+    </a>
+
+    <a class="labels" href="http://localhost:4000/blog/2018/05/24/test_tag2.html">
       tag2
     </a>
 
-    <a href="http://localhost:4000/blog/2018/05/24/test_tag1.html">
+    <a class="labels" href="http://localhost:4000/blog/2018/05/24/test_tag1.html">
       tag1
     </a>
 
-    <a href="http://localhost:4000/blog/2018/05/23/welcome-to-jekyll.html">
+    <a class="labels" href="http://localhost:4000/blog/2018/05/24/mermaid.html">
+      Testing mermaid library
+    </a>
+
+    <a class="labels" href="http://localhost:4000/blog/2018/05/23/welcome-to-jekyll.html">
       Welcome to Jekyll!
     </a>
+
+    <a class="labels" href="http://localhost:4000/blog/2018/05/23/test_md1.html">
+      Testing mathjax library
+    </a>
+
+
 
   </div>
 

@@ -1,5 +1,8 @@
 <!DOCTYPE html>
+<!-- custom.css -->
 <link rel="stylesheet", href="/css/custom.css">
+
+<!-- mathjax -->
 <script type="text/x-mathjax-config">
   MathJax.Hub.Config({
     TeX: {
@@ -17,23 +20,28 @@
   src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML">
 </script>
 
+<!-- mermaid -->
+<script src="/js/mermaid.min.js"></script>
+<script>mermaid.initialize({startOnLoad:true});</script>
+
+<!-- body -->
 <html lang="en"><head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.5.0 -->
-<title>Testing mathjax library | Everitt’s blog</title>
+<title>Implement Jekyll instant search | Everitt’s blog</title>
 <meta name="generator" content="Jekyll v3.8.2" />
-<meta property="og:title" content="Testing mathjax library" />
+<meta property="og:title" content="Implement Jekyll instant search" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="this is a test to see excerpt" />
-<meta property="og:description" content="this is a test to see excerpt" />
-<link rel="canonical" href="http://localhost:4000/story/2018/05/23/test_md1.html" />
-<meta property="og:url" content="http://localhost:4000/story/2018/05/23/test_md1.html" />
+<meta name="description" content="Since Jekyll has no server side execution, we have to rely on storing all the required content in a single file and search our keyword from that file." />
+<meta property="og:description" content="Since Jekyll has no server side execution, we have to rely on storing all the required content in a single file and search our keyword from that file." />
+<link rel="canonical" href="http://localhost:4000/blog/2018/05/24/instant-search.html" />
+<meta property="og:url" content="http://localhost:4000/blog/2018/05/24/instant-search.html" />
 <meta property="og:site_name" content="Everitt’s blog" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2018-05-23T00:00:00+08:00" />
+<meta property="article:published_time" content="2018-05-24T00:00:00+08:00" />
 <script type="application/ld+json">
-{"description":"this is a test to see excerpt","@type":"BlogPosting","url":"http://localhost:4000/story/2018/05/23/test_md1.html","headline":"Testing mathjax library","dateModified":"2018-05-23T00:00:00+08:00","datePublished":"2018-05-23T00:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/story/2018/05/23/test_md1.html"},"@context":"http://schema.org"}</script>
+{"description":"Since Jekyll has no server side execution, we have to rely on storing all the required content in a single file and search our keyword from that file.","@type":"BlogPosting","url":"http://localhost:4000/blog/2018/05/24/instant-search.html","headline":"Implement Jekyll instant search","dateModified":"2018-05-24T00:00:00+08:00","datePublished":"2018-05-24T00:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/blog/2018/05/24/instant-search.html"},"@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Everitt's blog" /></head>
 <body><header class="site-header" role="banner">
@@ -56,44 +64,29 @@
         <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-    <h1 class="post-title p-name" itemprop="name headline">Testing mathjax library</h1>
+    <h1 class="post-title p-name" itemprop="name headline">Implement Jekyll instant search</h1>
     <p class="post-meta">
-      <time class="dt-published" datetime="2018-05-23T00:00:00+08:00" itemprop="datePublished">May 23, 2018
+      <time class="dt-published" datetime="2018-05-24T00:00:00+08:00" itemprop="datePublished">May 24, 2018
       </time></p>
   </header>
 
   <!-- Tags -->
   <ul class="tags">
     
-      <li><a href="/tags#math" class="tag">math</a></li>
+      <li><a href="/tags#jekyll" class="tag">jekyll</a></li>
     
-      <li><a href="/tags#excerpt" class="tag">excerpt</a></li>
+      <li><a href="/tags#json" class="tag">json</a></li>
     
   </ul>
 
   <div class="post-content e-content" itemprop="articleBody">
-    <h1 id="time-to-write-some-math">Time to write some math!</h1>
-<p><script type="math/tex">a = b + c</script></p>
+    <p>Since Jekyll has no server side execution, we have to rely on storing all the required content in a single file and search our keyword from that file.</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
-</code></pre></div></div>
-
-<p>Test inline math: 
-$a = b + c$</p>
-
-<p>Test centered math:</p>
-
-<script type="math/tex; mode=display">k_{n+1} = n^2 + k_n^2 - k_{n-1}</script>
-
-<p>Another example:</p>
-
-<script type="math/tex; mode=display">mean = \frac{\displaystyle\sum_{i=1}^{n} x_{i}}{n}</script>
-
-<p>support for chinese: 你好我是徐炫东</p>
+<p><a href="https://blog.webjeda.com/instant-jekyll-search/">Instant Search Implementation.</a></p>
 
   </div>
   
-  <!-- Disqus --><a class="u-url" href="/story/2018/05/23/test_md1.html" hidden></a>
+  <!-- Disqus --><a class="u-url" href="/blog/2018/05/24/instant-search.html" hidden></a>
 </article>
 
 <div id="disqus_thread"></div>
@@ -118,7 +111,7 @@ s.setAttribute('data-timestamp', +new Date());
 <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 
 
-<!-- <script id="dsq-count-scr" src="//everitt257.disqus.com/count.js" async></script> -->
+<script id="dsq-count-scr" src="//everitt257.disqus.com/count.js" async></script>
 
       </div>
     </main><footer class="site-footer h-card">
