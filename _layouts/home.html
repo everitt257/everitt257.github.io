@@ -9,6 +9,26 @@ layout: default
 
   {{ content }}
 
+  <!-- Search Bar -->
+  <!-- Html Elements for Search -->
+  <div id="search-container">
+    <input type="text" id="search-input" placeholder="search...">
+    <ul id="results-container"></ul>
+  </div>
+
+  <!-- Script pointing to search-script.js -->
+  <script src="../js/simple-jekyll-search.min.js" type="text/javascript"></script>
+
+  <!-- Configuration -->
+  <script>
+  SimpleJekyllSearch({
+    searchResultTemplate: '<div><a href="{url}"><h1 style="font-size: 23px">{title}</h1></a><span>{date}</span></div>',
+    searchInput: document.getElementById('search-input'),
+    resultsContainer: document.getElementById('results-container'),
+    json: '../search.json'
+  })
+  </script>
+
   {%- if site.posts.size > 0 -%}
     <h2 class="post-list-heading">{{ page.list_title | default: "Posts" }}</h2>
     <ul class="post-list">

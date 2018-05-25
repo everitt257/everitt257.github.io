@@ -40,7 +40,6 @@ header_pages:
   - category/blog.html
   - category/story.html
   - tags.md
-  - search.html
 
 # Exclude from processing.
 # The following items will not be processed, by default. Create a custom list
