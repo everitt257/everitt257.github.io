@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "变压器厂家聚类分析"
-category: story
+category: work
 tags: [algorithm, tf-idf, deep-learning]
 comments: true
 ---

@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "大数据实验室计划"
-category: story
+category: work
 tags: news
 comments: true
 ---

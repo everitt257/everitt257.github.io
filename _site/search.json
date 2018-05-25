@@ -2,6 +2,26 @@
   
     {
     
+      "title"    : "大数据实验室流程指引",
+      "url"      : "/work/2018/05/25/bigdataflowchart.html",
+      "category" : "work",
+      "tags"     : "work",
+      "date"     : "2018-05-25 00:00:00 +0800"
+      
+    } ,
+  
+    {
+    
+      "title"    : "大数据实验室申请指南",
+      "url"      : "/work/2018/05/25/bigdataapply.html",
+      "category" : "work",
+      "tags"     : "apply, work",
+      "date"     : "2018-05-25 00:00:00 +0800"
+      
+    } ,
+  
+    {
+    
       "title"    : "Implement Jekyll instant search",
       "url"      : "/blog/2018/05/24/instant-search.html",
       "category" : "blog",
@@ -13,8 +33,8 @@
     {
     
       "title"    : "变压器厂家聚类分析",
-      "url"      : "/story/2018/05/24/transformer-cluster-trial.html",
-      "category" : "story",
+      "url"      : "/work/2018/05/24/transformer-cluster-trial.html",
+      "category" : "work",
       "tags"     : "algorithm, tf-idf, deep-learning",
       "date"     : "2018-05-24 00:00:00 +0800"
       
@@ -53,8 +73,8 @@
     {
     
       "title"    : "大数据实验室计划",
-      "url"      : "/story/2018/05/24/bigdatalab.html",
-      "category" : "story",
+      "url"      : "/work/2018/05/24/bigdatalab.html",
+      "category" : "work",
       "tags"     : "news",
       "date"     : "2018-05-24 00:00:00 +0800"
       

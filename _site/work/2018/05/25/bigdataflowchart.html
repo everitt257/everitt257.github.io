@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<!-- custom.css -->
+<link rel="stylesheet", href="/css/custom.css">
+
+<!-- mathjax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    TeX: {
+      equationNumbers: {
+        autoNumber: "AMS"
+      }
+    },
+    tex2jax: {
+      inlineMath: [ ['$','$'], ['\(', '\)'] ],
+      processEscapes: true,
+    }
+  });
+</script>
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+<!-- mermaid -->
+<script src="/js/mermaid.min.js"></script>
+<script>mermaid.initialize({startOnLoad:true});</script>
+
+<!-- body -->
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.5.0 -->
+<title>大数据实验室流程指引 | Everitt’s blog</title>
+<meta name="generator" content="Jekyll v3.8.2" />
+<meta property="og:title" content="大数据实验室流程指引" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="大数据实验室流程指引 本操作指引作为大数据实验室的辅助手册，包含大数据实验室操作指南、数据申请流程与工具选型指引三部分。文末附上各类附件。" />
+<meta property="og:description" content="大数据实验室流程指引 本操作指引作为大数据实验室的辅助手册，包含大数据实验室操作指南、数据申请流程与工具选型指引三部分。文末附上各类附件。" />
+<link rel="canonical" href="http://localhost:4000/work/2018/05/25/bigdataflowchart.html" />
+<meta property="og:url" content="http://localhost:4000/work/2018/05/25/bigdataflowchart.html" />
+<meta property="og:site_name" content="Everitt’s blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-05-25T00:00:00+08:00" />
+<script type="application/ld+json">
+{"description":"大数据实验室流程指引 本操作指引作为大数据实验室的辅助手册，包含大数据实验室操作指南、数据申请流程与工具选型指引三部分。文末附上各类附件。","@type":"BlogPosting","url":"http://localhost:4000/work/2018/05/25/bigdataflowchart.html","headline":"大数据实验室流程指引","dateModified":"2018-05-25T00:00:00+08:00","datePublished":"2018-05-25T00:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/work/2018/05/25/bigdataflowchart.html"},"@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Everitt's blog" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Everitt&#39;s blog</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a><a class="page-link" href="/category/blog.html">Blog</a><a class="page-link" href="/category/work.html">Work</a><a class="page-link" href="/tags.html">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">大数据实验室流程指引</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2018-05-25T00:00:00+08:00" itemprop="datePublished">May 25, 2018
+      </time></p>
+  </header>
+
+  <!-- Tags -->
+  <ul class="tags">
+    
+      <li><a href="/tags#work" class="tag">work</a></li>
+    
+  </ul>
+
+  <!-- Body -->
+  <div class="post-content e-content" itemprop="articleBody">
+    <h2 id="大数据实验室流程指引">大数据实验室流程指引</h2>
+<p>本操作指引作为大数据实验室的辅助手册，包含大数据实验室操作指南、数据申请流程与工具选型指引三部分。文末附上各类附件。</p>
+
+<h3 id="大数据实验室流程指南">大数据实验室流程指南</h3>
+<p>用户根据需求可分为一级操作间与二级操作间。一级操作间与二级操作间的区分在于一级操作间可直连数据中心，对所有数据具有较高的访问权限，可以进行自由度比较大的数据创新与实验。二级操作间将采用虚拟桌面的的方式进行操作，用户可实验本地数据但是如果要访问数据中心的数据则需要走数据申请流程（见下文）。</p>
+
+<blockquote>
+  <p>目前二级操作间尚在开发中。</p>
+</blockquote>
+
+<h4 id="一级操作间申请流程">一级操作间申请流程</h4>
+<p>目前一级操作间已在信息中心搭建。未来可能开放区局一级操作间申请。大数据实验室工作组将针对区局申请进行评估。</p>
+
+<p>一级操作间申请流程。</p>
+
+<div class="mermaid">
+graph LR;
+    A[用户提出一级操作间申请]--&gt;B{大数据实验室工作组评估};
+    B--批准--&gt;C[区局自行准备机器环境];
+    B--退回完善--&gt;D[工作组给出修改建议];
+    D--&gt;E[区局完善后再次提交];
+    E--&gt;B;
+</div>
+
+<p>文末附上申请<strong>一级操作间模板</strong>。</p>
+
+<h4 id="二级操作间申请流程">二级操作间申请流程</h4>
+<p>二级操作间指代使用虚拟桌面环境访问大数据实验室。相关人员需根据模板提交人员配置文件给大数据实验室相关人员审核。</p>
+
+<p>文末附上申请<strong>二级操作间模板</strong>。</p>
+
+<blockquote>
+  <p>注意是未来可能开放。</p>
+</blockquote>
+
+<h3 id="数据申请流程">数据申请流程</h3>
+<p>用户在大数据实验室上可以实验的数据分三种。</p>
+<ol>
+  <li>用户携带的本地数据，如csv,如excel等。</li>
+  <li>其他用户分享，上传至数据实验上的数据</li>
+  <li>用户结合<code class="highlighter-rouge">数据资产目录</code>与自身需求向数据中心提出的数据。</li>
+</ol>
+
+<blockquote>
+  <p>用户自行上传至大数据实验室上的数据，我们统称该数据为<code class="highlighter-rouge">挥发性数据</code>。<code class="highlighter-rouge">挥发性数据</code>不会长期存储。用户通过数据中心申请的数据，将进过评估，数据脱敏等相关流程下发数据。目前<code class="highlighter-rouge">数据资产目录</code>尚在开发中，建议用户采用第一、二种数据源。</p>
+</blockquote>
+
+<p>下图是数据申请流程的流程图。</p>
+<div class="mermaid">
+graph LR;
+    A[用户提出数据需求]--&gt;B{本地/服务器/数据中心};
+    B--本地--&gt;C[直接使用工具进行实验];
+    B--服务器--&gt;E[可上传本地数据或直接使用];
+    B--数据中心--&gt;D[走数据中心申请];
+</div>
+
+<p>文末附上申请<strong>数据申请流程模板</strong>。</p>
+
+<h4 id="数据存放规则">数据存放规则</h4>
+<p>大数据实验可以分享上传本地数据，但是由于存放存储有限，因此需要规定一次性上传文件大小与存储周期时长。</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>文件格式</th>
+      <th style="text-align: center">一次性存储大小</th>
+      <th style="text-align: center">每次上传最大个数</th>
+      <th style="text-align: center">每次上传间隔时间</th>
+      <th style="text-align: center">存储周期</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>txt, csv, excel</td>
+      <td style="text-align: center">0&lt;文件&lt;50MB</td>
+      <td style="text-align: center">10</td>
+      <td style="text-align: center">2天</td>
+      <td style="text-align: center">3周</td>
+    </tr>
+    <tr>
+      <td>txt, csv, excel</td>
+      <td style="text-align: center">50&lt;文件&lt;100MB</td>
+      <td style="text-align: center">5</td>
+      <td style="text-align: center">2天</td>
+      <td style="text-align: center">2周</td>
+    </tr>
+    <tr>
+      <td>zip, rar, tar, xz</td>
+      <td style="text-align: center">0&lt;文件&lt;100MB</td>
+      <td style="text-align: center">5</td>
+      <td style="text-align: center">2天</td>
+      <td style="text-align: center">2周</td>
+    </tr>
+    <tr>
+      <td>jpg, JPEG, png</td>
+      <td style="text-align: center">0&lt;文件&lt;20MB</td>
+      <td style="text-align: center">50</td>
+      <td style="text-align: center">1天</td>
+      <td style="text-align: center">4周</td>
+    </tr>
+  </tbody>
+</table>
+
+<blockquote>
+  <p>由于大数据实验服务器上存储空间有限，因此以后我们还会规定每个用户可以做多存放多少个数据在大数据实验室上。<strong>初步规定每个用户只能存放至多10个.</strong></p>
+</blockquote>
+
+<h3 id="工具选型指引">工具选型指引</h3>
+<p>大数据实验室大致可分为数据可视化与数据挖掘。数据可视化部分基于<code class="highlighter-rouge">Tableau</code>、<code class="highlighter-rouge">PowerBI</code>做图形化展示。数据挖掘部分基于<code class="highlighter-rouge">Sophon</code>做算法挖掘。部分工具需经过大数据实验室认证通过后方可开放使用。</p>
+
+<p>下图是工具选型的指引。</p>
+<div class="mermaid">
+graph TD
+    A[用户提出需求]--&gt;O[大数据实验室数据创新分享平台]
+    subgraph 工具选型
+    O--&gt;B{需求}
+    O--&gt;P{大数据实验室认证考试}
+    P--资质&gt;=中级--&gt;D
+    B--数据可视化--&gt;C[Tableau,PowerBI Desktop]
+    B--数据挖掘--&gt;D[Sophon]
+    C--&gt;E{是否需要分享成果}
+    subgraph Tableau或PowerBI的成果
+    E--是--&gt;F[服务器版本的Tableau或PowerBI]
+    E--否--&gt;J[个人实验用]
+    end
+    D--&gt;Q{是否涉及代码}
+    subgraph Sophon的成果
+    Q--是--&gt;W[Sophon Notebook]
+    Q--否--&gt;K[Sophon 图像化流程图]
+    end
+    end
+</div>
+
+<p>下面是分享的流程。</p>
+<div class="mermaid">
+graph LR
+    A[Tableau或PowerBI的成果]--&gt;O[大数据实验室数据创新分享平台]
+    B[Sophon的成果]--&gt;O
+    O-.-&gt;K[工具选型]
+    K-.-&gt;O
+    style A fill:#ffff99,stroke:#333,stroke-width:4px
+    style B fill:#ffff99,stroke:#333,stroke-width:4px
+</div>
+
+<blockquote>
+  <p>由于<code class="highlighter-rouge">Sophon</code>尚在完善中，建议初期使用<code class="highlighter-rouge">Tableau</code>, <code class="highlighter-rouge">PowerBI</code>作为数据分析、可视化展示及分享的工具。</p>
+</blockquote>
+
+<h4 id="附件区">附件区</h4>
+<p>此附件区提供各种申请流程的具体模板。</p>
+
+<h5 id="一级操作间模板">一级操作间模板</h5>
+<p>用户提出电脑配置等信息，大数据实验室工作组审核同意后协助安装。
+<img src="http://om1hdizoc.bkt.clouddn.com/18-4-20/28157830.jpg" alt="" /></p>
+
+<h5 id="二级操作间模板">二级操作间模板</h5>
+<p>用户提供相关人员配置，大数据实验室工作组审核同意后协助安装。
+<img src="http://om1hdizoc.bkt.clouddn.com/18-4-20/33147927.jpg" alt="" /></p>
+
+<h5 id="数据申请流程模板">数据申请流程模板</h5>
+<p>用户先根据数据资产目录选择有兴趣的数据。再提交至大数据实验室，大数据实验室根据需求将筛选后的数据存放在公用的大数据实验室数据库内，供用户使用。</p>
+
+<p><img src="http://om1hdizoc.bkt.clouddn.com/18-4-20/71448210.jpg" alt="" /></p>
+
+
+  </div>
+  
+  <!-- Related posts -->
+  
+  
+  
+    <div class="row related-posts">
+      <h2 class="text-center" style="font-family: initial">Related work posts:</h2>
+      <div class="medium-12 small-12 columns">
+        
+          
+        
+          
+
+           <h3>
+            <a href="http://localhost:4000/work/2018/05/25/bigdataapply.html">
+              大数据实验室申请指南
+            </a>
+           </h3>
+
+          
+        
+          
+
+           <h3>
+            <a href="http://localhost:4000/work/2018/05/24/transformer-cluster-trial.html">
+              变压器厂家聚类分析
+            </a>
+           </h3>
+
+          
+        
+      </div>
+    </div>
+  
+
+
+  <!-- Disqus --><a class="u-url" href="/work/2018/05/25/bigdataflowchart.html" hidden></a>
+</article>
+
+<div id="disqus_thread"></div>
+<script>
+
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = 'https://everitt257.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+<script id="dsq-count-scr" src="//everitt257.disqus.com/count.js" async></script>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Everitt&#39;s blog</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Everitt&#39;s blog</li><li><a class="u-email" href="mailto:everitt257@gmail.com">everitt257@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/everitt257"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">everitt257</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>This site fancies machine learning and problems in engineerning in general.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

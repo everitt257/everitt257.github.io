@@ -1,6 +1,250 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2018-05-25T11:24:59+08:00</updated><id>http://localhost:4000/</id><title type="html">Everitt’s blog</title><subtitle>This site fancies machine learning and problems in engineerning in general.</subtitle><entry><title type="html">Implement Jekyll instant search</title><link href="http://localhost:4000/blog/2018/05/24/instant-search.html" rel="alternate" type="text/html" title="Implement Jekyll instant search" /><published>2018-05-24T00:00:00+08:00</published><updated>2018-05-24T00:00:00+08:00</updated><id>http://localhost:4000/blog/2018/05/24/instant-search</id><content type="html" xml:base="http://localhost:4000/blog/2018/05/24/instant-search.html">&lt;p&gt;Since Jekyll has no server side execution, we have to rely on storing all the required content in a single file and search our keyword from that file.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2018-05-25T17:13:28+08:00</updated><id>http://localhost:4000/</id><title type="html">Everitt’s blog</title><subtitle>This site fancies machine learning and problems in engineerning in general.</subtitle><entry><title type="html">大数据实验室流程指引</title><link href="http://localhost:4000/work/2018/05/25/bigdataflowchart.html" rel="alternate" type="text/html" title="大数据实验室流程指引" /><published>2018-05-25T00:00:00+08:00</published><updated>2018-05-25T00:00:00+08:00</updated><id>http://localhost:4000/work/2018/05/25/bigdataflowchart</id><content type="html" xml:base="http://localhost:4000/work/2018/05/25/bigdataflowchart.html">&lt;h2 id=&quot;大数据实验室流程指引&quot;&gt;大数据实验室流程指引&lt;/h2&gt;
+&lt;p&gt;本操作指引作为大数据实验室的辅助手册，包含大数据实验室操作指南、数据申请流程与工具选型指引三部分。文末附上各类附件。&lt;/p&gt;
 
-&lt;p&gt;&lt;a href=&quot;https://blog.webjeda.com/instant-jekyll-search/&quot;&gt;Instant Search Implementation.&lt;/a&gt;&lt;/p&gt;</content><author><name></name></author><category term="blog" /><category term="jekyll" /><category term="json" /><summary type="html">Since Jekyll has no server side execution, we have to rely on storing all the required content in a single file and search our keyword from that file.</summary></entry><entry><title type="html">变压器厂家聚类分析</title><link href="http://localhost:4000/story/2018/05/24/transformer-cluster-trial.html" rel="alternate" type="text/html" title="变压器厂家聚类分析" /><published>2018-05-24T00:00:00+08:00</published><updated>2018-05-24T00:00:00+08:00</updated><id>http://localhost:4000/story/2018/05/24/transformer-cluster-trial</id><content type="html" xml:base="http://localhost:4000/story/2018/05/24/transformer-cluster-trial.html">&lt;h2 id=&quot;变压器厂家名字聚类重建预测可视化&quot;&gt;变压器厂家名字聚类，重建预测，可视化&lt;/h2&gt;
+&lt;h3 id=&quot;大数据实验室流程指南&quot;&gt;大数据实验室流程指南&lt;/h3&gt;
+&lt;p&gt;用户根据需求可分为一级操作间与二级操作间。一级操作间与二级操作间的区分在于一级操作间可直连数据中心，对所有数据具有较高的访问权限，可以进行自由度比较大的数据创新与实验。二级操作间将采用虚拟桌面的的方式进行操作，用户可实验本地数据但是如果要访问数据中心的数据则需要走数据申请流程（见下文）。&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;目前二级操作间尚在开发中。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h4 id=&quot;一级操作间申请流程&quot;&gt;一级操作间申请流程&lt;/h4&gt;
+&lt;p&gt;目前一级操作间已在信息中心搭建。未来可能开放区局一级操作间申请。大数据实验室工作组将针对区局申请进行评估。&lt;/p&gt;
+
+&lt;p&gt;一级操作间申请流程。&lt;/p&gt;
+
+&lt;div class=&quot;mermaid&quot;&gt;
+graph LR;
+    A[用户提出一级操作间申请]--&amp;gt;B{大数据实验室工作组评估};
+    B--批准--&amp;gt;C[区局自行准备机器环境];
+    B--退回完善--&amp;gt;D[工作组给出修改建议];
+    D--&amp;gt;E[区局完善后再次提交];
+    E--&amp;gt;B;
+&lt;/div&gt;
+
+&lt;p&gt;文末附上申请&lt;strong&gt;一级操作间模板&lt;/strong&gt;。&lt;/p&gt;
+
+&lt;h4 id=&quot;二级操作间申请流程&quot;&gt;二级操作间申请流程&lt;/h4&gt;
+&lt;p&gt;二级操作间指代使用虚拟桌面环境访问大数据实验室。相关人员需根据模板提交人员配置文件给大数据实验室相关人员审核。&lt;/p&gt;
+
+&lt;p&gt;文末附上申请&lt;strong&gt;二级操作间模板&lt;/strong&gt;。&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;注意是未来可能开放。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h3 id=&quot;数据申请流程&quot;&gt;数据申请流程&lt;/h3&gt;
+&lt;p&gt;用户在大数据实验室上可以实验的数据分三种。&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;用户携带的本地数据，如csv,如excel等。&lt;/li&gt;
+  &lt;li&gt;其他用户分享，上传至数据实验上的数据&lt;/li&gt;
+  &lt;li&gt;用户结合&lt;code class=&quot;highlighter-rouge&quot;&gt;数据资产目录&lt;/code&gt;与自身需求向数据中心提出的数据。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;用户自行上传至大数据实验室上的数据，我们统称该数据为&lt;code class=&quot;highlighter-rouge&quot;&gt;挥发性数据&lt;/code&gt;。&lt;code class=&quot;highlighter-rouge&quot;&gt;挥发性数据&lt;/code&gt;不会长期存储。用户通过数据中心申请的数据，将进过评估，数据脱敏等相关流程下发数据。目前&lt;code class=&quot;highlighter-rouge&quot;&gt;数据资产目录&lt;/code&gt;尚在开发中，建议用户采用第一、二种数据源。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;下图是数据申请流程的流程图。&lt;/p&gt;
+&lt;div class=&quot;mermaid&quot;&gt;
+graph LR;
+    A[用户提出数据需求]--&amp;gt;B{本地/服务器/数据中心};
+    B--本地--&amp;gt;C[直接使用工具进行实验];
+    B--服务器--&amp;gt;E[可上传本地数据或直接使用];
+    B--数据中心--&amp;gt;D[走数据中心申请];
+&lt;/div&gt;
+
+&lt;p&gt;文末附上申请&lt;strong&gt;数据申请流程模板&lt;/strong&gt;。&lt;/p&gt;
+
+&lt;h4 id=&quot;数据存放规则&quot;&gt;数据存放规则&lt;/h4&gt;
+&lt;p&gt;大数据实验可以分享上传本地数据，但是由于存放存储有限，因此需要规定一次性上传文件大小与存储周期时长。&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;文件格式&lt;/th&gt;
+      &lt;th style=&quot;text-align: center&quot;&gt;一次性存储大小&lt;/th&gt;
+      &lt;th style=&quot;text-align: center&quot;&gt;每次上传最大个数&lt;/th&gt;
+      &lt;th style=&quot;text-align: center&quot;&gt;每次上传间隔时间&lt;/th&gt;
+      &lt;th style=&quot;text-align: center&quot;&gt;存储周期&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;txt, csv, excel&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;0&amp;lt;文件&amp;lt;50MB&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;10&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;2天&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;3周&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;txt, csv, excel&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;50&amp;lt;文件&amp;lt;100MB&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;5&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;2天&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;2周&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;zip, rar, tar, xz&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;0&amp;lt;文件&amp;lt;100MB&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;5&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;2天&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;2周&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;jpg, JPEG, png&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;0&amp;lt;文件&amp;lt;20MB&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;50&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;1天&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;4周&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;由于大数据实验服务器上存储空间有限，因此以后我们还会规定每个用户可以做多存放多少个数据在大数据实验室上。&lt;strong&gt;初步规定每个用户只能存放至多10个.&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h3 id=&quot;工具选型指引&quot;&gt;工具选型指引&lt;/h3&gt;
+&lt;p&gt;大数据实验室大致可分为数据可视化与数据挖掘。数据可视化部分基于&lt;code class=&quot;highlighter-rouge&quot;&gt;Tableau&lt;/code&gt;、&lt;code class=&quot;highlighter-rouge&quot;&gt;PowerBI&lt;/code&gt;做图形化展示。数据挖掘部分基于&lt;code class=&quot;highlighter-rouge&quot;&gt;Sophon&lt;/code&gt;做算法挖掘。部分工具需经过大数据实验室认证通过后方可开放使用。&lt;/p&gt;
+
+&lt;p&gt;下图是工具选型的指引。&lt;/p&gt;
+&lt;div class=&quot;mermaid&quot;&gt;
+graph TD
+    A[用户提出需求]--&amp;gt;O[大数据实验室数据创新分享平台]
+    subgraph 工具选型
+    O--&amp;gt;B{需求}
+    O--&amp;gt;P{大数据实验室认证考试}
+    P--资质&amp;gt;=中级--&amp;gt;D
+    B--数据可视化--&amp;gt;C[Tableau,PowerBI Desktop]
+    B--数据挖掘--&amp;gt;D[Sophon]
+    C--&amp;gt;E{是否需要分享成果}
+    subgraph Tableau或PowerBI的成果
+    E--是--&amp;gt;F[服务器版本的Tableau或PowerBI]
+    E--否--&amp;gt;J[个人实验用]
+    end
+    D--&amp;gt;Q{是否涉及代码}
+    subgraph Sophon的成果
+    Q--是--&amp;gt;W[Sophon Notebook]
+    Q--否--&amp;gt;K[Sophon 图像化流程图]
+    end
+    end
+&lt;/div&gt;
+
+&lt;p&gt;下面是分享的流程。&lt;/p&gt;
+&lt;div class=&quot;mermaid&quot;&gt;
+graph LR
+    A[Tableau或PowerBI的成果]--&amp;gt;O[大数据实验室数据创新分享平台]
+    B[Sophon的成果]--&amp;gt;O
+    O-.-&amp;gt;K[工具选型]
+    K-.-&amp;gt;O
+    style A fill:#ffff99,stroke:#333,stroke-width:4px
+    style B fill:#ffff99,stroke:#333,stroke-width:4px
+&lt;/div&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;由于&lt;code class=&quot;highlighter-rouge&quot;&gt;Sophon&lt;/code&gt;尚在完善中，建议初期使用&lt;code class=&quot;highlighter-rouge&quot;&gt;Tableau&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;PowerBI&lt;/code&gt;作为数据分析、可视化展示及分享的工具。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h4 id=&quot;附件区&quot;&gt;附件区&lt;/h4&gt;
+&lt;p&gt;此附件区提供各种申请流程的具体模板。&lt;/p&gt;
+
+&lt;h5 id=&quot;一级操作间模板&quot;&gt;一级操作间模板&lt;/h5&gt;
+&lt;p&gt;用户提出电脑配置等信息，大数据实验室工作组审核同意后协助安装。
+&lt;img src=&quot;http://om1hdizoc.bkt.clouddn.com/18-4-20/28157830.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h5 id=&quot;二级操作间模板&quot;&gt;二级操作间模板&lt;/h5&gt;
+&lt;p&gt;用户提供相关人员配置，大数据实验室工作组审核同意后协助安装。
+&lt;img src=&quot;http://om1hdizoc.bkt.clouddn.com/18-4-20/33147927.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h5 id=&quot;数据申请流程模板&quot;&gt;数据申请流程模板&lt;/h5&gt;
+&lt;p&gt;用户先根据数据资产目录选择有兴趣的数据。再提交至大数据实验室，大数据实验室根据需求将筛选后的数据存放在公用的大数据实验室数据库内，供用户使用。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://om1hdizoc.bkt.clouddn.com/18-4-20/71448210.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;</content><author><name></name></author><category term="work" /><category term="work" /><summary type="html">大数据实验室流程指引 本操作指引作为大数据实验室的辅助手册，包含大数据实验室操作指南、数据申请流程与工具选型指引三部分。文末附上各类附件。</summary></entry><entry><title type="html">大数据实验室申请指南</title><link href="http://localhost:4000/work/2018/05/25/bigdataapply.html" rel="alternate" type="text/html" title="大数据实验室申请指南" /><published>2018-05-25T00:00:00+08:00</published><updated>2018-05-25T00:00:00+08:00</updated><id>http://localhost:4000/work/2018/05/25/bigdataapply</id><content type="html" xml:base="http://localhost:4000/work/2018/05/25/bigdataapply.html">&lt;h2 id=&quot;申请操作指引&quot;&gt;申请操作指引&lt;/h2&gt;
+&lt;ol&gt;
+  &lt;li&gt;申请工具&lt;/li&gt;
+  &lt;li&gt;申请数据资源&lt;/li&gt;
+  &lt;li&gt;待实验室管理员协助申请开通&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;工具&quot;&gt;工具&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;可视化工具
+    &lt;ul&gt;
+      &lt;li&gt;Tableau&lt;/li&gt;
+      &lt;li&gt;不断完善&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;数据挖掘工具
+    &lt;ul&gt;
+      &lt;li&gt;Sophon&lt;/li&gt;
+      &lt;li&gt;Sophon自带的Python Notebook, Python Script&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;数据源配置工具（可选）
+    &lt;ul&gt;
+      &lt;li&gt;Waterdrop&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;数据资源&quot;&gt;数据资源&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;数据中心有的数据
+    &lt;ul&gt;
+      &lt;li&gt;实验室管理员配置数据源
+        &lt;ul&gt;
+          &lt;li&gt;数据中心存有数据&lt;/li&gt;
+          &lt;li&gt;适合不会配置数据源，对底层业务系统的数据表字段名不清晰的员工&lt;/li&gt;
+          &lt;li&gt;需数据中心导数，再转入大数据平台&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;用户指导厂家配置数据源
+        &lt;ul&gt;
+          &lt;li&gt;数据中心存有数据&lt;/li&gt;
+          &lt;li&gt;需申请Waterdrop作为SQL设计工具&lt;/li&gt;
+          &lt;li&gt;高度个性化需求，多表关联等&lt;/li&gt;
+          &lt;li&gt;需数据中心导数，再转入大数据平台&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;数据中心外的数据
+    &lt;ul&gt;
+      &lt;li&gt;推荐用户自行配置数据&lt;/li&gt;
+      &lt;li&gt;无需脱敏&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;部分数据存在数据中心，部分数据不在数据中心
+    &lt;ul&gt;
+      &lt;li&gt;具体方案需讨论&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;申请开通&quot;&gt;申请开通&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;防火墙资源
+    &lt;ul&gt;
+      &lt;li&gt;需申请人提供IP地址&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;数据可视化工具/挖掘
+    &lt;ul&gt;
+      &lt;li&gt;实验室管理员管理账号划分&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;OPC资源（可选）
+    &lt;ul&gt;
+      &lt;li&gt;提单申请，需驻点人员申请&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;流程&quot;&gt;流程&lt;/h2&gt;
+&lt;p&gt;目前尚未形成完善的流程，基本都走线下流程。&lt;/p&gt;</content><author><name></name></author><category term="work" /><category term="apply" /><category term="work" /><summary type="html">申请操作指引 申请工具 申请数据资源 待实验室管理员协助申请开通</summary></entry><entry><title type="html">Implement Jekyll instant search</title><link href="http://localhost:4000/blog/2018/05/24/instant-search.html" rel="alternate" type="text/html" title="Implement Jekyll instant search" /><published>2018-05-24T00:00:00+08:00</published><updated>2018-05-24T00:00:00+08:00</updated><id>http://localhost:4000/blog/2018/05/24/instant-search</id><content type="html" xml:base="http://localhost:4000/blog/2018/05/24/instant-search.html">&lt;p&gt;Since Jekyll has no server side execution, we have to rely on storing all the required content in a single file and search our keyword from that file.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://blog.webjeda.com/instant-jekyll-search/&quot;&gt;Instant Search Implementation.&lt;/a&gt;&lt;/p&gt;</content><author><name></name></author><category term="blog" /><category term="jekyll" /><category term="json" /><summary type="html">Since Jekyll has no server side execution, we have to rely on storing all the required content in a single file and search our keyword from that file.</summary></entry><entry><title type="html">变压器厂家聚类分析</title><link href="http://localhost:4000/work/2018/05/24/transformer-cluster-trial.html" rel="alternate" type="text/html" title="变压器厂家聚类分析" /><published>2018-05-24T00:00:00+08:00</published><updated>2018-05-24T00:00:00+08:00</updated><id>http://localhost:4000/work/2018/05/24/transformer-cluster-trial</id><content type="html" xml:base="http://localhost:4000/work/2018/05/24/transformer-cluster-trial.html">&lt;h2 id=&quot;变压器厂家名字聚类重建预测可视化&quot;&gt;变压器厂家名字聚类，重建预测，可视化&lt;/h2&gt;
 &lt;p&gt;这是一次对变压器的厂家名字做聚类与重建预测和可视化的尝试。使用了以下手段：&lt;/p&gt;
 &lt;ol&gt;
   &lt;li&gt;分词&lt;/li&gt;
@@ -86,9 +330,10 @@
 
 &lt;p&gt;&lt;a href=&quot;https://medium.com/@curiousily/credit-card-fraud-detection-using-autoencoders-in-keras-tensorflow-for-hackers-part-vii-20e0c85301bd&quot;&gt;Credit Card Fraud-detection using autoencoders&lt;/a&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;a href=&quot;http://scikit-learn.org/stable/modules/feature_extraction.html#text-feature-extraction&quot;&gt;Feature Extraction sklearn&lt;/a&gt;&lt;/p&gt;</content><author><name></name></author><category term="story" /><category term="algorithm" /><category term="tf-idf" /><category term="deep-learning" /><summary type="html">变压器厂家名字聚类，重建预测，可视化 这是一次对变压器的厂家名字做聚类与重建预测和可视化的尝试。使用了以下手段： 分词 短句向量化, 采用简单统计词频方式做向量，没有采用ifidf,因为效果不理想，且短句子用简单的方式效果更好 t-sne降维，没有用过pca的原因是效果不理想，重建预测时候学习曲线非常低 t-sne 2D可视化 其他探索：word2vec词频空间探索相似度高的单词，效果不理想，放弃 其他探索：word2vec词频空间可视化 重建预测，使用t-sne降维到10维度的空间做初始特征 简单4层神经网络，$l = |x’ - x| + \lambda*(\theta)$, lambda是常数，theta是权重 神经元：12+6+6+10 = 34个神经元</summary></entry><entry><title type="html">tag2</title><link href="http://localhost:4000/blog/2018/05/24/test_tag2.html" rel="alternate" type="text/html" title="tag2" /><published>2018-05-24T00:00:00+08:00</published><updated>2018-05-24T00:00:00+08:00</updated><id>http://localhost:4000/blog/2018/05/24/test_tag2</id><content type="html" xml:base="http://localhost:4000/blog/2018/05/24/test_tag2.html">&lt;p&gt;Only for testing.&lt;/p&gt;</content><author><name></name></author><category term="blog" /><category term="js" /><category term="html" /><summary type="html">Only for testing.</summary></entry><entry><title type="html">How to add related posts in jekyll</title><link href="http://localhost:4000/blog/2018/05/24/test_tag1.html" rel="alternate" type="text/html" title="How to add related posts in jekyll" /><published>2018-05-24T00:00:00+08:00</published><updated>2018-05-24T00:00:00+08:00</updated><id>http://localhost:4000/blog/2018/05/24/test_tag1</id><content type="html" xml:base="http://localhost:4000/blog/2018/05/24/test_tag1.html">&lt;p&gt;This is a record showing how to do the following: 
+&lt;p&gt;&lt;a href=&quot;http://scikit-learn.org/stable/modules/feature_extraction.html#text-feature-extraction&quot;&gt;Feature Extraction sklearn&lt;/a&gt;&lt;/p&gt;</content><author><name></name></author><category term="work" /><category term="algorithm" /><category term="tf-idf" /><category term="deep-learning" /><summary type="html">变压器厂家名字聚类，重建预测，可视化 这是一次对变压器的厂家名字做聚类与重建预测和可视化的尝试。使用了以下手段： 分词 短句向量化, 采用简单统计词频方式做向量，没有采用ifidf,因为效果不理想，且短句子用简单的方式效果更好 t-sne降维，没有用过pca的原因是效果不理想，重建预测时候学习曲线非常低 t-sne 2D可视化 其他探索：word2vec词频空间探索相似度高的单词，效果不理想，放弃 其他探索：word2vec词频空间可视化 重建预测，使用t-sne降维到10维度的空间做初始特征 简单4层神经网络，$l = |x’ - x| + \lambda*(\theta)$, lambda是常数，theta是权重 神经元：12+6+6+10 = 34个神经元</summary></entry><entry><title type="html">tag2</title><link href="http://localhost:4000/blog/2018/05/24/test_tag2.html" rel="alternate" type="text/html" title="tag2" /><published>2018-05-24T00:00:00+08:00</published><updated>2018-05-24T00:00:00+08:00</updated><id>http://localhost:4000/blog/2018/05/24/test_tag2</id><content type="html" xml:base="http://localhost:4000/blog/2018/05/24/test_tag2.html">&lt;p&gt;Only for testing.&lt;/p&gt;</content><author><name></name></author><category term="blog" /><category term="js" /><category term="html" /><summary type="html">Only for testing.</summary></entry><entry><title type="html">How to add related posts in jekyll</title><link href="http://localhost:4000/blog/2018/05/24/test_tag1.html" rel="alternate" type="text/html" title="How to add related posts in jekyll" /><published>2018-05-24T00:00:00+08:00</published><updated>2018-05-24T00:00:00+08:00</updated><id>http://localhost:4000/blog/2018/05/24/test_tag1</id><content type="html" xml:base="http://localhost:4000/blog/2018/05/24/test_tag1.html">&lt;p&gt;This is a record showing how to do the following: 
 &lt;a href=&quot;https://alligator.io/jekyll/related-posts-in-jekyll/&quot;&gt;How to add relatd post in jekyll&lt;/a&gt;&lt;/p&gt;</content><author><name></name></author><category term="blog" /><category term="js" /><category term="html" /><summary type="html">This is a record showing how to do the following: How to add relatd post in jekyll</summary></entry><entry><title type="html">Testing mermaid library</title><link href="http://localhost:4000/blog/2018/05/24/mermaid.html" rel="alternate" type="text/html" title="Testing mermaid library" /><published>2018-05-24T00:00:00+08:00</published><updated>2018-05-24T00:00:00+08:00</updated><id>http://localhost:4000/blog/2018/05/24/mermaid</id><content type="html" xml:base="http://localhost:4000/blog/2018/05/24/mermaid.html">&lt;h2 id=&quot;this-is-a-mermaid-ready-static-blogging-site&quot;&gt;This is a mermaid ready-static blogging site&lt;/h2&gt;
 
+&lt;h3 id=&quot;sequence-diagram&quot;&gt;Sequence diagram&lt;/h3&gt;
 &lt;div class=&quot;mermaid&quot;&gt;
 sequenceDiagram
     participant Alice
@@ -101,7 +346,29 @@ sequenceDiagram
     John--&amp;gt;Alice: Great!
     John-&amp;gt;Bob: How about you?
     Bob--&amp;gt;John: Jolly good!
-&lt;/div&gt;</content><author><name></name></author><category term="blog" /><category term="mermaid" /><category term="js" /><summary type="html">This is a mermaid ready-static blogging site</summary></entry><entry><title type="html">大数据实验室计划</title><link href="http://localhost:4000/story/2018/05/24/bigdatalab.html" rel="alternate" type="text/html" title="大数据实验室计划" /><published>2018-05-24T00:00:00+08:00</published><updated>2018-05-24T00:00:00+08:00</updated><id>http://localhost:4000/story/2018/05/24/bigdatalab</id><content type="html" xml:base="http://localhost:4000/story/2018/05/24/bigdatalab.html">&lt;p&gt;计划如下：&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;gantt-diagram&quot;&gt;Gantt diagram&lt;/h3&gt;
+&lt;div class=&quot;mermaid&quot;&gt;
+gantt
+    title A Gantt Diagram
+    dateFormat  YYYY-MM-DD
+    section Section
+    A task           :a1, 2014-01-01, 30d
+    Another task     :after a1  , 20d
+    section Another
+    Task in sec      :2014-01-12  , 12d
+    another task      : 24d
+&lt;/div&gt;
+
+&lt;h3 id=&quot;flow-chart&quot;&gt;Flow chart&lt;/h3&gt;
+&lt;div class=&quot;mermaid&quot;&gt;
+graph LR
+    A[blo]--&amp;gt;B[中文]
+    A--本地--&amp;gt;C[中英文hunyong]
+    B--&amp;gt;D
+    C--&amp;gt;D
+&lt;/div&gt;</content><author><name></name></author><category term="blog" /><category term="mermaid" /><category term="js" /><summary type="html">This is a mermaid ready-static blogging site</summary></entry><entry><title type="html">大数据实验室计划</title><link href="http://localhost:4000/work/2018/05/24/bigdatalab.html" rel="alternate" type="text/html" title="大数据实验室计划" /><published>2018-05-24T00:00:00+08:00</published><updated>2018-05-24T00:00:00+08:00</updated><id>http://localhost:4000/work/2018/05/24/bigdatalab</id><content type="html" xml:base="http://localhost:4000/work/2018/05/24/bigdatalab.html">&lt;p&gt;计划如下：&lt;/p&gt;
 
 &lt;div class=&quot;mermaid&quot;&gt;
 gantt
@@ -145,7 +412,7 @@ gantt
     固话大数据实验室成国 : r2, 2018-10-15, 90d
     制定申报流程 : r3, 2018-10-15, 20d
     支撑竞争性业务 : r4, after r1, 60d
-&lt;/div&gt;</content><author><name></name></author><category term="story" /><category term="news" /><summary type="html">计划如下：</summary></entry><entry><title type="html">Welcome to Jekyll!</title><link href="http://localhost:4000/blog/2018/05/23/welcome-to-jekyll.html" rel="alternate" type="text/html" title="Welcome to Jekyll!" /><published>2018-05-23T11:31:55+08:00</published><updated>2018-05-23T11:31:55+08:00</updated><id>http://localhost:4000/blog/2018/05/23/welcome-to-jekyll</id><content type="html" xml:base="http://localhost:4000/blog/2018/05/23/welcome-to-jekyll.html">&lt;p&gt;You’ll find this post in your &lt;code class=&quot;highlighter-rouge&quot;&gt;_posts&lt;/code&gt; directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run &lt;code class=&quot;highlighter-rouge&quot;&gt;jekyll serve&lt;/code&gt;, which launches a web server and auto-regenerates your site when a file is updated.&lt;/p&gt;
+&lt;/div&gt;</content><author><name></name></author><category term="work" /><category term="news" /><summary type="html">计划如下：</summary></entry><entry><title type="html">Welcome to Jekyll!</title><link href="http://localhost:4000/blog/2018/05/23/welcome-to-jekyll.html" rel="alternate" type="text/html" title="Welcome to Jekyll!" /><published>2018-05-23T11:31:55+08:00</published><updated>2018-05-23T11:31:55+08:00</updated><id>http://localhost:4000/blog/2018/05/23/welcome-to-jekyll</id><content type="html" xml:base="http://localhost:4000/blog/2018/05/23/welcome-to-jekyll.html">&lt;p&gt;You’ll find this post in your &lt;code class=&quot;highlighter-rouge&quot;&gt;_posts&lt;/code&gt; directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run &lt;code class=&quot;highlighter-rouge&quot;&gt;jekyll serve&lt;/code&gt;, which launches a web server and auto-regenerates your site when a file is updated.&lt;/p&gt;
 
 &lt;p&gt;To add new posts, simply add a file in the &lt;code class=&quot;highlighter-rouge&quot;&gt;_posts&lt;/code&gt; directory that follows the convention &lt;code class=&quot;highlighter-rouge&quot;&gt;YYYY-MM-DD-name-of-post.ext&lt;/code&gt; and includes the necessary front matter. Take a look at the source for this post to get an idea about how it works.&lt;/p&gt;
 

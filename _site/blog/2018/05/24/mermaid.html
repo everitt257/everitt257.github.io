@@ -56,7 +56,7 @@
           </span>
         </label>
 
-        <div class="trigger"><a class="page-link" href="/about/">About</a><a class="page-link" href="/category/blog.html">Blog</a><a class="page-link" href="/category/story.html">Story</a><a class="page-link" href="/tags.html">Tags</a></div>
+        <div class="trigger"><a class="page-link" href="/about/">About</a><a class="page-link" href="/category/blog.html">Blog</a><a class="page-link" href="/category/work.html">Work</a><a class="page-link" href="/tags.html">Tags</a></div>
       </nav></div>
 </header>
 <main class="page-content" aria-label="Content">
@@ -83,6 +83,7 @@
   <div class="post-content e-content" itemprop="articleBody">
     <h2 id="this-is-a-mermaid-ready-static-blogging-site">This is a mermaid ready-static blogging site</h2>
 
+<h3 id="sequence-diagram">Sequence diagram</h3>
 <div class="mermaid">
 sequenceDiagram
     participant Alice
@@ -95,6 +96,28 @@ sequenceDiagram
     John--&gt;Alice: Great!
     John-&gt;Bob: How about you?
     Bob--&gt;John: Jolly good!
+</div>
+
+<h3 id="gantt-diagram">Gantt diagram</h3>
+<div class="mermaid">
+gantt
+    title A Gantt Diagram
+    dateFormat  YYYY-MM-DD
+    section Section
+    A task           :a1, 2014-01-01, 30d
+    Another task     :after a1  , 20d
+    section Another
+    Task in sec      :2014-01-12  , 12d
+    another task      : 24d
+</div>
+
+<h3 id="flow-chart">Flow chart</h3>
+<div class="mermaid">
+graph LR
+    A[blo]--&gt;B[中文]
+    A--本地--&gt;C[中英文hunyong]
+    B--&gt;D
+    C--&gt;D
 </div>
 
   </div>

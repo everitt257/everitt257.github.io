@@ -29,19 +29,19 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.5.0 -->
-<title>Testing mathjax library | Everitt’s blog</title>
+<title>大数据实验室计划 | Everitt’s blog</title>
 <meta name="generator" content="Jekyll v3.8.2" />
-<meta property="og:title" content="Testing mathjax library" />
+<meta property="og:title" content="大数据实验室计划" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="this is a test to see excerpt" />
-<meta property="og:description" content="this is a test to see excerpt" />
-<link rel="canonical" href="http://localhost:4000/blog/2018/05/23/test_md1.html" />
-<meta property="og:url" content="http://localhost:4000/blog/2018/05/23/test_md1.html" />
+<meta name="description" content="计划如下：" />
+<meta property="og:description" content="计划如下：" />
+<link rel="canonical" href="http://localhost:4000/work/2018/05/24/bigdatalab.html" />
+<meta property="og:url" content="http://localhost:4000/work/2018/05/24/bigdatalab.html" />
 <meta property="og:site_name" content="Everitt’s blog" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2018-05-23T00:00:00+08:00" />
+<meta property="article:published_time" content="2018-05-24T00:00:00+08:00" />
 <script type="application/ld+json">
-{"description":"this is a test to see excerpt","@type":"BlogPosting","url":"http://localhost:4000/blog/2018/05/23/test_md1.html","headline":"Testing mathjax library","dateModified":"2018-05-23T00:00:00+08:00","datePublished":"2018-05-23T00:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/blog/2018/05/23/test_md1.html"},"@context":"http://schema.org"}</script>
+{"description":"计划如下：","@type":"BlogPosting","url":"http://localhost:4000/work/2018/05/24/bigdatalab.html","headline":"大数据实验室计划","dateModified":"2018-05-24T00:00:00+08:00","datePublished":"2018-05-24T00:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/work/2018/05/24/bigdatalab.html"},"@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Everitt's blog" /></head>
 <body><header class="site-header" role="banner">
@@ -64,45 +64,66 @@
         <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-    <h1 class="post-title p-name" itemprop="name headline">Testing mathjax library</h1>
+    <h1 class="post-title p-name" itemprop="name headline">大数据实验室计划</h1>
     <p class="post-meta">
-      <time class="dt-published" datetime="2018-05-23T00:00:00+08:00" itemprop="datePublished">May 23, 2018
+      <time class="dt-published" datetime="2018-05-24T00:00:00+08:00" itemprop="datePublished">May 24, 2018
       </time></p>
   </header>
 
   <!-- Tags -->
   <ul class="tags">
     
-      <li><a href="/tags#math" class="tag">math</a></li>
-    
-      <li><a href="/tags#excerpt" class="tag">excerpt</a></li>
-    
-      <li><a href="/tags#code-hightlight" class="tag">code-hightlight</a></li>
+      <li><a href="/tags#news" class="tag">news</a></li>
     
   </ul>
 
   <!-- Body -->
   <div class="post-content e-content" itemprop="articleBody">
-    <h1 id="time-to-write-some-math">Time to write some math!</h1>
-<p><script type="math/tex">a = b + c</script></p>
+    <p>计划如下：</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
-</code></pre></div></div>
+<div class="mermaid">
+gantt
+    title 大数据实验室计划
+    dateFormat YYYY-MM-DD
+    
+    section 硬件环境       
+    机房布置 : done, a1, 2018-04-17, 30d
+    
+    section 软件环境
+    购置Tableu : active, a2, 2018-04-17, 60d
+    完善Sophon : active, a3, 2018-04-17, 30d
+    
+    section 数据资源
+    编制数据资源申请流程 : done, a4, 2018-04-23, 10d
+    内部数据资源准备 : active, i1, 2018-04-18, 14d
 
-<p>Test inline math: 
-$a = b + c$</p>
+    section 运营方案
+    编制管理规范 : done,a5, 2018-04-18, 15d
+    编制操作指引 : done, a6, 2018-04-18, 15d
+    编制课题评审标准 : crit, a7, after a6, 5d
+    编制积分奖励机制 : a8, after a7, 10d
+    拟定数据创新竞赛方案 : a9, after a7, 10d
 
-<p>Test centered math:</p>
+    section 组织培训
+    数据可视化资源准备 : active, l1, 2018-04-18,  7d
+    数据可视化入门培训 : d1, 2018-05-10 , 2018-05-20
+    数据可视化进阶培训 : d2, 2018-06-10 , 5d
 
-<script type="math/tex; mode=display">k_{n+1} = n^2 + k_n^2 - k_{n-1}</script>
+    section 课题研究
+    征集研究课题 : k1, 2018-07-30, 14d
+    组织专家评审 : k2, after k1, 7d
+    开展课题研究 : k3, after k2, 30d
 
-<p>Another example:</p>
-
-<script type="math/tex; mode=display">mean = \frac{\displaystyle\sum_{i=1}^{n} x_{i}}{n}</script>
-
-<p>support for chinese: 你好我是徐炫东</p>
-
-<p>$l = |x| + \lambda*(\theta)$</p>
+    section 课题发布
+    搭建数据创新分享平台 : x1, 2018-06-01, 60d
+    与员工知识社区互为入口 : x2, 2018-06-20, 50d
+    
+    section 长远规划
+    与高校展开联合认证 : r1, 2018-10-01, 60d
+    固话大数据实验室成国 : r2, 2018-10-15, 90d
+    制定申报流程 : r3, 2018-10-15, 20d
+    支撑竞争性业务 : r4, after r1, 60d
+</div>
 
   </div>
   
@@ -111,14 +132,14 @@ $a = b + c$</p>
   
   
     <div class="row related-posts">
-      <h2 class="text-center" style="font-family: initial">Related blog posts:</h2>
+      <h2 class="text-center" style="font-family: initial">Related work posts:</h2>
       <div class="medium-12 small-12 columns">
         
           
 
            <h3>
-            <a href="http://localhost:4000/blog/2018/05/24/instant-search.html">
-              Implement Jekyll instant search
+            <a href="http://localhost:4000/work/2018/05/25/bigdataflowchart.html">
+              大数据实验室流程指引
             </a>
            </h3>
 
@@ -127,8 +148,8 @@ $a = b + c$</p>
           
 
            <h3>
-            <a href="http://localhost:4000/blog/2018/05/24/test_tag2.html">
-              tag2
+            <a href="http://localhost:4000/work/2018/05/25/bigdataapply.html">
+              大数据实验室申请指南
             </a>
            </h3>
 
@@ -137,8 +158,8 @@ $a = b + c$</p>
           
 
            <h3>
-            <a href="http://localhost:4000/blog/2018/05/24/test_tag1.html">
-              How to add related posts in jekyll
+            <a href="http://localhost:4000/work/2018/05/24/transformer-cluster-trial.html">
+              变压器厂家聚类分析
             </a>
            </h3>
 
@@ -149,7 +170,7 @@ $a = b + c$</p>
   
 
 
-  <!-- Disqus --><a class="u-url" href="/blog/2018/05/23/test_md1.html" hidden></a>
+  <!-- Disqus --><a class="u-url" href="/work/2018/05/24/bigdatalab.html" hidden></a>
 </article>
 
 <div id="disqus_thread"></div>

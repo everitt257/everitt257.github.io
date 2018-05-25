@@ -38,7 +38,7 @@ disqus:
 header_pages:
   - about.md
   - category/blog.html
-  - category/story.html
+  - category/work.html
   - tags.md
 
 # Exclude from processing.
