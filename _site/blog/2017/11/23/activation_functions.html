@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<!-- custom.css -->
+<link rel="stylesheet", href="/css/custom.css">
+
+<!-- mathjax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    TeX: {
+      equationNumbers: {
+        autoNumber: "AMS"
+      }
+    },
+    tex2jax: {
+      inlineMath: [ ['$','$'] ],
+      processEscapes: true,
+    }
+  });
+</script>
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+<!-- mermaid -->
+<script src="/js/mermaid.min.js"></script>
+<script>mermaid.initialize({startOnLoad:true});</script>
+
+<!-- body -->
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.5.0 -->
+<title>Activation Functions in Deep Learning | Everitt’s blog</title>
+<meta name="generator" content="Jekyll v3.8.2" />
+<meta property="og:title" content="Activation Functions in Deep Learning" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Activation Functions In this post, I’ll talk about common activation functions and their impact on the neural network. step-function (or the perceptron model) sigmoid Maps the output to the region $[0,1]$. tanh Maps the output to the region $[-1,1]$. RELU" />
+<meta property="og:description" content="Activation Functions In this post, I’ll talk about common activation functions and their impact on the neural network. step-function (or the perceptron model) sigmoid Maps the output to the region $[0,1]$. tanh Maps the output to the region $[-1,1]$. RELU" />
+<link rel="canonical" href="http://localhost:4000/blog/2017/11/23/activation_functions.html" />
+<meta property="og:url" content="http://localhost:4000/blog/2017/11/23/activation_functions.html" />
+<meta property="og:site_name" content="Everitt’s blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2017-11-23T00:00:00+08:00" />
+<script type="application/ld+json">
+{"description":"Activation Functions In this post, I’ll talk about common activation functions and their impact on the neural network. step-function (or the perceptron model) sigmoid Maps the output to the region $[0,1]$. tanh Maps the output to the region $[-1,1]$. RELU","@type":"BlogPosting","url":"http://localhost:4000/blog/2017/11/23/activation_functions.html","headline":"Activation Functions in Deep Learning","dateModified":"2017-11-23T00:00:00+08:00","datePublished":"2017-11-23T00:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/blog/2017/11/23/activation_functions.html"},"@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Everitt's blog" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Everitt&#39;s blog</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a><a class="page-link" href="/category/blog.html">Blog</a><a class="page-link" href="/category/work.html">Work</a><a class="page-link" href="/tags.html">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Activation Functions in Deep Learning</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2017-11-23T00:00:00+08:00" itemprop="datePublished">Nov 23, 2017
+      </time></p>
+  </header>
+
+  <!-- Tags -->
+  <ul class="tags">
+    
+      <li><a href="/tags#deep" class="tag">deep</a></li>
+    
+      <li><a href="/tags#learning" class="tag">learning</a></li>
+    
+  </ul>
+
+  <!-- Body -->
+  <div class="post-content e-content" itemprop="articleBody">
+    <h2 id="activation-functions">Activation Functions</h2>
+<p>In this post, I’ll talk about common activation functions and their impact on the neural network.</p>
+<ul>
+  <li>step-function (or the perceptron model)
+<script type="math/tex">% <![CDATA[
+f(x) =
+\begin{cases}
+0 & wx+b \leq \text{threshold} \\
+1 & wx+b \geq \text{threshold}
+\end{cases} %]]></script></li>
+  <li>sigmoid
+<script type="math/tex">\begin{gather*}
+f(z) = \frac{1}{1+e^z} \\
+z = wx+b
+\end{gather*}</script>
+    <ul>
+      <li>Maps the output to the region $[0,1]$.</li>
+    </ul>
+  </li>
+  <li>tanh
+<script type="math/tex">\begin{gather*}
+f(z) = tanh(z) = \frac{e^{z} - e^{-z}}{e^{z} + e^{-z}} \\
+z = wx+b
+\end{gather*}</script>
+    <ul>
+      <li>Maps the output to the region $[-1,1]$.</li>
+    </ul>
+  </li>
+  <li>
+    <p>RELU
+<script type="math/tex">% <![CDATA[
+f(x) =
+\begin{cases}
+wx+b & wx+b \geq 0 \\
+0 & wx+b < 0
+\end{cases} %]]></script></p>
+  </li>
+  <li>ELU
+<script type="math/tex">% <![CDATA[
+f(z) =
+\begin{cases}
+z & z \geq 0 \\
+\alpha (e^z-1) & z < 0
+\end{cases} %]]></script>
+<script type="math/tex">\text{with} \: z = wx+b</script>
+    <ul>
+      <li>negative part serves as bias. It’s simliar to LRELU</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="discussion-about-these-functions">Discussion about these functions</h3>
+<ul>
+  <li>The Step function. The step function are great for generating circuit-like structure. However when we want to do something as subtle as to recognize text. The step function wouldn’t be the correct activation function for it. Since small change in weights can cause the output flip completely, it will be exceptionally difficult to debug and find out the correct parameters.</li>
+  <li>The Sigmoid function. Unlike the step function, the sigmoid function adapts rather well to small changes with parameter tuning. The drawback with sigmoid is that it saturate at both end, for both very large output or very small output. Its only meaningful when $wx+b$is of modest size that there’s much deviation from the perceptron model.
+    <ul>
+      <li>Another thing with sigmoid is that they are smooth, which mean works well with BP since it requires taking derivatives. Also sigmoid’s derivative is really simple to compute. Big advantage.</li>
+    </ul>
+  </li>
+  <li>The tanh function. The tanh function is just a rescaled version of the sigmoid function. There are a few reasons we might want to use tanh instead of sigmoid as our activation function
+    <blockquote>
+      <p>The assumption—-In other words, all weights to the same neuron must either increase together or decrease together. That’s a problem, since some of the weights may need to increase while others need to decrease. That can only happen if some of the input activations have different signs. That suggests replacing the sigmoid by an activation function, such as tanhtanh, which allows both positive and negative activations. <strong>no systematic bias for the weight updates to be one way or the other</strong> <a href="http://neuralnetworksanddeeplearning.com/chap3.html#eqtn72">ref</a></p>
+    </blockquote>
+
+    <blockquote>
+      <p>The truth—-Indeed, for many tasks the tanh is found empirically to provide only a small or no improvement in performance over sigmoid neurons. <strong>Unfortunately, we don’t yet have hard-and-fast rules to know which neuron</strong> types will learn fastest, or give the best generalization performance, for any particular application.</p>
+    </blockquote>
+  </li>
+  <li>The RELU function. The RELU doesn’t suffer from saturation when the output $z$ is close to 0 or 1. However one drawbacks is when the weighted input to a RELU is negative, the gradient vanishes, and so the neuron stops learning entirely.</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+
+<span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">6</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mf">0.2</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">z</span><span class="p">))</span>
+<span class="n">y_dot</span> <span class="o">=</span> <span class="n">y</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">y</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span><span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">z</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s">"Sigmoid"</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">z</span><span class="p">,</span><span class="n">y_dot</span><span class="p">,</span><span class="s">'r'</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s">"Derivative of Sigmoid"</span><span class="p">)</span>
+<span class="n">fig</span>
+</code></pre></div></div>
+
+<p><img src="http://localhost:4000/data/img/output_1_0.png" alt="png" /></p>
+
+<h3 id="the-gradient-vanishingexploding-problem">The gradient vanishing/exploding problem</h3>
+<p>The derivative of sigmlid is no greater than 1/4. Notice when we backpropagate with sigmoid, it is difficult to increase $|w_l|$ while maintaining a good value for the derivative of sigmoid. 
+<img src="http://om1hdizoc.bkt.clouddn.com/17-12-25/32708724.jpg" alt="" />
+So when we make $w$ large, we need to be careful that we’re not simultaneously making $\sigma^\prime$ small. Sometimes that will chance to happen. More often, though, it does not happen. And so in the generic case we have vanishing gradients.</p>
+
+  </div>
+  
+  <!-- Related posts -->
+  
+  
+  
+    <div class="row related-posts">
+      <h2 class="text-center" style="font-family: initial">Related blog posts:</h2>
+      <div class="medium-12 small-12 columns">
+        
+          
+
+           <h3>
+            <a href="http://localhost:4000/blog/2018/05/24/instant-search.html">
+              Implement Jekyll instant search
+            </a>
+           </h3>
+
+          
+        
+          
+
+           <h3>
+            <a href="http://localhost:4000/blog/2018/05/24/test_tag2.html">
+              tag2
+            </a>
+           </h3>
+
+          
+        
+          
+
+           <h3>
+            <a href="http://localhost:4000/blog/2018/05/24/test_tag1.html">
+              How to add related posts in jekyll
+            </a>
+           </h3>
+
+          
+        
+      </div>
+    </div>
+  
+
+
+  <!-- Disqus --><a class="u-url" href="/blog/2017/11/23/activation_functions.html" hidden></a>
+</article>
+
+
+<script id="dsq-count-scr" src="//everitt257.disqus.com/count.js" async></script>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Everitt&#39;s blog</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Everitt&#39;s blog</li><li><a class="u-email" href="mailto:everitt257@gmail.com">everitt257@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/everitt257"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">everitt257</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>This site fancies machine learning and problems in engineerning in general.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

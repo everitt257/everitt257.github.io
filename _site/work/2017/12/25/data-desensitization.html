@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<!-- custom.css -->
+<link rel="stylesheet", href="/css/custom.css">
+
+<!-- mathjax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    TeX: {
+      equationNumbers: {
+        autoNumber: "AMS"
+      }
+    },
+    tex2jax: {
+      inlineMath: [ ['$','$'] ],
+      processEscapes: true,
+    }
+  });
+</script>
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+<!-- mermaid -->
+<script src="/js/mermaid.min.js"></script>
+<script>mermaid.initialize({startOnLoad:true});</script>
+
+<!-- body -->
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.5.0 -->
+<title>浅谈数据脱敏 | Everitt’s blog</title>
+<meta name="generator" content="Jekyll v3.8.2" />
+<meta property="og:title" content="浅谈数据脱敏" />
+<meta name="author" content="Xuandong Xu" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="背景" />
+<meta property="og:description" content="背景" />
+<link rel="canonical" href="http://localhost:4000/work/2017/12/25/data-desensitization.html" />
+<meta property="og:url" content="http://localhost:4000/work/2017/12/25/data-desensitization.html" />
+<meta property="og:site_name" content="Everitt’s blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2017-12-25T00:00:00+08:00" />
+<script type="application/ld+json">
+{"description":"背景","author":{"@type":"Person","name":"Xuandong Xu"},"@type":"BlogPosting","url":"http://localhost:4000/work/2017/12/25/data-desensitization.html","headline":"浅谈数据脱敏","dateModified":"2017-12-25T00:00:00+08:00","datePublished":"2017-12-25T00:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/work/2017/12/25/data-desensitization.html"},"@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Everitt's blog" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Everitt&#39;s blog</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a><a class="page-link" href="/category/blog.html">Blog</a><a class="page-link" href="/category/work.html">Work</a><a class="page-link" href="/tags.html">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">浅谈数据脱敏</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2017-12-25T00:00:00+08:00" itemprop="datePublished">Dec 25, 2017
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">Xuandong Xu</span></span></p>
+  </header>
+
+  <!-- Tags -->
+  <ul class="tags">
+    
+      <li><a href="/tags#security" class="tag">security</a></li>
+    
+      <li><a href="/tags#data" class="tag">data</a></li>
+    
+  </ul>
+
+  <!-- Body -->
+  <div class="post-content e-content" itemprop="articleBody">
+    <h4 id="背景">背景</h4>
+
+<p>写这个主题的主要原因是在南宁开电力行业信息年会时听到了一个关于大数据脱敏算法的实现过程案例。在该会上北邮的博士后为我们介绍了关于大数据脱敏的一些主要测量模型和基于这些模型的难点和痛点而做出来的分布式算法。本人听这个会之前并无对数据脱敏有太多了解，这次借写稿的机会做了一些关于数据脱敏的知识的调查，希望可以起到抛砖引玉的作用。</p>
+
+<p>尽管在大数据平台相对成熟的今天，数据的脱敏依然非常必要。虽然大数据平台一般都会通过用户认证，权限管理以及数据加密这些技术手段来保护敏感数据的隐私，但是对于那些拥有数据权限可以直接或间接接触到这数据的人员来说，譬如ETL工程师或这数据分析家/科学家来说依然存在数据泄漏的风险。与此同时，对于那些没有太多权限访问数据的，同时又存在数据挖掘需求的人员来说，如何合理地给出数据同时提高数据挖掘的价值也是相对较难衡量的一点。我们希望通过数据的脱敏能做到给出的数据拥有充分被挖掘的价值同时保证敏感数据的隐私。</p>
+
+<p>在我们看到后面的介绍之前先来定义一些<strong>术语</strong>[@ashwin_-diversity:_2007]方便理解。</p>
+
+<ul>
+  <li>
+    <p>属性列（Attribute）:
+可定位到个人的属性，例如街道，姓名，社会安保号/身份证号等。</p>
+  </li>
+  <li>
+    <p>半识别列（Quasi-identifiers）:
+不能直接定位到个人，但是多个这样的属性可以帮助定位到个人的属性。例如生日，年龄，性别，发型颜色等。</p>
+  </li>
+  <li>
+    <p>敏感性列（Sensitive attribute）:
+例如收入，患者疾病，交易数额如上缴电费的信息等。</p>
+  </li>
+  <li>
+    <p>身份泄漏（Identity disclosure）:
+当攻击者通过某些属性确认到这些属性属于某个个体时，为身份泄漏。</p>
+  </li>
+  <li>
+    <p>属性泄漏（Attribute disclosure）:
+当攻击者通过某些属性发现某个个体的新的属性时，称为属性泄漏。一般身份泄漏都会导致属性泄漏，偶尔属性泄漏也会单独发生。</p>
+  </li>
+  <li>
+    <p>相等集（Equivalence class）: 关于多项记录的匿名集合。</p>
+  </li>
+</ul>
+
+<p>看完定义后我们再看一些<strong>假设</strong>来方便理解。</p>
+
+<ul>
+  <li>
+    <p>半标识列内的信息未必是当前企业/个人独有的，例如关于某个客户的街道信息可能存在于多个数据库。</p>
+  </li>
+  <li>
+    <p>敏感信息未必分布均衡，且敏感信息也分轻重之分。</p>
+  </li>
+  <li>
+    <p>攻击者虽然不能直接获取敏感信息，但是可能了解敏感信息的一些背景，例如某种疾病的发病大致发病机率。</p>
+  </li>
+</ul>
+
+<h4 id="数据脱敏方式">数据脱敏方式</h4>
+
+<p>需要重新强调的一点，数据脱敏，并不是为了完全隐匿信息，而是在限制隐私数据泄露风险在一定范围内的同时，最大化数据分析挖掘的潜力[@__2015]。
+下面所描述的脱敏方式，与其说是一种方式，不如形容其为一种脱敏的思想更加准确。这种思想既可以帮助我们对数据进行脱敏，同时也是一种衡量数据脱敏后数据易泄漏的模型[@__2015]。</p>
+
+<h5 id="k组匿名">$K$组匿名</h5>
+
+<p>$K$组匿名（$K$-Anonymity）。$K$组匿名通过泛化，匿名（泛化的极致）等手段对半标识符进行变形。假设我们只对标识列进行脱敏，可是攻击者任然可能通过公共的关于半标识列的数据库对被攻击者进行定位，从而获取敏感信息。基于这个原因，我们有必要对半标识列进行数据脱敏。这里只举关于数据泛化的例子进行说明。如图1所示，数据泛化对年龄列进行更为泛化的语义替换。</p>
+
+<p><img src="http://localhost:4000/data/img/K.PNG" alt="4组泛化，截图来自Ashwin[@ashwin_-diversity:_2007][]{data-label=&quot;fig:KA&quot;}" /></p>
+
+<p>病人的邮编号，年龄，与国籍进行了关于数据泛化的数据变形。所有半识别列相等的行为一个相等集。如[fig:KA]
+中表二中的第一个相等集行{1,2,3,4}为一个相等集，而行{5,6,7,8}又为一个相等集。相等集种有几行就代表K值为多大的$K$组匿名。如果一张表里所有相等集的$K$值不同，取K值最小的那个称为关于与该表的$K$组匿名。</p>
+
+<p>上面的表1尽管通过K组匿名降低了通过半标识列关联到具体用户的可能性（理论上来说只有$1/K$的概率），但是该模型依然无法保护用户属性列受到攻击。具体来说，根据该模型所展开的属性攻击分两种：同质化属性攻击与背景知识攻击。</p>
+
+<ul>
+  <li>
+    <p>同质化属性攻击例子：假设攻击者通过其他公开数据源（如社工那里获取），Bob今年31岁，邮编号13068，那么显然Bob存于[fig:KA]表二里，攻击者可以通过表二获取得知Bob患有癌症。此时发生属性泄漏。</p>
+  </li>
+  <li>
+    <p>背景知识攻击例子：依然是关于第一条的假设，Alice今年28岁，邮编号13053，若攻击者知晓Alice的某些背景信息，例如Alice患病毒感染的几率非常小这样的时间。那么攻击者也同样可以通过表二获取得知Alice患有心脏病。此时发生属性泄漏。</p>
+  </li>
+</ul>
+
+<h5 id="l多样性">$L$多样性</h5>
+
+<p>$L$多样性（$L$-Diversity）。$L$多样性在$K$组匿名的基础之上进一步完善。在每个相等集中，敏感属性列的分布至少包含$L$个<strong>恰当的</strong>值来抵御属性泄露[@ashwin_-diversity:_2007]。这句话里面的“恰当”并没有明确定义。一般来说，存在三种关于什么是“$L$个恰当”的定义。为了方便理解，我们用最简单的定义去理解，也就是在敏感属性列中存在至少$L$个不同的值。</p>
+
+<p>作为补充，这里罗列其他两个关于”$L$个恰当“的定义。</p>
+
+<ul>
+  <li>
+    <p>熵$L$多样性：在一个相等集$E$中定义它的熵为$Entropy(E)$,
+那么当其值大于等于$\log L$时，该相等集的熵符合$L$多样性。其具体定义如下：
+<script type="math/tex">\begin{gathered}
+Entropy(E) = -\sum^m_{i}p(E,s_i)\log p(E,s_i) \\
+Entropy(E) \geq \log L\end{gathered}</script>
+其中，$p(E,s_i)$表示该相等集中关于该敏感属性分布函数。使用该定义为目去完善的数据变形方法不仅让敏感属性有所不同，且分布均匀。</p>
+  </li>
+  <li>
+    <p>递归$L$多样性：在一个相等集中，定义$r_i$为第$i$个最常见的敏感属性，定义常数$c$。那么我们称其符合递归$L$多样性当以下公式成立：
+<script type="math/tex">r_i \leq c(r_l+r_{l+1}+...r_{m-1}+r_{m})</script>
+简而言之，如果以这种定义去完善你的数据脱敏算法，那么原本最常出现的敏感属性则不会那么频繁的出现。</p>
+  </li>
+</ul>
+
+<p>以上是三种关于$L$多样性<strong>恰当</strong>的解释。需要注意的一点则是，以上三种解释，并不是具体的关于数据如何脱敏的方法，而是衡量，或者说是数据脱敏的目的。具体到实现其中的任意一种，都离不开数据的变形。这意味着，当我们的衡量方法越复杂，假设越多的时候，对原始数据造成的干扰也越大，数据待挖掘的价值也可能愈发地减小。</p>
+
+<p>以下通过实现第一个定义（敏感属性列存在$L$个不同的值）来举例说明。以之前那个图表为例，我们发现可以挪动与交换一些行数实现$L=3$的多样性。</p>
+
+<p><img src="http://localhost:4000/data/img/3D.png" alt="3组多样性，截图来自Ashwin[@ashwin_-diversity:_2007][]{data-label=&quot;fig:3D&quot;}" /></p>
+
+<p>在这里我们发现，交换一些行数实现了关于3的多样性。如[fig:3D]所示，第二个相等集中的行{5,6,7,8}中的{5,6,7}拥有最少为3的不同敏感属性。这意味着发生属性泄露的最低可能性降低至$1/3$。该表符合$L$为3的多样性。</p>
+
+<p>实际上，以上只是一种关于敏感属性分布均匀且相互独立的乐观假设。现实中不一定能如此高效地实现关于$L$的多样性。$L$多样性这个概念，本身也有它的局限性。它局限性体现在以下两点[@ninghui_t-closeness:_2007]:</p>
+
+<ul>
+  <li>
+    <p>$L$多样性没有实现的必要或者实现难度太大：当表中的敏感数据列得不到相同程度的重视的情况下，实现$L$多样性的收益很低。举某种疾病为例，倘若全球只有$1\%$的人可能获得这种疾病，且那$99\%$的人都对这种疾病公布公布毫不在意，那么我们可以实现$L$多样性的收益非常低。同样的，假设为了实现$L=2$的多样性去对敏感数据进行变形，那么代价将是要改变$99\%$不那么敏感的敏感属性。</p>
+  </li>
+  <li>
+    <p>$L$多样性容易造成“特殊”的属性泄露</p>
+
+    <ul>
+      <li>
+        <p>相似性攻击：假设表里的敏感属性列有着类似的值或者名字，尽管完成了依据$L$多样性的原则完成了数据脱敏，依然容易造成属性泄露。以下举例说明[@ninghui_t-closeness:_2007]：</p>
+
+        <p><img src="http://localhost:4000/data/img/Simliar3.png" alt="相似性攻击说明[]{data-label=&quot;fig:s3&quot;}" /></p>
+      </li>
+      <li>
+        <p>倾斜攻击：假设表里的敏感属性裂存在较大的倾斜，类似某种疾病1:99的分布比例。那么为了满足$L=2$的多样性，我们构建的数据集可能强行将被攻击者的属性曝光率从$1\%$上升至$50\%$。这显然不是我们想看到的现象。</p>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p>从[fig:s3]可以看出，尽管满足了$L=3$的要求，但是假设我们依然知道某个人的半标识符我们仍然可以推断出他大概患了哪种类型的疾病。例如Bob的邮编是476开头的，月薪3K到5K，那么很显然从[fig:s3]图中的表4里我们可以得知，或者大概率推断出他患有胃肠道相关的疾病。因此属性泄露仍然存在。</p>
+
+<p>$L$多样性做得一个比较大的假设是攻击者并不知道敏感属性的全局分布概率。但是实际上攻击者往往可以通过数据表推测出这些分布概率大体是怎样的。</p>
+
+<h5 id="t-closeness">T-closeness</h5>
+
+<p>上一个衡量数据脱敏的模型，$L$多样性限制了从$B_0$（未访问任意数据集之前关于某件事情的认知）到$B_2$（访问了脱敏数据集后关于某件事情的认知）的信息增益。实际上在访问$B_2$之前，攻击者会先访问$B_1$（访问了脱离了的半标识列的全局数据集，只包含了敏感数据集的分布）。一般我们无法阻止攻击者访问$B_1$，比如说某种疾病的全球发病率，但是我们可以控制$B_2$也就是脱敏后的数据来限制有关敏感属性列的信息增益。</p>
+
+<p>T-closeness限制了$B_1$至$B_2$关于敏感属性列的信息增益。一个相等集中关于敏感属性的分布与全局的敏感属性的分布所相差的<strong>距离</strong>不超过T，则称这个相等集符合T-closeness。当一个脱敏后的数据表里的所有相等集符合某个T-closeness，则称这个脱敏后的数据表符合T-closeness[@ninghui_t-closeness:_2007]。</p>
+
+<p>T-closeness里面的“距离”概念也是一个相对模糊的概念。如何衡量这个距离也存在分歧，这里限于篇幅不多做展开。比较热门的定义有Variational
+Distance，KL
+Distance与EMD。另一点需要再次强调，无论是哪一种衡量数据脱敏的模型，都离不开对半标识列的数据变形。为了生成符合多种约束的模型，甚至离不开生成干扰的数据。</p>
+
+<h4 id="结论">结论</h4>
+
+<p>数据脱敏与数据挖掘两者需要存在一个平衡点。不可能彻底抹除所有用户的标志列进行数据挖掘，那样数据挖掘的价值将大大降低。另一方面，也不可能彻底放开用户的隐私信息，最大化数据挖掘价值，这样会导致用户隐私风险不可控。大数据的脱敏，也不应该完全由算法主导，实际上大数据平台有关脱敏目标还应该包括：基于算法评估脱敏风险的体系，可管理可审批的数据访问机制，以及当数据发生泄露时的可以回溯的审计机制。</p>
+
+<p>本篇的所介绍的数据脱敏方法，基本上都是基于离线的数据脱敏算法。在南宁的会议上所描述的是一种基于内存计算的流处理的数据脱敏实现，在未来这或许是一种数据脱敏的趋势。</p>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+</head>
+<body>
+<h1 id="bibliography" class="unnumbered">Bibliography</h1>
+<div id="refs" class="references">
+<div id="ref-ashwin_-diversity:_2007">
+<p>Ashwin, Machanavajjhala, Gehrke Johannes, Kifer Daniel, and Venkitasubramaniam Muthuramakrishnan. 2007. “ℓ-Diversity: Privacy Beyond K-Anonymity.” <em>ACM TKDD</em> 1 (1). <a href="http://www.cs.cornell.edu/~vmuthu/research/ldiversity-TKDD.pdf" class="uri">http://www.cs.cornell.edu/~vmuthu/research/ldiversity-TKDD.pdf</a>.</p>
+</div>
+<div id="ref-ninghui_t-closeness:_2007">
+<p>Ninghui, Li, Li Tiancheng, and Venkatasubramanian Suresh. 2007. “T-Closeness: Privacy Beyond K-Anonymity and L-Diversity.” <em>Proceedings - International Conference on Data Engineering</em>. doi:<a href="https://doi.org/10.1109/ICDE.2007.367856">10.1109/ICDE.2007.367856</a>.</p>
+</div>
+<div id="ref-__2015">
+<p>李, 呈祥. 2015. “大数据与数据脱敏.” <em>知乎</em>. <a href="https://zhuanlan.zhihu.com/p/20824603" class="uri">https://zhuanlan.zhihu.com/p/20824603</a>.</p>
+</div>
+</div>
+</body>
+</html>
+
+  </div>
+  
+  <!-- Related posts -->
+  
+  
+  
+    <div class="row related-posts">
+      <h2 class="text-center" style="font-family: initial">Related work posts:</h2>
+      <div class="medium-12 small-12 columns">
+        
+          
+
+           <h3>
+            <a href="http://localhost:4000/work/2018/05/25/bigdataflowchart.html">
+              大数据实验室流程指引
+            </a>
+           </h3>
+
+          
+        
+          
+
+           <h3>
+            <a href="http://localhost:4000/work/2018/05/25/bigdataapply.html">
+              大数据实验室申请指南
+            </a>
+           </h3>
+
+          
+        
+          
+
+           <h3>
+            <a href="http://localhost:4000/work/2018/05/24/transformer-cluster-trial.html">
+              变压器厂家聚类分析
+            </a>
+           </h3>
+
+          
+        
+      </div>
+    </div>
+  
+
+
+  <!-- Disqus --><a class="u-url" href="/work/2017/12/25/data-desensitization.html" hidden></a>
+</article>
+
+
+<script id="dsq-count-scr" src="//everitt257.disqus.com/count.js" async></script>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Everitt&#39;s blog</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Everitt&#39;s blog</li><li><a class="u-email" href="mailto:everitt257@gmail.com">everitt257@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/everitt257"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">everitt257</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>This site fancies machine learning and problems in engineerning in general.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

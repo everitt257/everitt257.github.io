@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<!-- custom.css -->
+<link rel="stylesheet", href="/css/custom.css">
+
+<!-- mathjax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    TeX: {
+      equationNumbers: {
+        autoNumber: "AMS"
+      }
+    },
+    tex2jax: {
+      inlineMath: [ ['$','$'] ],
+      processEscapes: true,
+    }
+  });
+</script>
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+<!-- mermaid -->
+<script src="/js/mermaid.min.js"></script>
+<script>mermaid.initialize({startOnLoad:true});</script>
+
+<!-- body -->
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.5.0 -->
+<title>Various Length RNN Applied in Blog Data | Everitt’s blog</title>
+<meta name="generator" content="Jekyll v3.8.2" />
+<meta property="og:title" content="Various Length RNN Applied in Blog Data" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="This is an implementation of various-length RNN with single layer GRU model. Due to time limitation, it only showcases the basics of RNN model." />
+<meta property="og:description" content="This is an implementation of various-length RNN with single layer GRU model. Due to time limitation, it only showcases the basics of RNN model." />
+<link rel="canonical" href="http://localhost:4000/blog/2018/05/21/various-length-rnn.html" />
+<meta property="og:url" content="http://localhost:4000/blog/2018/05/21/various-length-rnn.html" />
+<meta property="og:site_name" content="Everitt’s blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-05-21T00:00:00+08:00" />
+<script type="application/ld+json">
+{"description":"This is an implementation of various-length RNN with single layer GRU model. Due to time limitation, it only showcases the basics of RNN model.","@type":"BlogPosting","url":"http://localhost:4000/blog/2018/05/21/various-length-rnn.html","headline":"Various Length RNN Applied in Blog Data","dateModified":"2018-05-21T00:00:00+08:00","datePublished":"2018-05-21T00:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/blog/2018/05/21/various-length-rnn.html"},"@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Everitt's blog" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Everitt&#39;s blog</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a><a class="page-link" href="/category/blog.html">Blog</a><a class="page-link" href="/category/work.html">Work</a><a class="page-link" href="/tags.html">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Various Length RNN Applied in Blog Data</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2018-05-21T00:00:00+08:00" itemprop="datePublished">May 21, 2018
+      </time></p>
+  </header>
+
+  <!-- Tags -->
+  <ul class="tags">
+    
+      <li><a href="/tags#algorithm" class="tag">algorithm</a></li>
+    
+  </ul>
+
+  <!-- Body -->
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>This is an implementation of various-length RNN with single layer GRU model. Due to time limitation, it only showcases the basics of RNN model.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span><span class="p">,</span> <span class="n">numpy</span> <span class="k">as</span> <span class="n">np</span><span class="p">,</span> <span class="n">tensorflow</span> <span class="k">as</span> <span class="n">tf</span>
+<span class="kn">import</span> <span class="nn">blogs_data</span> <span class="c">#available at https://github`.com/spitis/blogs_data</span>
+</code></pre></div></div>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/home/everitt257/anaconda3/lib/python3.6/site-packages/h5py/__init__.py:36: FutureWarning: Conversion of the second argument of issubdtype from `float` to `np.floating` is deprecated. In future, it will be treated as `np.float64 == np.dtype(float).type`.
+  from ._conv import register_converters as _register_converters
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df</span> <span class="o">=</span> <span class="n">blogs_data</span><span class="o">.</span><span class="n">loadBlogs</span><span class="p">()</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">frac</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">vocab</span><span class="p">,</span> <span class="n">reverse_vocab</span> <span class="o">=</span> <span class="n">blogs_data</span><span class="o">.</span><span class="n">loadVocab</span><span class="p">()</span>
+<span class="n">train_len</span><span class="p">,</span> <span class="n">test_len</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="o">*</span><span class="mf">0.8</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="o">*</span><span class="mf">0.2</span><span class="p">)</span>
+<span class="n">train</span><span class="p">,</span> <span class="n">test</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:</span><span class="n">train_len</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">train_len</span><span class="p">:</span><span class="n">train_len</span> <span class="o">+</span> <span class="n">test_len</span><span class="p">]</span>
+<span class="n">df</span> <span class="o">=</span> <span class="bp">None</span>
+<span class="n">train</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</code></pre></div></div>
+
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>post_id</th>
+      <th>gender</th>
+      <th>age_bracket</th>
+      <th>string</th>
+      <th>as_numbers</th>
+      <th>length</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>144744</td>
+      <td>1</td>
+      <td>0</td>
+      <td>we listened to this creepy music we all were s...</td>
+      <td>[32, 1968, 5, 29, 3623, 344, 32, 37, 88, 942, ...</td>
+      <td>30</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>84957</td>
+      <td>1</td>
+      <td>1</td>
+      <td>when a person &lt;UNK&gt; , the throat closes to pre...</td>
+      <td>[56, 7, 211, 0, 1, 4, 2379, 8457, 5, 3071, 443...</td>
+      <td>15</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>134300</td>
+      <td>1</td>
+      <td>0</td>
+      <td>&lt;UNK&gt; ... guess those that stayed back in clas...</td>
+      <td>[0, 24, 228, 161, 9, 1024, 93, 11, 320, 66, 64...</td>
+      <td>14</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>11751</td>
+      <td>1</td>
+      <td>0</td>
+      <td>speaking of money i got my atm card fixed today !</td>
+      <td>[973, 8, 314, 3, 89, 13, 7210, 983, 2062, 119,...</td>
+      <td>11</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>126685</td>
+      <td>0</td>
+      <td>1</td>
+      <td>as of now , around &lt;#&gt; hours from her phone ca...</td>
+      <td>[38, 8, 68, 1, 146, 12, 309, 57, 61, 397, 260,...</td>
+      <td>18</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">SimpleDataIterator</span><span class="p">():</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">df</span> <span class="o">=</span> <span class="n">df</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">epochs</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">shuffle</span><span class="p">()</span>
+    
+    <span class="k">def</span> <span class="nf">shuffle</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">frac</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span> <span class="c"># not sure why reset_index is used at here</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span> <span class="o">=</span> <span class="mi">0</span>
+    
+    <span class="k">def</span> <span class="nf">next_batch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span><span class="o">+</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">epochs</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">shuffle</span><span class="p">()</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">cursor</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span><span class="o">+</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span> <span class="o">+=</span> <span class="n">n</span>
+        <span class="k">return</span> <span class="n">res</span><span class="p">[</span><span class="s">'as_numbers'</span><span class="p">],</span> <span class="n">res</span><span class="p">[</span><span class="s">'gender'</span><span class="p">]</span><span class="o">*</span><span class="mi">3</span> <span class="o">+</span> <span class="n">res</span><span class="p">[</span><span class="s">'age_bracket'</span><span class="p">],</span> <span class="n">res</span><span class="p">[</span><span class="s">'length'</span><span class="p">]</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">data</span> <span class="o">=</span> <span class="n">SimpleDataIterator</span><span class="p">(</span><span class="n">train</span><span class="p">)</span>
+<span class="n">d</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">next_batch</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">'Input sequences</span><span class="se">\n</span><span class="s">'</span><span class="p">,</span> <span class="n">d</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">end</span><span class="o">=</span><span class="s">'</span><span class="se">\n\n</span><span class="s">'</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">'Target values</span><span class="se">\n</span><span class="s">'</span><span class="p">,</span> <span class="n">d</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">end</span><span class="o">=</span><span class="s">'</span><span class="se">\n\n</span><span class="s">'</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">'Sequence lengths</span><span class="se">\n</span><span class="s">'</span><span class="p">,</span> <span class="n">d</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+</code></pre></div></div>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Input sequences
+ 0    [0, 1, 0, 49, 0, 50, 200, 9, 465, 19, 2514, 13...
+1    [723, 52, 153, 30, 771, 33, 2145, 33, 4073, 79...
+2    [6, 1863, 14, 13, 2678, 2482, 32, 97, 843, 0, ...
+Name: as_numbers, dtype: object
+
+Target values
+ 0    0
+1    3
+2    3
+dtype: int64
+
+Sequence lengths
+ 0    16
+1    11
+2    26
+Name: length, dtype: int64
+</code></pre></div></div>
+
+<h2 id="problem">Problem</h2>
+<p>The three sequences are of different length.</p>
+<h3 id="solution">Solution</h3>
+<p>Pad different length sequences into the same length so the can be fit into the same tensor.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">PaddedDataIterator</span><span class="p">(</span><span class="n">SimpleDataIterator</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">next_batch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span><span class="o">+</span><span class="n">n</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">epochs</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">shuffle</span><span class="p">()</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">cursor</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span><span class="o">+</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span> <span class="o">+=</span> <span class="n">n</span>
+    
+        <span class="c"># Pad the various sequences with zeroes to make them the same length</span>
+        <span class="n">maxlen</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="s">'length'</span><span class="p">])</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="n">n</span><span class="p">,</span> <span class="n">maxlen</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">x_i</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+            <span class="n">x_i</span><span class="p">[:</span><span class="n">res</span><span class="p">[</span><span class="s">'length'</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">=</span> <span class="n">res</span><span class="p">[</span><span class="s">'as_numbers'</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        
+        <span class="k">return</span> <span class="n">x</span><span class="p">,</span> <span class="n">res</span><span class="p">[</span><span class="s">'gender'</span><span class="p">]</span><span class="o">*</span><span class="mi">3</span> <span class="o">+</span> <span class="n">res</span><span class="p">[</span><span class="s">'age_bracket'</span><span class="p">],</span> <span class="n">res</span><span class="p">[</span><span class="s">'length'</span><span class="p">]</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">data</span> <span class="o">=</span> <span class="n">PaddedDataIterator</span><span class="p">(</span><span class="n">train</span><span class="p">)</span>
+<span class="n">d</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">next_batch</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">'Input sequences</span><span class="se">\n</span><span class="s">'</span><span class="p">,</span> <span class="n">d</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">end</span><span class="o">=</span><span class="s">'</span><span class="se">\n\n</span><span class="s">'</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">'Target values</span><span class="se">\n</span><span class="s">'</span><span class="p">,</span> <span class="n">d</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">end</span><span class="o">=</span><span class="s">'</span><span class="se">\n\n</span><span class="s">'</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">'Sequence lengths</span><span class="se">\n</span><span class="s">'</span><span class="p">,</span> <span class="n">d</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+</code></pre></div></div>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Input sequences
+ [[ 286    1 5364   42  382  153   80   15  743  116    7 2925  742    1
+    10   22   34   40   36  229   15    4 1819    8 2925   50]
+ [   6   65   19  289 6197   42 5973    5  771    6 2708  151   25    0
+     0    0    0    0    0    0    0    0    0    0    0    0]
+ [ 386    0  390 1422   13  213 1079   16   61  382   54  474   40   12
+     6    3  429 1213 5687    0 8235   14  800   25    0    0]]
+
+Target values
+ 0    3
+1    3
+2    0
+dtype: int64
+
+Sequence lengths
+ 0    26
+1    13
+2    24
+Name: length, dtype: int64
+</code></pre></div></div>
+
+<h2 id="basic-model-for-sequence-classification">Basic model for sequence classification</h2>
+<p>Have the model guess the outcome at the very last step</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">reset_graph</span><span class="p">():</span>
+    <span class="k">if</span> <span class="s">'sess'</span> <span class="ow">in</span> <span class="nb">globals</span><span class="p">()</span> <span class="ow">and</span> <span class="n">sess</span><span class="p">:</span>
+        <span class="n">sess</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="n">tf</span><span class="o">.</span><span class="n">reset_default_graph</span><span class="p">()</span>
+
+<span class="k">def</span> <span class="nf">build_graph</span><span class="p">(</span>
+    <span class="n">vocab_size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">vocab</span><span class="p">),</span>
+    <span class="n">state_size</span> <span class="o">=</span> <span class="mi">64</span><span class="p">,</span>
+    <span class="n">batch_size</span> <span class="o">=</span> <span class="mi">256</span><span class="p">,</span>
+    <span class="n">num_classes</span> <span class="o">=</span> <span class="mi">6</span><span class="p">):</span>
+    
+    <span class="n">reset_graph</span><span class="p">()</span>
+    
+    <span class="n">x</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">placeholder</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">int32</span><span class="p">,</span> <span class="p">[</span><span class="n">batch_size</span><span class="p">,</span> <span class="bp">None</span><span class="p">])</span> <span class="c"># [batch_size, None]</span>
+    <span class="n">seqlen</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">placeholder</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">int32</span><span class="p">,</span> <span class="p">[</span><span class="n">batch_size</span><span class="p">])</span> <span class="c">#[batch_size]</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">placeholder</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">int32</span><span class="p">,</span> <span class="p">[</span><span class="n">batch_size</span><span class="p">])</span>
+    <span class="n">keep_prob</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">placeholder</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span> <span class="p">[])</span>
+    
+    <span class="c"># Embedding layer</span>
+    <span class="n">embeddings</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">get_variable</span><span class="p">(</span><span class="s">'embedding_matrix'</span><span class="p">,</span> <span class="p">[</span><span class="n">vocab_size</span><span class="p">,</span> <span class="n">state_size</span><span class="p">])</span>
+    <span class="n">rnn_inputs</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">embedding_lookup</span><span class="p">(</span><span class="n">embeddings</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="c">#[batch_size, None, state_size]</span>
+    
+    <span class="c"># RNN with GRU</span>
+    <span class="n">cell</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">rnn_cell</span><span class="o">.</span><span class="n">GRUCell</span><span class="p">(</span><span class="n">state_size</span><span class="p">)</span>
+    <span class="c"># Easier this way: init_state = cell.zero_state(batch_size, tf.float32) </span>
+    <span class="n">init_state</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">get_variable</span><span class="p">(</span><span class="s">'init'</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="n">state_size</span><span class="p">])</span> <span class="c">#[1, state_size]</span>
+    <span class="n">init_state</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">init_state</span><span class="p">,</span> <span class="p">[</span><span class="n">batch_size</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span> <span class="c"># replicate 256 piece of it</span>
+    <span class="n">rnn_outputs</span><span class="p">,</span> <span class="n">final_state</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">dynamic_rnn</span><span class="p">(</span><span class="n">cell</span><span class="p">,</span> <span class="n">rnn_inputs</span><span class="p">,</span> <span class="n">sequence_length</span><span class="o">=</span><span class="n">seqlen</span><span class="p">,</span> <span class="n">initial_state</span><span class="o">=</span><span class="n">init_state</span><span class="p">)</span>
+    
+    <span class="c"># rnn_outputs = [batch_size, None, state_size], final_state = [batch_size, 1, state_size]</span>
+    <span class="c"># It's actually a single layer gru with dropout</span>
+    <span class="n">rnn_outputs</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">dropout</span><span class="p">(</span><span class="n">rnn_outputs</span><span class="p">,</span> <span class="n">keep_prob</span><span class="p">)</span>
+    
+    <span class="c"># obtain the last relevant outputs, shape=(256, 64), note taht seqlen is of different sizes</span>
+    <span class="n">last_rnn_output</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">gather_nd</span><span class="p">(</span><span class="n">rnn_outputs</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">tf</span><span class="o">.</span><span class="nb">range</span><span class="p">(</span><span class="n">batch_size</span><span class="p">),</span> <span class="n">seqlen</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+    
+    <span class="c"># adds a softmax layer</span>
+    <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">variable_scope</span><span class="p">(</span><span class="s">'softmax'</span><span class="p">):</span>
+        <span class="n">W</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">get_variable</span><span class="p">(</span><span class="s">'W'</span><span class="p">,</span> <span class="p">[</span><span class="n">state_size</span><span class="p">,</span> <span class="n">num_classes</span><span class="p">],</span> <span class="n">initializer</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">contrib</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">xavier_initializer</span><span class="p">())</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">get_variable</span><span class="p">(</span><span class="s">'b'</span><span class="p">,</span> <span class="p">[</span><span class="n">num_classes</span><span class="p">],</span> <span class="n">initializer</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">constant_initializer</span><span class="p">(</span><span class="mf">0.0</span><span class="p">))</span>
+    <span class="n">logits</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">last_rnn_output</span><span class="p">,</span> <span class="n">W</span><span class="p">)</span> <span class="o">+</span> <span class="n">b</span>
+    <span class="n">preds</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">logits</span><span class="p">)</span> <span class="c"># shape=(batch_size, num_classes)</span>
+    <span class="n">correct</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">equal</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">preds</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">tf</span><span class="o">.</span><span class="n">int32</span><span class="p">),</span> <span class="n">y</span><span class="p">)</span> <span class="c"># shape=(batch_size,)</span>
+    <span class="n">accuracy</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reduce_mean</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">correct</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">))</span>
+    
+    <span class="n">loss</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reduce_mean</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">sparse_softmax_cross_entropy_with_logits</span><span class="p">(</span><span class="n">logits</span><span class="o">=</span><span class="n">logits</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">y</span><span class="p">))</span>
+    <span class="n">train_step</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">AdamOptimizer</span><span class="p">(</span><span class="mf">1e-4</span><span class="p">)</span><span class="o">.</span><span class="n">minimize</span><span class="p">(</span><span class="n">loss</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s">'x'</span><span class="p">:</span> <span class="n">x</span><span class="p">,</span>
+        <span class="s">'seqlen'</span><span class="p">:</span> <span class="n">seqlen</span><span class="p">,</span>
+        <span class="s">'y'</span><span class="p">:</span> <span class="n">y</span><span class="p">,</span>
+        <span class="s">'dropout'</span><span class="p">:</span> <span class="n">keep_prob</span><span class="p">,</span>
+        <span class="s">'loss'</span><span class="p">:</span> <span class="n">loss</span><span class="p">,</span>
+        <span class="s">'ts'</span><span class="p">:</span> <span class="n">train_step</span><span class="p">,</span>
+        <span class="s">'preds'</span><span class="p">:</span> <span class="n">preds</span><span class="p">,</span>
+        <span class="s">'accuracy'</span><span class="p">:</span> <span class="n">accuracy</span>
+    <span class="p">}</span>
+
+<span class="k">def</span> <span class="nf">train_graph</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">batch_size</span> <span class="o">=</span> <span class="mi">256</span><span class="p">,</span> <span class="n">num_epochs</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">iterator</span> <span class="o">=</span> <span class="n">PaddedDataIterator</span><span class="p">,</span> <span class="n">dropout</span> <span class="o">=</span> <span class="mf">0.6</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">Session</span><span class="p">()</span> <span class="k">as</span> <span class="n">sess</span><span class="p">:</span>
+        <span class="n">sess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">global_variables_initializer</span><span class="p">())</span>
+        <span class="n">tr</span> <span class="o">=</span> <span class="n">iterator</span><span class="p">(</span><span class="n">train</span><span class="p">)</span>
+        <span class="n">te</span> <span class="o">=</span> <span class="n">iterator</span><span class="p">(</span><span class="n">test</span><span class="p">)</span>
+        
+        <span class="n">step</span><span class="p">,</span> <span class="n">accuracy</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
+        <span class="n">tr_losses</span><span class="p">,</span> <span class="n">te_losses</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
+        <span class="n">current_epoch</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">while</span> <span class="n">current_epoch</span> <span class="o">&lt;</span> <span class="n">num_epochs</span><span class="p">:</span>
+            <span class="n">step</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">batch</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">next_batch</span><span class="p">(</span><span class="n">batch_size</span><span class="p">)</span>
+            <span class="n">feed</span> <span class="o">=</span> <span class="p">{</span><span class="n">g</span><span class="p">[</span><span class="s">'x'</span><span class="p">]:</span> <span class="n">batch</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">g</span><span class="p">[</span><span class="s">'y'</span><span class="p">]:</span> <span class="n">batch</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">g</span><span class="p">[</span><span class="s">'seqlen'</span><span class="p">]:</span> <span class="n">batch</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">g</span><span class="p">[</span><span class="s">'dropout'</span><span class="p">]:</span> <span class="n">dropout</span><span class="p">}</span>
+            <span class="n">accuracy_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">sess</span><span class="o">.</span><span class="n">run</span><span class="p">([</span><span class="n">g</span><span class="p">[</span><span class="s">'accuracy'</span><span class="p">],</span> <span class="n">g</span><span class="p">[</span><span class="s">'ts'</span><span class="p">]],</span> <span class="n">feed_dict</span><span class="o">=</span><span class="n">feed</span><span class="p">)</span>
+            <span class="n">accuracy</span> <span class="o">+=</span> <span class="n">accuracy_</span>
+            
+            <span class="k">if</span> <span class="n">tr</span><span class="o">.</span><span class="n">epochs</span> <span class="o">&gt;</span> <span class="n">current_epoch</span><span class="p">:</span>
+                <span class="n">current_epoch</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">tr_losses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">accuracy</span> <span class="o">/</span> <span class="n">step</span><span class="p">)</span>
+                <span class="c"># reset for evaluation</span>
+                <span class="n">step</span><span class="p">,</span> <span class="n">accuracy</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
+                <span class="c"># eval test set</span>
+                <span class="n">te_epoch</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">epochs</span>
+                <span class="k">while</span> <span class="n">te</span><span class="o">.</span><span class="n">epochs</span> <span class="o">==</span> <span class="n">te_epoch</span><span class="p">:</span>
+                    <span class="n">step</span> <span class="o">+=</span> <span class="mi">1</span>
+                    <span class="n">batch</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">next_batch</span><span class="p">(</span><span class="n">batch_size</span><span class="p">)</span>
+                    <span class="n">feed</span> <span class="o">=</span> <span class="p">{</span><span class="n">g</span><span class="p">[</span><span class="s">'x'</span><span class="p">]:</span> <span class="n">batch</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">g</span><span class="p">[</span><span class="s">'y'</span><span class="p">]:</span> <span class="n">batch</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">g</span><span class="p">[</span><span class="s">'seqlen'</span><span class="p">]:</span> <span class="n">batch</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">g</span><span class="p">[</span><span class="s">'dropout'</span><span class="p">]:</span> <span class="mf">1.0</span><span class="p">}</span>
+                    <span class="n">accuracy_</span> <span class="o">=</span> <span class="n">sess</span><span class="o">.</span><span class="n">run</span><span class="p">([</span><span class="n">g</span><span class="p">[</span><span class="s">'accuracy'</span><span class="p">]],</span> <span class="n">feed_dict</span><span class="o">=</span><span class="n">feed</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="n">accuracy</span> <span class="o">+=</span> <span class="n">accuracy_</span>
+                    
+                <span class="n">te_losses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">accuracy</span> <span class="o">/</span> <span class="n">step</span><span class="p">)</span>
+                <span class="c"># reset after the evaluation, to continue to evaluate training accuracy on next epoch</span>
+                <span class="n">step</span><span class="p">,</span> <span class="n">accuracy</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
+                <span class="k">print</span><span class="p">(</span><span class="s">"Accuracy after epoch"</span><span class="p">,</span> <span class="n">current_epoch</span><span class="p">,</span> <span class="s">" - tr:"</span><span class="p">,</span> <span class="n">tr_losses</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="s">"- te:"</span><span class="p">,</span> <span class="n">te_losses</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+    
+    <span class="k">return</span> <span class="n">tr_losses</span><span class="p">,</span> <span class="n">te_losses</span>
+</code></pre></div></div>
+
+<h3 id="basic-test">Basic test</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">g</span> <span class="o">=</span> <span class="n">build_graph</span><span class="p">()</span>
+<span class="n">tr_losses</span><span class="p">,</span> <span class="n">te_losses</span> <span class="o">=</span> <span class="n">train_graph</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Accuracy after epoch 1  - tr: 0.3160342651213897 - te: 0.34959466527196653
+Accuracy after epoch 2  - tr: 0.354831745865606 - te: 0.35830192629815744
+Accuracy after epoch 3  - tr: 0.3617226750575675 - te: 0.35916234819932996
+Accuracy after epoch 4  - tr: 0.36376125183169356 - te: 0.35978394577051925
+Accuracy after epoch 5  - tr: 0.3654105937303747 - te: 0.3596530831239531
+Accuracy after epoch 6  - tr: 0.36659465276324055 - te: 0.36046443153266333
+Accuracy after epoch 7  - tr: 0.36802484561440235 - te: 0.3609159076633166
+Accuracy after epoch 8  - tr: 0.36934382850115133 - te: 0.361710898241206
+Accuracy after epoch 9  - tr: 0.37092448189240107 - te: 0.36232922424623115
+Accuracy after epoch 10  - tr: 0.37257627695206197 - te: 0.36191373534338356
+</code></pre></div></div>
+
+<h2 id="improving-with-bucketing">Improving with bucketing</h2>
+<p>Since there are a lot of zeros in the sequences, let’s calculate the average padding of zeros.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">tr</span> <span class="o">=</span> <span class="n">PaddedDataIterator</span><span class="p">(</span><span class="n">train</span><span class="p">)</span>
+<span class="n">padding</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">):</span>
+    <span class="n">lengths</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">next_batch</span><span class="p">(</span><span class="mi">256</span><span class="p">)[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+    <span class="n">max_len</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">lengths</span><span class="p">)</span>
+    <span class="n">padding</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="nb">sum</span><span class="p">(</span><span class="n">max_len</span> <span class="o">-</span> <span class="n">lengths</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">"Average padding / batch:"</span><span class="p">,</span> <span class="n">padding</span><span class="o">/</span><span class="mi">100</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Average padding / batch: 3291.11
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">BucketDataIterator</span><span class="p">():</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">num_buckets</span> <span class="o">=</span> <span class="mi">5</span><span class="p">):</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s">'length'</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="o">/</span><span class="n">num_buckets</span> <span class="c"># each bucket's size</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dfs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">bucket</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_buckets</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dfs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">bucket</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">:</span> <span class="p">(</span><span class="n">bucket</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">size</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])</span>
+            
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_buckets</span> <span class="o">=</span> <span class="n">num_buckets</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">num_buckets</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">shuffle</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">epochs</span> <span class="o">=</span> <span class="mi">0</span>
+        
+    <span class="k">def</span> <span class="nf">shuffle</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_buckets</span><span class="p">):</span>
+            <span class="c"># sorts dataframe by sequence length, but keeps it random within the same length</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dfs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dfs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">frac</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+            
+    <span class="k">def</span> <span class="nf">next_batch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+        <span class="c"># this part acts as overwatch for batch reaching the end of a small df</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="nb">any</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cursor</span><span class="o">+</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">epochs</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">shuffle</span><span class="p">()</span>
+        
+        <span class="n">i</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_buckets</span><span class="p">)</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dfs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">cursor</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span> <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">+</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="n">n</span>
+        <span class="c"># Pad sequences with 0s so they are all the same length</span>
+        <span class="n">maxlen</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="s">'length'</span><span class="p">])</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="n">n</span><span class="p">,</span> <span class="n">maxlen</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">x_i</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+            <span class="n">x_i</span><span class="p">[:</span><span class="n">res</span><span class="p">[</span><span class="s">'length'</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">=</span> <span class="n">res</span><span class="p">[</span><span class="s">'as_numbers'</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">x</span><span class="p">,</span> <span class="n">res</span><span class="p">[</span><span class="s">'gender'</span><span class="p">]</span><span class="o">*</span><span class="mi">3</span> <span class="o">+</span> <span class="n">res</span><span class="p">[</span><span class="s">'age_bracket'</span><span class="p">],</span> <span class="n">res</span><span class="p">[</span><span class="s">'length'</span><span class="p">]</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">tr</span> <span class="o">=</span> <span class="n">BucketDataIterator</span><span class="p">(</span><span class="n">df</span><span class="o">=</span><span class="n">train</span><span class="p">,</span> <span class="n">num_buckets</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">padding</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">):</span>
+    <span class="n">lengths</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">next_batch</span><span class="p">(</span><span class="mi">256</span><span class="p">)[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+    <span class="n">max_len</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">lengths</span><span class="p">)</span>
+    <span class="n">padding</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="nb">sum</span><span class="p">(</span><span class="n">max_len</span> <span class="o">-</span> <span class="n">lengths</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">"Average padding / batch:"</span><span class="p">,</span> <span class="n">padding</span><span class="o">/</span><span class="mi">100</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Average padding / batch: 583.76
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">time</span>
+<span class="n">g</span> <span class="o">=</span> <span class="n">build_graph</span><span class="p">()</span>
+<span class="n">t</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
+<span class="n">tr_losses</span><span class="p">,</span> <span class="n">te_losses</span> <span class="o">=</span> <span class="n">train_graph</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">num_epochs</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">iterator</span><span class="o">=</span><span class="n">PaddedDataIterator</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">"Total time for 1 epoch with PaddedDataIterator:"</span><span class="p">,</span> <span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">t</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>WARNING:tensorflow:From /home/everitt257/anaconda3/lib/python3.6/site-packages/tensorflow/contrib/learn/python/learn/datasets/base.py:198: retry (from tensorflow.contrib.learn.python.learn.datasets.base) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use the retry module or similar alternatives.
+Accuracy after epoch 1  - tr: 0.3123986239012139 - te: 0.3490258891213389
+Total time for 1 epoch with PaddedDataIterator: 380.0432941913605
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">g</span> <span class="o">=</span> <span class="n">build_graph</span><span class="p">()</span>
+<span class="n">t</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
+<span class="n">tr_losses</span><span class="p">,</span> <span class="n">te_losses</span> <span class="o">=</span> <span class="n">train_graph</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">num_epochs</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">iterator</span><span class="o">=</span><span class="n">BucketDataIterator</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">"Total time for 1 epoch with BucketedDataIterator:"</span><span class="p">,</span> <span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">t</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Accuracy after epoch 1  - tr: 0.31257560483870966 - te: 0.34867950074701193
+Total time for 1 epoch with BucketedDataIterator: 316.3720586299896
+</code></pre></div></div>
+
+<h2 id="basic-sequence-to-sequence-learning">Basic sequence to sequence learning</h2>
+<p>Have the model guess at every step!</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">build_seq2seq_graph</span><span class="p">(</span>
+    <span class="n">vocab_size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">vocab</span><span class="p">),</span>
+    <span class="n">state_size</span> <span class="o">=</span> <span class="mi">64</span><span class="p">,</span>
+    <span class="n">batch_size</span> <span class="o">=</span> <span class="mi">256</span><span class="p">,</span>
+    <span class="n">num_classes</span> <span class="o">=</span> <span class="mi">6</span><span class="p">):</span>
+    
+    <span class="n">reset_graph</span><span class="p">()</span>
+    
+    <span class="c"># Placeholders</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">placeholder</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">int32</span><span class="p">,</span> <span class="p">[</span><span class="n">batch_size</span><span class="p">,</span> <span class="bp">None</span><span class="p">])</span> <span class="c"># [batch_size, num_steps]</span>
+    <span class="n">seqlen</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">placeholder</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">int32</span><span class="p">,</span> <span class="p">[</span><span class="n">batch_size</span><span class="p">])</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">placeholder</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">int32</span><span class="p">,</span> <span class="p">[</span><span class="n">batch_size</span><span class="p">])</span>
+    <span class="n">keep_prob</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">placeholder</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span> <span class="p">[])</span>
+    
+    <span class="c"># Tile the target indices</span>
+    <span class="n">y_</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">x</span><span class="p">)[</span><span class="mi">1</span><span class="p">]])</span> <span class="c"># [batch_size, num_steps]</span>
+    
+    <span class="n">lower_triangular_ones</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">tril</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">([</span><span class="mi">30</span><span class="p">,</span><span class="mi">30</span><span class="p">])),</span><span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span> <span class="c"># since 30 is of maximum length</span>
+    <span class="c"># tf.gather returns [batch_size, 30], tf.slice returns [batch_size, max(length of current batch)]</span>
+    <span class="n">seqlen_mask</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="nb">slice</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span><span class="n">lower_triangular_ones</span><span class="p">,</span> <span class="n">seqlen</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span>\
+                           <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">reduce_max</span><span class="p">(</span><span class="n">seqlen</span><span class="p">)])</span>
+    
+    <span class="c"># Embedding layer</span>
+    <span class="n">embeddings</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">get_variable</span><span class="p">(</span><span class="s">'embedding_matrix'</span><span class="p">,</span> <span class="p">[</span><span class="n">vocab_size</span><span class="p">,</span> <span class="n">state_size</span><span class="p">])</span>
+    <span class="n">rnn_inputs</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">embedding_lookup</span><span class="p">(</span><span class="n">embeddings</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+    
+    <span class="c"># RNN</span>
+    <span class="n">cell</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">rnn_cell</span><span class="o">.</span><span class="n">GRUCell</span><span class="p">(</span><span class="n">state_size</span><span class="p">)</span>
+    <span class="n">init_state</span> <span class="o">=</span> <span class="n">cell</span><span class="o">.</span><span class="n">zero_state</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+    <span class="n">rnn_outputs</span><span class="p">,</span> <span class="n">final_state</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">dynamic_rnn</span><span class="p">(</span><span class="n">cell</span><span class="p">,</span> <span class="n">rnn_inputs</span><span class="p">,</span> 
+                                                 <span class="n">sequence_length</span><span class="o">=</span><span class="n">seqlen</span><span class="p">,</span> 
+                                                 <span class="n">initial_state</span><span class="o">=</span><span class="n">init_state</span><span class="p">)</span>
+    
+    <span class="c"># Adds dropout</span>
+    <span class="n">rnn_outputs</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">dropout</span><span class="p">(</span><span class="n">rnn_outputs</span><span class="p">,</span> <span class="n">keep_prob</span><span class="p">)</span>
+    
+    <span class="c"># Reshape rnn_outputs and y</span>
+    <span class="n">rnn_outputs</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">rnn_outputs</span><span class="p">,</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">state_size</span><span class="p">])</span>
+    <span class="n">y_reshaped</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">y_</span><span class="p">,</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+    
+    <span class="c"># Softmax layer</span>
+    <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">variable_scope</span><span class="p">(</span><span class="s">'softmax'</span><span class="p">):</span>
+        <span class="n">W</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">get_variable</span><span class="p">(</span><span class="s">'W'</span><span class="p">,</span> <span class="p">[</span><span class="n">state_size</span><span class="p">,</span> <span class="n">num_classes</span><span class="p">])</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">get_variable</span><span class="p">(</span><span class="s">'b'</span><span class="p">,</span> <span class="p">[</span><span class="n">num_classes</span><span class="p">],</span> <span class="n">initializer</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">constant_initializer</span><span class="p">(</span><span class="mf">0.0</span><span class="p">))</span>
+    <span class="n">logits</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">rnn_outputs</span><span class="p">,</span> <span class="n">W</span><span class="p">)</span> <span class="o">+</span> <span class="n">b</span>
+    
+    <span class="n">preds</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">logits</span><span class="p">)</span>
+    
+    <span class="c"># Calculate </span>
+    <span class="n">correct</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">equal</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">preds</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="n">tf</span><span class="o">.</span><span class="n">int32</span><span class="p">),</span> <span class="n">y_reshaped</span><span class="p">),</span><span class="n">tf</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span> <span class="o">*</span>\
+                <span class="n">tf</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">seqlen_mask</span><span class="p">,</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]),</span><span class="n">tf</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+        
+    <span class="c"># To calculate accuracy we want to divide by the number of non-padded time-steps,</span>
+    <span class="c"># rather than taking the mean</span>
+    <span class="n">accuracy</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reduce_sum</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">correct</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">))</span> <span class="o">/</span> <span class="n">tf</span><span class="o">.</span><span class="n">reduce_sum</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">seqlen</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">))</span>
+    
+    <span class="n">loss</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">sparse_softmax_cross_entropy_with_logits</span><span class="p">(</span><span class="n">logits</span><span class="o">=</span><span class="n">logits</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">y_reshaped</span><span class="p">)</span>
+    <span class="n">loss</span> <span class="o">=</span> <span class="n">loss</span> <span class="o">*</span> <span class="n">tf</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">seqlen_mask</span><span class="p">,</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+    
+    <span class="c"># To calculate average loss, we need to divide by number of non-padded time-steps,</span>
+    <span class="c"># rather than taking the mean</span>
+    <span class="n">loss</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reduce_sum</span><span class="p">(</span><span class="n">loss</span><span class="p">)</span> <span class="o">/</span> <span class="n">tf</span><span class="o">.</span><span class="n">reduce_sum</span><span class="p">(</span><span class="n">seqlen_mask</span><span class="p">)</span>
+
+    <span class="n">train_step</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">AdamOptimizer</span><span class="p">(</span><span class="mf">1e-4</span><span class="p">)</span><span class="o">.</span><span class="n">minimize</span><span class="p">(</span><span class="n">loss</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s">'x'</span><span class="p">:</span> <span class="n">x</span><span class="p">,</span>
+        <span class="s">'seqlen'</span><span class="p">:</span> <span class="n">seqlen</span><span class="p">,</span>
+        <span class="s">'y'</span><span class="p">:</span> <span class="n">y</span><span class="p">,</span>
+        <span class="s">'dropout'</span><span class="p">:</span> <span class="n">keep_prob</span><span class="p">,</span>
+        <span class="s">'loss'</span><span class="p">:</span> <span class="n">loss</span><span class="p">,</span>
+        <span class="s">'ts'</span><span class="p">:</span> <span class="n">train_step</span><span class="p">,</span>
+        <span class="s">'preds'</span><span class="p">:</span> <span class="n">preds</span><span class="p">,</span>
+        <span class="s">'accuracy'</span><span class="p">:</span> <span class="n">accuracy</span>
+    <span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="test-seq2seq">Test seq2seq</h2>
+<p>Should behave worst than sequence classification.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">g</span> <span class="o">=</span> <span class="n">build_seq2seq_graph</span><span class="p">()</span>
+<span class="n">tr_losses</span><span class="p">,</span> <span class="n">te_losses</span> <span class="o">=</span> <span class="n">train_graph</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">iterator</span><span class="o">=</span><span class="n">BucketDataIterator</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Accuracy after epoch 1  - tr: 0.29417641936604116 - te: 0.3165940021659805
+Accuracy after epoch 2  - tr: 0.32053691482279945 - te: 0.32140361183230964
+Accuracy after epoch 3  - tr: 0.3248470337743139 - te: 0.3230788176369774
+Accuracy after epoch 4  - tr: 0.32654755128969826 - te: 0.32458225125352463
+Accuracy after epoch 5  - tr: 0.3278110629056041 - te: 0.3248658520595809
+Accuracy after epoch 6  - tr: 0.329185960110063 - te: 0.32527022973785763
+Accuracy after epoch 7  - tr: 0.33046067700309273 - te: 0.3260545640350034
+Accuracy after epoch 8  - tr: 0.33134092020356276 - te: 0.32620091709176663
+Accuracy after epoch 9  - tr: 0.332484958309292 - te: 0.32587733625728177
+Accuracy after epoch 10  - tr: 0.3326295395103957 - te: 0.3262810798193513
+</code></pre></div></div>
+
+  </div>
+  
+  <!-- Related posts -->
+  
+  
+  
+    <div class="row related-posts">
+      <h2 class="text-center" style="font-family: initial">Related blog posts:</h2>
+      <div class="medium-12 small-12 columns">
+        
+          
+
+           <h3>
+            <a href="http://localhost:4000/blog/2018/05/24/instant-search.html">
+              Implement Jekyll instant search
+            </a>
+           </h3>
+
+          
+        
+          
+
+           <h3>
+            <a href="http://localhost:4000/blog/2018/05/24/test_tag2.html">
+              tag2
+            </a>
+           </h3>
+
+          
+        
+          
+
+           <h3>
+            <a href="http://localhost:4000/blog/2018/05/24/test_tag1.html">
+              How to add related posts in jekyll
+            </a>
+           </h3>
+
+          
+        
+      </div>
+    </div>
+  
+
+
+  <!-- Disqus --><a class="u-url" href="/blog/2018/05/21/various-length-rnn.html" hidden></a>
+</article>
+
+
+<script id="dsq-count-scr" src="//everitt257.disqus.com/count.js" async></script>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Everitt&#39;s blog</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Everitt&#39;s blog</li><li><a class="u-email" href="mailto:everitt257@gmail.com">everitt257@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/everitt257"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">everitt257</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>This site fancies machine learning and problems in engineerning in general.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

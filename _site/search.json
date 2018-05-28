@@ -102,6 +102,16 @@
   
     {
     
+      "title"    : "Various Length RNN Applied in Blog Data",
+      "url"      : "/blog/2018/05/21/various-length-rnn.html",
+      "category" : "blog",
+      "tags"     : "algorithm",
+      "date"     : "2018-05-21 00:00:00 +0800"
+      
+    } ,
+  
+    {
+    
       "title"    : "Hidden Markov Chain Model",
       "url"      : "/blog/2018/02/23/hidden-markov.html",
       "category" : "blog",
@@ -112,11 +122,41 @@
   
     {
     
+      "title"    : "浅谈数据脱敏",
+      "url"      : "/work/2017/12/25/data-desensitization.html",
+      "category" : "work",
+      "tags"     : "security, data",
+      "date"     : "2017-12-25 00:00:00 +0800"
+      
+    } ,
+  
+    {
+    
       "title"    : "Lecture Notes from CS 231N",
       "url"      : "/blog/2017/12/23/cs231-side-note.html",
       "category" : "blog",
       "tags"     : "deep learning, image, vision",
       "date"     : "2017-12-23 00:00:00 +0800"
+      
+    } ,
+  
+    {
+    
+      "title"    : "Activation Functions in Deep Learning",
+      "url"      : "/blog/2017/11/23/activation_functions.html",
+      "category" : "blog",
+      "tags"     : "deep, learning",
+      "date"     : "2017-11-23 00:00:00 +0800"
+      
+    } ,
+  
+    {
+    
+      "title"    : "Learning Theory",
+      "url"      : "/2017/08/02/learning_theory.html",
+      "category" : "",
+      "tags"     : "",
+      "date"     : "2017-08-02 00:00:00 +0800"
       
     } 
   
