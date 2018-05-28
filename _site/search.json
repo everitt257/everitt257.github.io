@@ -98,6 +98,26 @@
       "tags"     : "math, excerpt, code-hightlight",
       "date"     : "2018-05-23 00:00:00 +0800"
       
+    } ,
+  
+    {
+    
+      "title"    : "Hidden Markov Chain Model",
+      "url"      : "/blog/2018/02/23/hidden-markov.html",
+      "category" : "blog",
+      "tags"     : "algorithm",
+      "date"     : "2018-02-23 00:00:00 +0800"
+      
+    } ,
+  
+    {
+    
+      "title"    : "Lecture Notes from CS 231N",
+      "url"      : "/blog/2017/12/23/cs231-side-note.html",
+      "category" : "blog",
+      "tags"     : "deep learning, image, vision",
+      "date"     : "2017-12-23 00:00:00 +0800"
+      
     } 
   
 ]

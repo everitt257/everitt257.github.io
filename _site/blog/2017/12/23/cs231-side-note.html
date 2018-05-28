@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<!-- custom.css -->
+<link rel="stylesheet", href="/css/custom.css">
+
+<!-- mathjax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    TeX: {
+      equationNumbers: {
+        autoNumber: "AMS"
+      }
+    },
+    tex2jax: {
+      inlineMath: [ ['$','$'] ],
+      processEscapes: true,
+    }
+  });
+</script>
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+<!-- mermaid -->
+<script src="/js/mermaid.min.js"></script>
+<script>mermaid.initialize({startOnLoad:true});</script>
+
+<!-- body -->
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.5.0 -->
+<title>Lecture Notes from CS 231N | Everitt’s blog</title>
+<meta name="generator" content="Jekyll v3.8.2" />
+<meta property="og:title" content="Lecture Notes from CS 231N" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="﻿ CS 231N side notes CNN models KNN The computational complexity of Nearest Neighbor classifier is an active area of research. Approximate Nearest Neighbor (ANN) algorithms can accelerate. Subderivative Basically any derivative in between either end can be used The power of preprocessing" />
+<meta property="og:description" content="﻿ CS 231N side notes CNN models KNN The computational complexity of Nearest Neighbor classifier is an active area of research. Approximate Nearest Neighbor (ANN) algorithms can accelerate. Subderivative Basically any derivative in between either end can be used The power of preprocessing" />
+<link rel="canonical" href="http://localhost:4000/blog/2017/12/23/cs231-side-note.html" />
+<meta property="og:url" content="http://localhost:4000/blog/2017/12/23/cs231-side-note.html" />
+<meta property="og:site_name" content="Everitt’s blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2017-12-23T00:00:00+08:00" />
+<script type="application/ld+json">
+{"description":"﻿ CS 231N side notes CNN models KNN The computational complexity of Nearest Neighbor classifier is an active area of research. Approximate Nearest Neighbor (ANN) algorithms can accelerate. Subderivative Basically any derivative in between either end can be used The power of preprocessing","@type":"BlogPosting","url":"http://localhost:4000/blog/2017/12/23/cs231-side-note.html","headline":"Lecture Notes from CS 231N","dateModified":"2017-12-23T00:00:00+08:00","datePublished":"2017-12-23T00:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/blog/2017/12/23/cs231-side-note.html"},"@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Everitt's blog" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Everitt&#39;s blog</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a><a class="page-link" href="/category/blog.html">Blog</a><a class="page-link" href="/category/work.html">Work</a><a class="page-link" href="/tags.html">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Lecture Notes from CS 231N</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2017-12-23T00:00:00+08:00" itemprop="datePublished">Dec 23, 2017
+      </time></p>
+  </header>
+
+  <!-- Tags -->
+  <ul class="tags">
+    
+      <li><a href="/tags#deep learning" class="tag">deep learning</a></li>
+    
+      <li><a href="/tags#image" class="tag">image</a></li>
+    
+      <li><a href="/tags#vision" class="tag">vision</a></li>
+    
+  </ul>
+
+  <!-- Body -->
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>﻿</p>
+<h3 id="cs-231n-side-notes">CS 231N side notes</h3>
+<h4 id="cnn-models">CNN models</h4>
+<ul>
+  <li>KNN
+    <ul>
+      <li>The computational complexity of Nearest Neighbor classifier is an active area of research. <strong>Approximate Nearest Neighbor</strong> (ANN) algorithms can accelerate.</li>
+    </ul>
+  </li>
+  <li>Subderivative
+    <ul>
+      <li>Basically any derivative in between either end can be used</li>
+    </ul>
+  </li>
+  <li>The power of preprocessing
+    <ul>
+      <li><img src="http://om1hdizoc.bkt.clouddn.com/18-1-30/4752505.jpg" alt="" /></li>
+    </ul>
+  </li>
+  <li>RBF unit instead of Sigmoid unit
+    <ul>
+      <li>a topic need to be researched at</li>
+      <li>after brief research, I found that RBF unit are not typically used in deep neural network. They are only applicable in low dimensional space?</li>
+    </ul>
+  </li>
+  <li>Conjugate gradient decent
+    <ul>
+      <li>This instead of stochastic/mini-batch/steepest decent, a topic need to be researched</li>
+    </ul>
+  </li>
+  <li>tf.nn.softmax_crossentropy_logits
+    <ul>
+      <li><img src="http://om1hdizoc.bkt.clouddn.com/18-2-1/64904597.jpg" alt="" /></li>
+    </ul>
+  </li>
+  <li>More about cross-entropy
+    <ul>
+      <li>From <a href="https://deepnotes.io/softmax-crossentropy">deepnotes</a>, we have 
+<script type="math/tex">\frac{\partial L}{\partial o_i} = p_i - y_i</script>
+At this <a href="http://cs231n.github.io/neural-networks-case-study/">blog</a>, we have
+<script type="math/tex">\frac{\partial L_i }{ \partial f_k } = p_k - \mathbb{1}(y_i = k)</script>
+They are essentially the same thing, where $f_k = o_i$. The $f_k$ is just the output layer or sometimes referred as the logits (linear combination of ($wx+b$). It’s interesting that the  derivative of single cross-entropy loss has the same expression as the derivative as the sum of the cross-entropy. <strong>Note that both are derived for classification problem.</strong> Also you might take the average of the sum of cross-entropy, therefore a weighting term might appear when you do BP.</li>
+      <li>Neat implementation: <img src="http://om1hdizoc.bkt.clouddn.com/18-2-14/52275737.jpg" alt="" /></li>
+      <li>Also the BP on RELU and Sigmoid are essentially the same, with the minor difference of RELU having to zero out the gradients in which inputs are negative =&gt; <code class="highlighter-rouge">dhidden[hidden_layer &lt;= 0] = 0</code></li>
+    </ul>
+  </li>
+  <li>Dying RELU
+    <ul>
+      <li><img src="http://om1hdizoc.bkt.clouddn.com/18-2-1/87238251.jpg" alt="" /></li>
+    </ul>
+  </li>
+  <li>Universal approximator
+    <ul>
+      <li>Any bounded function that is monotonically increasing. Can be used as activation function for universal approximation.</li>
+      <li><a href="http://neuralnetworksanddeeplearning.com/chap4.html">Sigmoid Example</a></li>
+      <li>Also the paper on this topic <a href="http://www.dartmouth.edu/~gvc/Cybenko_MCSS.pdf">Approximation by Superpositions of Sigmoidal Function</a>
+        <ul>
+          <li>Proof with functional analysis, at which I didn’t learn…</li>
+        </ul>
+      </li>
+      <li>RELU can be constructed rectangle/sigmoid like with 4 RELUs <a href="https://www.quora.com/Is-a-single-layered-ReLu-network-still-a-universal-approximator">Quora intuitive answer</a></li>
+      <li>However deep NN is still better by empirical experience. It’s know that they are especially good at heirachy data, such as image recognition.Approaches that accelerate the network</li>
+    </ul>
+  </li>
+  <li>Approaches that accelerate the network
+    <ul>
+      <li>Use RELU, also the special weights initialization. <a href="http://arxiv.org/abs/1502.01852">Paper by delving deep into rectifiers</a>
+        <ul>
+          <li>Also PRELU is presented in this paper, but the ideas are essentially the same.</li>
+        </ul>
+      </li>
+      <li>Use Batch Normalization, layer-wise batch normalization and scaling and shifting. <a href="http://arxiv.org/abs/1502.03167">Paper by Batch Normalization</a>
+        <ul>
+          <li>Notice the batch normalization is different from population normalization by the coefficient $m/(m-1)$.</li>
+          <li>batch normalization can been as adding stochastisity into NN. Sometimes you can ignore dropout if you’re using this trick.</li>
+          <li>interestingly most modern convnet architecture doesn’t make use of local response normalization. In practice they had little effect on the performance.</li>
+          <li><img src="http://om1hdizoc.bkt.clouddn.com/18-2-15/59424968.jpg" alt="batch n explained" /></li>
+          <li><a href="https://kratzert.github.io/2016/02/12/understanding-the-gradient-flow-through-the-batch-normalization-layer.html">Blog post well explained</a></li>
+          <li><a href="http://cthorey.github.io/backpropagation/">Adavance blog post well explained</a> In this post the author directly computes the gradient, instead of drawing the graph representation. Something to notice is there’s a special kind of math symbol <script type="math/tex">\delta_{i,k} :\text{this evaluates to 1 when i == k, else 0}</script> This combined with previous blog would give one a very clear understanding of BP and chain rule.</li>
+        </ul>
+      </li>
+      <li>Train student network to mimic the teacher network. Where the teacher network may be an ensemble of deep neural network. <a href="https://arxiv.org/abs/1312.6184">Paper by Do Deep Nets Really Need to be Deep?</a>
+        <ul>
+          <li>Train shallow network to approximate the logits instead of the actual label presented in the deep &amp; complex network. Since logits can be more representitive than purely [0,1] probability space.</li>
+        </ul>
+      </li>
+      <li>Parameter Updates
+        <ul>
+          <li>SGD vanilla update
+            <ul>
+              <li><code class="highlighter-rouge">x += - learning_rate * dx</code></li>
+              <li>Drawback is that the rate is fixed, but of course you can anneal the rate.</li>
+              <li>Suitable for large-scale problem when computation time is a constraint.</li>
+              <li><a href="http://research.microsoft.com/pubs/192769/tricks-2012.pdf">SGD tricks</a></li>
+            </ul>
+          </li>
+          <li>Momentum update
+            <ul>
+              <li><code class="highlighter-rouge">v = mu * v - learning_rate * dx # integrate velocity</code></li>
+              <li><code class="highlighter-rouge">x += v # integrate position</code></li>
+            </ul>
+          </li>
+          <li>Nesterov Momentum (Naiive implementation)
+            <ul>
+              <li><code class="highlighter-rouge">x_ahead = x + mu * v</code></li>
+              <li><code class="highlighter-rouge"># evaluate dx_ahead (the gradient at x_ahead instead of at x)</code></li>
+              <li><code class="highlighter-rouge">v = mu * v - learning_rate * dx_ahead</code></li>
+              <li><code class="highlighter-rouge">x += v</code></li>
+            </ul>
+          </li>
+          <li>Others
+            <ul>
+              <li>Adam
+                <ul>
+                  <li>
+                    <blockquote>
+                      <p>Computes individual adaptive learning rate for different parameters from estimates of first and second moments of the gradients.</p>
+                    </blockquote>
+                  </li>
+                  <li>Look like RMSprop with momentum on the first moment of gradient</li>
+                </ul>
+              </li>
+              <li>AdamDelta (Variant of Adam)</li>
+              <li>RMSprop
+                <ul>
+                  <li>Adjust AdaGrad monotonically decreasing learning rate problem</li>
+                  <li>Moving average of the squared gradient</li>
+                </ul>
+              </li>
+              <li>AdaGrad
+                <ul>
+                  <li>
+                    <blockquote>
+                      <p>maintains a per-parameter learning rate that improves performance on problems with sparse gradients (e.g. natural language and computer vision problems).</p>
+                    </blockquote>
+                  </li>
+                  <li><code class="highlighter-rouge">cache += dx**2</code></li>
+                  <li><code class="highlighter-rouge">x += - learning_rate * dx / (np.sqrt(cache) + eps)</code></li>
+                  <li>
+                    <blockquote>
+                      <p>Notice that the weights that receive high gradients will have their effective learning rate reduced, while weights that receive small or infrequent updates will have their effective learning rate increased</p>
+                    </blockquote>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>Second order methods (Newton’s method or quasi-Newton’s method)
+        <ul>
+          <li>$x \leftarrow x - [H f(x)]^{-1} \nabla f(x)$</li>
+          <li>May have to do some research on quasi-Newton approaches</li>
+          <li>Generally too expensive to compute</li>
+        </ul>
+      </li>
+      <li>Convergence rate of Stochastic decent
+        <ul>
+          <li><img src="http://om1hdizoc.bkt.clouddn.com/18-2-6/73299591.jpg" alt="" /></li>
+          <li>The above taken from <a href="http://research.microsoft.com/pubs/192769/tricks-2012.pdf">SGD tricks</a></li>
+          <li>Convergence is linear with t, what it means is that it’s residual error is $-log(p) \sim t$. The weird notation has a history.</li>
+        </ul>
+      </li>
+      <li>Things related to choosing cost function
+        <ul>
+          <li><strong>MSE</strong>: minimizing the mean squared error cost function would give a function that predicts the mean of y for each value of x</li>
+          <li><strong>Mean absolute error</strong>: yields a function that predicts the median value of y for each x</li>
+          <li><strong>Cross entropy</strong> often selected since it mitigate the diminishing gradient problem at last layer. I’m also assuming it’s possible to use cross-entropy to predict continuous output space by doing shifting and scaling of the original output to [0,1].</li>
+        </ul>
+      </li>
+      <li>Bayesian Hyperparameter Optimization
+        <ul>
+          <li>to appropriately balance the exploration - exploitation trade-off when querying the performance at different hyperparameters</li>
+          <li>need to be researched</li>
+          <li><strong>need to read the Gaussian Process Book</strong></li>
+        </ul>
+      </li>
+      <li>Implementation of regularization
+        <ul>
+          <li><img src="http://om1hdizoc.bkt.clouddn.com/18-2-8/91592616.jpg" alt="" /></li>
+          <li>If regularization term appear, then this code is proceeded. Usually the regularization term is very small.</li>
+        </ul>
+      </li>
+      <li>1x1 convolution
+        <ul>
+          <li>Reduce feature dimensionality</li>
+          <li>In a way make the network wider instead of deeper</li>
+          <li><a href="https://arxiv.org/abs/1312.4400">Paper</a></li>
+        </ul>
+      </li>
+      <li>Diluted convolution
+        <ul>
+          <li>must research</li>
+          <li>very useful in segmentation</li>
+          <li>merge spatial information across the inputs much more agressively with fewer layers</li>
+          <li><a href="https://arxiv.org/abs/1511.07122">Paper</a></li>
+        </ul>
+      </li>
+      <li>Discarding pooling sometimes is a good thing to do</li>
+      <li>Also read GAN network, and all the papers listed in cs229
+        <ul>
+          <li>VAEs and GANs, I heard them using Lagrangian</li>
+          <li>Great blog introducing GAN<a href="https://www.analyticsvidhya.com/blog/2017/06/introductory-generative-adversarial-networks-gans/">Link</a></li>
+        </ul>
+      </li>
+      <li>ResNet (See my notes on this topic as well)- ResNet
+        <ul>
+          <li>use of skip layer, average pooling instead of fc layer</li>
+          <li>heavy usuage of batch normalization</li>
+          <li><a href="https://arxiv.org/abs/1512.03385"><strong>A must read</strong></a></li>
+        </ul>
+      </li>
+      <li>GoogleNet (See my notes that explaines GoogleNet)
+        <ul>
+          <li>state of the art <strong>Inception module</strong></li>
+          <li><a href="https://arxiv.org/abs/1409.4842"><strong>A must read as well</strong></a></li>
+        </ul>
+      </li>
+      <li>Learn how to convert parameters into memory
+        <ul>
+          <li>VGG example:</li>
+          <li><img src="http://om1hdizoc.bkt.clouddn.com/18-2-9/95708193.jpg" alt="" /></li>
+          <li>when using non-standard gradient decent, such as momentum, Adagrad, or RMSProp. The parameters need to me multiplied by 3 or more since they are caching stepwise gradients as well. Taking a big part of memory!</li>
+        </ul>
+      </li>
+      <li>Saddle points vs local minima
+        <ul>
+          <li>Saddle points happens more often in high dimensional space, since it only requires some direction to points up and other directions to points down.</li>
+          <li>local minima says all that of all the many direction I can move, all of them cause the gradient to go up. Now this is small probability.</li>
+        </ul>
+      </li>
+      <li>Tensorflow v.s PyTorch+Caffe2
+        <ul>
+          <li><img src="http://om1hdizoc.bkt.clouddn.com/18-2-12/25959131.jpg" alt="" /></li>
+          <li>Parameters &amp; dimension calculation:
+            <ul>
+              <li><strong>conv layer</strong>
+                <ul>
+                  <li>parameters = input_depth * filter_size^2 * output_depth</li>
+                  <li>dimension_size = (input_size - filter_size)/stride + 1</li>
+                  <li>depth = number of filters</li>
+                </ul>
+              </li>
+              <li><strong>pool layer</strong>
+                <ul>
+                  <li>parameters = 0</li>
+                  <li>dimension_size = (input_size - filter_size)/stride + 1</li>
+                  <li>depth = input_depth</li>
+                </ul>
+              </li>
+              <li><strong>fc layer</strong>
+                <ul>
+                  <li>parameter = input_size^2 * input_depth * output_depth</li>
+                  <li>dimension_size = output_depth</li>
+                  <li>depth = 1x1</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li>Reasons with zero paddings at the edge:
+            <ul>
+              <li>preserves dimensionality</li>
+              <li>helps prevent the boarder information from being washed away</li>
+            </ul>
+          </li>
+          <li>Reasons for using 1x1 convolution instead of FC layers:
+            <ul>
+              <li>saves space in memory?</li>
+              <li>for an enlarged image, you can result in more spatial sampling if using full conv layers.</li>
+              <li><a href="https://hyp.is/l5bbUAzrEeiM7k-EmilffQ/cs231n.github.io/convolutional-networks/">reference</a></li>
+              <li>In FCNs, 1x1 convolution also preserves spatial information</li>
+            </ul>
+          </li>
+          <li>Reasons for using smaller filter and increase in filter size
+            <ul>
+              <li>more depth with activations means more expressive features, more non-linearity etc</li>
+              <li>less parameters if same view of the input volume</li>
+              <li>express more powerful features of the input, and with fewer parameters.</li>
+              <li>drawback: need bigger memory</li>
+            </ul>
+          </li>
+          <li>Reasons you don’t use regular NN
+            <ul>
+              <li>doesn’t scale well when the image is large, weights number explode</li>
+              <li>lead to overfitting</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>GoogleNet Case Study: Inception module
+        <ul>
+          <li>problem with Google Net is that computational expensive as each inception module can only add up depth.</li>
+          <li>also they are a huge number of multiplications going on</li>
+          <li>proposed solution:
+            <ul>
+              <li>Reduce depth by using 1x1 conv layer (they also called “bottlenetck layers”) before you do anything</li>
+              <li><img src="http://om1hdizoc.bkt.clouddn.com/18-2-12/88279765.jpg" alt="" /></li>
+              <li><img src="http://om1hdizoc.bkt.clouddn.com/18-2-12/51653066.jpg" alt="" /></li>
+              <li>No rigorous proof of the benefits gained from this, however adding 1x1 conv can be seen taking some linear combinations of the previous features then introducing some non-linearity into the system. It also reduces redundancy?</li>
+              <li>Auxiliary classification outputs to inject additional gradient at lower layers:
+                <ul>
+                  <li><img src="http://om1hdizoc.bkt.clouddn.com/18-2-12/53291968.jpg" alt="" /></li>
+                  <li>what this means is that these additional outputs, provided gradients can help alleviate the problem of the diminishing gradient problem since the network is do deep. Smart!</li>
+                  <li>also as mentioned in the literature, one possible thing to do is to average the output to get better result?</li>
+                </ul>
+              </li>
+              <li>No FC layer</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>ResNet Architecture
+        <ul>
+          <li>residual connections</li>
+          <li>can we do better by continue stacking conv and actiavtion and pool?? No</li>
+          <li>experiment showed in 2015 that deeper layer such as a 56-layer did worse than a 20-layer network both on training and testing. Not caused by overfitting!</li>
+          <li>Hypothesis: Deeper model more difficult to optimize since for a deeper network they should be as good as an approximator as the their shallower network.</li>
+          <li>It’s this hypothesis that you don’t learn the direct mapping from input space to output space, instead you learn a $f(x) = h(x) - x$ residual function that maps input space to output space where $f(x)$ is the residual and $x$ is the identity input. Why does this work and is this easier than learning a direct mapping? They haven’t yet prove this mathematically, but the idea is that based on the hypothesis that deeper model are more difficult to optimize, therefore one can reduce this difficulty in optimizing a deep network to saying that lot’s of the deep network’s layers are combination of identity and so we only have to learn the identity plus some delta. Again, this is just intuition for the hypothesis. In practice this model works pretty well.</li>
+          <li>ResNet has this property similar to L2 regularization. If you set weights in res block to be zero, then the block will just be computing the identy matrix. In a way it’s encourage the network to not use the layers it doesn’t need.</li>
+          <li>Active area of research! Connections!</li>
+          <li><img src="http://om1hdizoc.bkt.clouddn.com/18-2-12/56181265.jpg" alt="" /></li>
+          <li>No dropout used</li>
+          <li>Xavier/2 initialization from He et al.</li>
+          <li>SGD + Momentum (0.9)</li>
+          <li>Changeable learning rate when validation error plateaus</li>
+          <li>Batch Normalization after every CONV layer!</li>
+          <li>2015 sweep all competitions in image recognition (3.6% top 5 errors), better than “human performance”!</li>
+          <li>Improving the ResNet
+            <ul>
+              <li>Improved ResNet block design by adjusting the layers in the block’s path. A better path for back propagate. <em>He et al. 2016</em> shows an increase in performance.</li>
+              <li>Making wider residual network, shorten the depth. <em>Zagoruyko et al. 2016</em> showed that simply adding more filter in each layer rather than increase the depth can improve the ResNet’s performance. Also there’s the benifit of being more computationally efficient.</li>
+              <li>Stochastic depth. Alleviate the vanishing gradient problem. <em>Huang et al. 2016</em> Randomly drop a subset of layers during each training pass. Bypass with identy function.</li>
+              <li>Others. There’re too many I just get tired of recording them.</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>Beyong ResNets:
+        <ul>
+          <li>FractalNet: Ultra-Deep Neural Networks without Residuals  <em>Larsson et al. 2017</em>
+            <ul>
+              <li>The key is more about transitioning effectively from shallow to deep network.</li>
+              <li>Trained with dropping out sub-paths</li>
+              <li><img src="http://om1hdizoc.bkt.clouddn.com/18-2-12/3358519.jpg" alt="" /></li>
+            </ul>
+          </li>
+          <li>DenseNet: helps improving the problem with gradient vanishing <em>Huang et al. 2017</em></li>
+          <li>SqueezeNet: Much less parameters and much less model size <em>landola et al. 2017</em>
+            <ul>
+              <li><strong>The future</strong> (Google made :))</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>Other vision tasks
+        <ul>
+          <li><img src="http://om1hdizoc.bkt.clouddn.com/18-2-16/70288485.jpg" alt="" /></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>How to calculate IoU:
+    <ul>
+      <li><img src="http://om1hdizoc.bkt.clouddn.com/18-2-20/61961618.jpg" alt="" /></li>
+      <li>$0_{class}: 4/7$</li>
+      <li>$1_{class}: 2/6$</li>
+      <li>$2_{class}: 2/4$</li>
+      <li>$3_{class}: 3/4$</li>
+      <li>Mean IoU = $(4/7 + 2/6 + 2/4 + 3/4)/4 = 0.53869$</li>
+    </ul>
+  </li>
+</ul>
+
+  </div>
+  
+  <!-- Related posts -->
+  
+  
+  
+    <div class="row related-posts">
+      <h2 class="text-center" style="font-family: initial">Related blog posts:</h2>
+      <div class="medium-12 small-12 columns">
+        
+          
+
+           <h3>
+            <a href="http://localhost:4000/blog/2018/05/24/instant-search.html">
+              Implement Jekyll instant search
+            </a>
+           </h3>
+
+          
+        
+          
+
+           <h3>
+            <a href="http://localhost:4000/blog/2018/05/24/test_tag2.html">
+              tag2
+            </a>
+           </h3>
+
+          
+        
+          
+
+           <h3>
+            <a href="http://localhost:4000/blog/2018/05/24/test_tag1.html">
+              How to add related posts in jekyll
+            </a>
+           </h3>
+
+          
+        
+      </div>
+    </div>
+  
+
+
+  <!-- Disqus --><a class="u-url" href="/blog/2017/12/23/cs231-side-note.html" hidden></a>
+</article>
+
+
+<script id="dsq-count-scr" src="//everitt257.disqus.com/count.js" async></script>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Everitt&#39;s blog</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Everitt&#39;s blog</li><li><a class="u-email" href="mailto:everitt257@gmail.com">everitt257@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/everitt257"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">everitt257</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>This site fancies machine learning and problems in engineerning in general.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
