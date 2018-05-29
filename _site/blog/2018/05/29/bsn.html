@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<!-- custom.css -->
+<link rel="stylesheet", href="/css/custom.css">
+
+<!-- mathjax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    TeX: {
+      equationNumbers: {
+        autoNumber: "AMS"
+      }
+    },
+    tex2jax: {
+      inlineMath: [ ['$','$'] ],
+      processEscapes: true,
+    }
+  });
+</script>
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+<!-- mermaid -->
+<script src="/js/mermaid.min.js"></script>
+<script>mermaid.initialize({startOnLoad:true});</script>
+
+<!-- body -->
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.5.0 -->
+<title>Binary Stochastic Neurons | Everitt’s blog</title>
+<meta name="generator" content="Jekyll v3.8.2" />
+<meta property="og:title" content="Binary Stochastic Neurons" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="This post is a rebroadcast of R2RT’s bst post. It talks about ST and REINFORCE estimator used in BSN network." />
+<meta property="og:description" content="This post is a rebroadcast of R2RT’s bst post. It talks about ST and REINFORCE estimator used in BSN network." />
+<link rel="canonical" href="http://localhost:4000/blog/2018/05/29/bsn.html" />
+<meta property="og:url" content="http://localhost:4000/blog/2018/05/29/bsn.html" />
+<meta property="og:site_name" content="Everitt’s blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-05-29T00:00:00+08:00" />
+<script type="application/ld+json">
+{"description":"This post is a rebroadcast of R2RT’s bst post. It talks about ST and REINFORCE estimator used in BSN network.","@type":"BlogPosting","url":"http://localhost:4000/blog/2018/05/29/bsn.html","headline":"Binary Stochastic Neurons","dateModified":"2018-05-29T00:00:00+08:00","datePublished":"2018-05-29T00:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/blog/2018/05/29/bsn.html"},"@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Everitt's blog" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Everitt&#39;s blog</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a><a class="page-link" href="/category/blog.html">Blog</a><a class="page-link" href="/category/work.html">Work</a><a class="page-link" href="/tags.html">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Binary Stochastic Neurons</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2018-05-29T00:00:00+08:00" itemprop="datePublished">May 29, 2018
+      </time></p>
+  </header>
+
+  <!-- Tags -->
+  <ul class="tags">
+    
+      <li><a href="/tags#deep learning" class="tag">deep learning</a></li>
+    
+      <li><a href="/tags#algorithm" class="tag">algorithm</a></li>
+    
+  </ul>
+
+  <!-- Body -->
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>This post is a rebroadcast of R2RT’s bst post. It talks about ST and REINFORCE estimator used in BSN network.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="n">tf</span>
+<span class="kn">from</span> <span class="nn">tensorflow.examples.tutorials.mnist</span> <span class="kn">import</span> <span class="n">input_data</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">mnist</span> <span class="o">=</span> <span class="n">input_data</span><span class="o">.</span><span class="n">read_data_sets</span><span class="p">(</span><span class="s">'MNIST_data/'</span><span class="p">,</span> <span class="n">one_hot</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">tensorflow.python.framework</span> <span class="kn">import</span> <span class="n">ops</span>
+<span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="n">sns</span>
+<span class="n">sns</span><span class="o">.</span><span class="nb">set</span><span class="p">(</span><span class="n">color_codes</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">reset_graph</span><span class="p">():</span>
+    <span class="k">if</span> <span class="s">'sess'</span> <span class="ow">in</span> <span class="nb">globals</span><span class="p">()</span> <span class="ow">and</span> <span class="n">sess</span><span class="p">:</span>
+        <span class="n">sess</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="n">tf</span><span class="o">.</span><span class="n">reset_default_graph</span><span class="p">()</span>
+
+<span class="k">def</span> <span class="nf">layer_linear</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">shape</span><span class="p">,</span> <span class="n">scope</span><span class="o">=</span><span class="s">'linear_layer'</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">variable_scope</span><span class="p">(</span><span class="n">scope</span><span class="p">):</span>
+        <span class="n">w</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">get_variable</span><span class="p">(</span><span class="s">'w'</span><span class="p">,</span> <span class="n">shape</span><span class="p">)</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">get_variable</span><span class="p">(</span><span class="s">'b'</span><span class="p">,</span> <span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">:])</span>
+    <span class="k">return</span> <span class="n">tf</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span> <span class="o">+</span> <span class="n">b</span>
+
+<span class="k">def</span> <span class="nf">layer_softmax</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">shape</span><span class="p">,</span> <span class="n">scope</span><span class="o">=</span><span class="s">'softmax_layer'</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">variable_scope</span><span class="p">(</span><span class="n">scope</span><span class="p">):</span>
+        <span class="n">w</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">get_variable</span><span class="p">(</span><span class="s">'w'</span><span class="p">,</span> <span class="n">shape</span><span class="p">)</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">get_variable</span><span class="p">(</span><span class="s">'b'</span><span class="p">,</span> <span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">:])</span>
+    <span class="k">return</span> <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span> <span class="o">+</span> <span class="n">b</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">accuracy</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">pred</span><span class="p">):</span>
+    <span class="n">correct</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">equal</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="n">tf</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">pred</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">tf</span><span class="o">.</span><span class="n">reduce_mean</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">correct</span><span class="p">,</span><span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">))</span>
+
+<span class="k">def</span> <span class="nf">plot_n</span><span class="p">(</span><span class="n">data_and_labels</span><span class="p">,</span> <span class="n">lower_y</span> <span class="o">=</span> <span class="mf">0.</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s">"Learning Curves"</span><span class="p">):</span>
+    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">data</span><span class="p">,</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">data_and_labels</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">*</span><span class="mi">100</span><span class="p">,</span><span class="mi">100</span><span class="p">),</span><span class="n">data</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s">'Training steps'</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s">'Accuracy'</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="n">lower_y</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="k">class</span> <span class="nc">StochasticGradientEstimator</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="n">ST</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">REINFORCE</span> <span class="o">=</span> <span class="mi">1</span>
+        
+</code></pre></div></div>
+
+<h2 id="binary-stochastic-neuron-with-straight-through-estimator">Binary stochastic neuron with straight through estimator</h2>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">binaryRound</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="s">"""
+    ROunds a tensor whose values are in [0,1] to a tensor with values in {0, 1},
+    using the straight through estimator for gradient.
+    """</span>
+    
+    <span class="n">g</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">get_default_graph</span><span class="p">()</span>
+    
+    <span class="k">with</span> <span class="n">ops</span><span class="o">.</span><span class="n">name_scope</span><span class="p">(</span><span class="s">"BinaryRound"</span><span class="p">)</span> <span class="k">as</span> <span class="n">name</span><span class="p">:</span>
+        <span class="k">with</span> <span class="n">g</span><span class="o">.</span><span class="n">gradient_override_map</span><span class="p">({</span><span class="s">"Round"</span><span class="p">:</span> <span class="s">"Identity"</span><span class="p">}):</span>
+            <span class="k">return</span> <span class="n">tf</span><span class="o">.</span><span class="nb">round</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">## I'm bit confused here as well. Not sure about if BernoulliSample_ST is implemented correctly.</span>
+<span class="k">def</span> <span class="nf">bernoulliSample</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="s">"""
+    Uses a tensor whose values are in [0, 1] to sample a tensor with values in {0,1}.
+    
+    E.g.,:
+    if x is 0.6, bernoulliSample(x) will be 1 with probability 0.6, and 0 otherwise.
+    and the gradient will be pass-through(identity). Note gradient for (x-tf.random_uniform) is still preserved
+    """</span>
+    
+    <span class="n">g</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">get_default_graph</span><span class="p">()</span>
+    
+    <span class="k">with</span> <span class="n">ops</span><span class="o">.</span><span class="n">name_scope</span><span class="p">(</span><span class="s">"BernoulliSample"</span><span class="p">)</span> <span class="k">as</span> <span class="n">name</span><span class="p">:</span>
+        <span class="k">with</span> <span class="n">g</span><span class="o">.</span><span class="n">gradient_override_map</span><span class="p">({</span><span class="s">"Ceil"</span><span class="p">:</span> <span class="s">"Identity"</span><span class="p">,</span> <span class="s">"Sub"</span><span class="p">:</span> <span class="s">"BernoulliSample_ST"</span><span class="p">}):</span>
+            <span class="k">return</span> <span class="n">tf</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">tf</span><span class="o">.</span><span class="n">random_uniform</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">x</span><span class="p">)),</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+    
+<span class="nd">@ops.RegisterGradient</span><span class="p">(</span><span class="s">"BernoulliSample_ST"</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">bernoulliSample_ST</span><span class="p">(</span><span class="n">op</span><span class="p">,</span> <span class="n">grad</span><span class="p">):</span> 
+    <span class="c"># the grad is the op'output w.r.t output (x-tf.random_uniform), seems to be 1 to me??</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">grad</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">op</span><span class="o">.</span><span class="n">inputs</span><span class="p">[</span><span class="mi">1</span><span class="p">]))]</span>
+</code></pre></div></div>
+
+<h3 id="combine-passthrough-with-bernoullisample-we-then-have-bsn">Combine passthrough with bernoulliSample we then have bsn</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">passThroughSigmoid</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">slope</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="s">"""Sigmoid that uses identity function as its gradient"""</span>
+    <span class="n">g</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">get_default_graph</span><span class="p">()</span>
+    <span class="k">with</span> <span class="n">ops</span><span class="o">.</span><span class="n">name_scope</span><span class="p">(</span><span class="s">"PassThroughSigmoid"</span><span class="p">)</span> <span class="k">as</span> <span class="n">name</span><span class="p">:</span>
+        <span class="k">with</span> <span class="n">g</span><span class="o">.</span><span class="n">gradient_override_map</span><span class="p">({</span><span class="s">"Sigmoid"</span><span class="p">:</span> <span class="s">"Identity"</span><span class="p">}):</span>
+            <span class="k">return</span> <span class="n">tf</span><span class="o">.</span><span class="n">sigmoid</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">binaryStochastic_ST</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">slope_tensor</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">pass_through</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">stochastic</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+    <span class="s">"""
+    bst_st v1:
+        pass_through=True, stochastic=True
+        x --&gt; passThroughSigmoid --&gt; bernoulliSample
+        the d(bst_st)/dx = 1
+    bst_st v2:
+        pass_through=False, stochastic=False
+        x --&gt; tf.sigmoid (with slope annealling) --&gt; binaryRound
+        the d(bst_st)/dx = dsigm(slope*x)/dx
+        so as slope increases, the bst_st v2 behaves more like step function, 
+        which resembles the bst_st‘s {0,1} behavior.
+    """</span>
+    <span class="k">if</span> <span class="n">slope_tensor</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">slope_tensor</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">pass_through</span><span class="p">:</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">passThroughSigmoid</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">sigmoid</span><span class="p">(</span><span class="n">slope_tensor</span><span class="o">*</span><span class="n">x</span><span class="p">)</span>
+        
+    <span class="k">if</span> <span class="n">stochastic</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">bernoulliSample</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">binaryRound</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+    
+</code></pre></div></div>
+
+<h2 id="binary-stochastic-neuron-with-reinforce-estimator">Binary stochastic neuron with REINFORCE estimator</h2>
+
+<p><img src="http://om1hdizoc.bkt.clouddn.com/18-5-21/94097121.jpg" alt="" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">binaryStochastic_REINFORCE</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">stochastic</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span> <span class="n">loss_op_name</span><span class="o">=</span><span class="s">"loss_by_example"</span><span class="p">):</span>
+    <span class="s">"""
+    Sigmoid followed by a random sample from a bernoulli distribution according
+    to the result (binary stochastic neuron). Uses the REINFORCE estimator.
+    See https://arxiv.org/abs/1308.3432.
+
+    NOTE: Requires a loss operation with name matching the argument for loss_op_name
+    in the graph. This loss operation should be broken out by example (i.e., not a
+    single number for the entire batch).
+    """</span>
+    <span class="n">g</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">get_default_graph</span><span class="p">()</span>
+
+    <span class="k">with</span> <span class="n">ops</span><span class="o">.</span><span class="n">name_scope</span><span class="p">(</span><span class="s">"BinaryStochasticREINFORCE"</span><span class="p">):</span>
+        <span class="k">with</span> <span class="n">g</span><span class="o">.</span><span class="n">gradient_override_map</span><span class="p">({</span><span class="s">"Sigmoid"</span><span class="p">:</span> <span class="s">"BinaryStochastic_REINFORCE"</span><span class="p">,</span>
+                                      <span class="s">"Ceil"</span><span class="p">:</span> <span class="s">"Identity"</span><span class="p">}):</span>
+            <span class="n">p</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">sigmoid</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+            <span class="n">reinforce_collection</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">get_collection</span><span class="p">(</span><span class="s">"REINFORCE"</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">reinforce_collection</span><span class="p">:</span>
+                <span class="n">g</span><span class="o">.</span><span class="n">add_to_collection</span><span class="p">(</span><span class="s">"REINFORCE"</span><span class="p">,</span> <span class="p">{})</span>
+                <span class="n">reinforce_collection</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">get_collection</span><span class="p">(</span><span class="s">"REINFORCE"</span><span class="p">)</span>
+            <span class="n">reinforce_collection</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">p</span><span class="o">.</span><span class="n">op</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">loss_op_name</span>
+
+            <span class="k">return</span> <span class="n">tf</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">p</span> <span class="o">-</span> <span class="n">tf</span><span class="o">.</span><span class="n">random_uniform</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">x</span><span class="p">)))</span>
+
+
+<span class="c"># TODO: Debug this        </span>
+
+<span class="nd">@ops.RegisterGradient</span><span class="p">(</span><span class="s">"BinaryStochastic_REINFORCE"</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">_binaryStochastic_REINFORCE</span><span class="p">(</span><span class="n">op</span><span class="p">,</span> <span class="n">_</span><span class="p">):</span>
+    <span class="s">"""Unbiased estimator for binary stochastic function based on REINFORCE."""</span>
+    <span class="n">loss_op_name</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">get_collection</span><span class="p">(</span><span class="s">"REINFORCE"</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="n">op</span><span class="o">.</span><span class="n">name</span><span class="p">]</span>
+    <span class="n">loss_tensor</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">get_operation_by_name</span><span class="p">(</span><span class="n">loss_op_name</span><span class="p">)</span><span class="o">.</span><span class="n">outputs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="c"># [None, 1]</span>
+
+    <span class="n">sub_tensor</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">outputs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">consumers</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">outputs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="c">#subtraction tensor</span>
+    <span class="n">ceil_tensor</span> <span class="o">=</span> <span class="n">sub_tensor</span><span class="o">.</span><span class="n">consumers</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">outputs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="c">#ceiling tensor, both the same shape as x</span>
+
+    <span class="n">outcome_diff</span> <span class="o">=</span> <span class="p">(</span><span class="n">ceil_tensor</span> <span class="o">-</span> <span class="n">op</span><span class="o">.</span><span class="n">outputs</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="c"># [None, 1]</span>
+
+    <span class="c"># Provides an early out if we want to avoid variance adjustment for</span>
+    <span class="c"># whatever reason (e.g., to show that variance adjustment helps)</span>
+    <span class="k">if</span> <span class="n">op</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">get_collection</span><span class="p">(</span><span class="s">"REINFORCE"</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">"no_variance_adj"</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">outcome_diff</span> <span class="o">*</span> <span class="n">tf</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">loss_tensor</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">outcome_diff_sq</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">outcome_diff</span><span class="p">)</span> <span class="c"># [None , 1]</span>
+    <span class="n">outcome_diff_sq_r</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reduce_mean</span><span class="p">(</span><span class="n">outcome_diff_sq</span><span class="p">,</span> <span class="n">reduction_indices</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="c">#[1, ]</span>
+    <span class="n">outcome_diff_sq_loss_r</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reduce_mean</span><span class="p">(</span><span class="n">outcome_diff_sq</span> <span class="o">*</span> <span class="n">tf</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">loss_tensor</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+                                            <span class="n">reduction_indices</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="c"># [1, ]</span>
+
+    <span class="n">L_bar_num</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">outcome_diff_sq_r</span><span class="o">.</span><span class="n">get_shape</span><span class="p">()),</span> <span class="n">trainable</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="n">L_bar_den</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">outcome_diff_sq_r</span><span class="o">.</span><span class="n">get_shape</span><span class="p">()),</span> <span class="n">trainable</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+
+    <span class="c">#Note: we already get a decent estimate of the average from the minibatch</span>
+    <span class="n">decay</span> <span class="o">=</span> <span class="mf">0.95</span>
+    <span class="n">train_L_bar_num</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">L_bar_num</span><span class="p">,</span> <span class="n">L_bar_num</span><span class="o">*</span><span class="n">decay</span> <span class="o">+</span>\
+                                            <span class="n">outcome_diff_sq_loss_r</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">decay</span><span class="p">))</span>
+    <span class="n">train_L_bar_den</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">L_bar_den</span><span class="p">,</span> <span class="n">L_bar_den</span><span class="o">*</span><span class="n">decay</span> <span class="o">+</span>\
+                                            <span class="n">outcome_diff_sq_r</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">decay</span><span class="p">))</span>
+
+    <span class="c"># I'm not getting the why tensors are shaped this way, need vscode debug</span>
+    <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">control_dependencies</span><span class="p">([</span><span class="n">train_L_bar_num</span><span class="p">,</span> <span class="n">train_L_bar_den</span><span class="p">]):</span>
+        <span class="n">L_bar</span> <span class="o">=</span> <span class="n">train_L_bar_num</span><span class="o">/</span><span class="p">(</span><span class="n">train_L_bar_den</span><span class="o">+</span><span class="mf">1e-4</span><span class="p">)</span>
+        <span class="n">L</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">loss_tensor</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span>
+                    <span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="n">L_bar</span><span class="o">.</span><span class="n">get_shape</span><span class="p">()</span><span class="o">.</span><span class="n">as_list</span><span class="p">()[</span><span class="mi">0</span><span class="p">]]))</span>
+        <span class="k">return</span> <span class="n">outcome_diff</span> <span class="o">*</span> <span class="p">(</span><span class="n">L</span> <span class="o">-</span> <span class="n">L_bar</span><span class="p">)</span>
+    
+</code></pre></div></div>
+
+<h2 id="wrapper-to-create-layer-of-binary-stochastic-neurons">Wrapper to create layer of binary stochastic neurons</h2>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">binary_wrapper</span><span class="p">(</span>\
+                  <span class="n">pre_activations_tensor</span><span class="p">,</span>
+                  <span class="n">estimator</span><span class="o">=</span><span class="n">StochasticGradientEstimator</span><span class="o">.</span><span class="n">ST</span><span class="p">,</span>
+                  <span class="n">stochastic_tensor</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">(</span><span class="bp">True</span><span class="p">),</span>
+                  <span class="n">pass_through</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+                  <span class="n">slope_tensor</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)):</span>
+    <span class="s">"""
+    Turns a layer of pre-activations (logits) into a layer of binary stochastic neurons
+
+    Keyword arguments:
+    *estimator: either ST or REINFORCE
+    *stochastic_tensor: a boolean tensor indicating whether to sample from a bernoulli
+        distribution (True, default) or use a step_function (e.g., for inference)
+    *pass_through: for ST only - boolean as to whether to substitute identity derivative on the
+        backprop (True, default), or whether to use the derivative of the sigmoid
+    *slope_tensor: for ST only - tensor specifying the slope for purposes of slope annealing
+        trick
+    """</span>
+    <span class="k">if</span> <span class="n">estimator</span> <span class="o">==</span> <span class="n">StochasticGradientEstimator</span><span class="o">.</span><span class="n">ST</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">pass_through</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">tf</span><span class="o">.</span><span class="n">cond</span><span class="p">(</span><span class="n">stochastic_tensor</span><span class="p">,</span>
+                          <span class="k">lambda</span><span class="p">:</span> <span class="n">binaryStochastic_ST</span><span class="p">(</span><span class="n">pre_activations_tensor</span><span class="p">),</span>
+                          <span class="k">lambda</span><span class="p">:</span> <span class="n">binaryStochastic_ST</span><span class="p">(</span><span class="n">pre_activations_tensor</span><span class="p">,</span> <span class="n">stochastic</span><span class="o">=</span><span class="bp">False</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">tf</span><span class="o">.</span><span class="n">cond</span><span class="p">(</span><span class="n">stochastic_tensor</span><span class="p">,</span>
+                    <span class="k">lambda</span><span class="p">:</span> <span class="n">binaryStochastic_ST</span><span class="p">(</span><span class="n">pre_activations_tensor</span><span class="p">,</span> <span class="n">slope_tensor</span> <span class="o">=</span> <span class="n">slope_tensor</span><span class="p">,</span>
+                                             <span class="n">pass_through</span><span class="o">=</span><span class="bp">False</span><span class="p">),</span>
+                    <span class="k">lambda</span><span class="p">:</span> <span class="n">binaryStochastic_ST</span><span class="p">(</span><span class="n">pre_activations_tensor</span><span class="p">,</span> <span class="n">slope_tensor</span> <span class="o">=</span> <span class="n">slope_tensor</span><span class="p">,</span>
+                                             <span class="n">pass_through</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">stochastic</span><span class="o">=</span><span class="bp">False</span><span class="p">))</span>
+    <span class="k">elif</span> <span class="n">estimator</span> <span class="o">==</span> <span class="n">StochasticGradientEstimator</span><span class="o">.</span><span class="n">REINFORCE</span><span class="p">:</span>
+        <span class="c"># binaryStochastic_REINFORCE was designed to only be stochastic, so using the ST version</span>
+        <span class="c"># for the step fn for purposes of using step fn at evaluation / not for training</span>
+        <span class="k">return</span> <span class="n">tf</span><span class="o">.</span><span class="n">cond</span><span class="p">(</span><span class="n">stochastic_tensor</span><span class="p">,</span>
+                <span class="k">lambda</span><span class="p">:</span> <span class="n">binaryStochastic_REINFORCE</span><span class="p">(</span><span class="n">pre_activations_tensor</span><span class="p">),</span>
+                <span class="k">lambda</span><span class="p">:</span> <span class="n">binaryStochastic_ST</span><span class="p">(</span><span class="n">pre_activations_tensor</span><span class="p">,</span> <span class="n">stochastic</span><span class="o">=</span><span class="bp">False</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="nb">ValueError</span><span class="p">(</span><span class="s">"Unrecognized estimator."</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="function-to-build-graph-for-mnist-classifier">Function to build graph for MNIST classifier</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">build_classifier</span><span class="p">(</span><span class="n">hidden_dims</span><span class="o">=</span><span class="p">[</span><span class="mi">100</span><span class="p">],</span>
+                     <span class="n">lr</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span>
+                     <span class="n">pass_through</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span>
+                     <span class="n">non_binary</span> <span class="o">=</span> <span class="bp">False</span><span class="p">,</span>
+                     <span class="n">estimator</span> <span class="o">=</span> <span class="n">StochasticGradientEstimator</span><span class="o">.</span><span class="n">ST</span><span class="p">,</span>
+                     <span class="n">no_var_adj</span> <span class="o">=</span> <span class="bp">False</span><span class="p">):</span>
+    <span class="n">reset_graph</span><span class="p">()</span>
+    <span class="n">g</span> <span class="o">=</span> <span class="p">{}</span>
+    
+    <span class="k">if</span> <span class="n">no_var_adj</span><span class="p">:</span>
+        <span class="n">tf</span><span class="o">.</span><span class="n">get_default_graph</span><span class="p">()</span><span class="o">.</span><span class="n">add_to_collection</span><span class="p">(</span><span class="s">"REINFORCE"</span><span class="p">,</span> <span class="p">{</span><span class="s">"no_variance_adj"</span><span class="p">:</span> <span class="n">no_var_adj</span><span class="p">})</span>
+    
+    <span class="n">g</span><span class="p">[</span><span class="s">'x'</span><span class="p">]</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">placeholder</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span> <span class="p">[</span><span class="bp">None</span><span class="p">,</span> <span class="mi">784</span><span class="p">],</span> <span class="n">name</span><span class="o">=</span><span class="s">'x_placeholder'</span><span class="p">)</span>
+    <span class="n">g</span><span class="p">[</span><span class="s">'y'</span><span class="p">]</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">placeholder</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span> <span class="p">[</span><span class="bp">None</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span> <span class="n">name</span><span class="o">=</span><span class="s">'y_placeholder'</span><span class="p">)</span>
+    <span class="n">g</span><span class="p">[</span><span class="s">'stochastic'</span><span class="p">]</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">g</span><span class="p">[</span><span class="s">'slope'</span><span class="p">]</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span>
+    
+    <span class="n">g</span><span class="p">[</span><span class="s">'layers'</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="n">g</span><span class="p">[</span><span class="s">'x'</span><span class="p">]}</span>
+    <span class="n">hidden_layers</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">hidden_dims</span><span class="p">)</span>
+    <span class="n">dims</span> <span class="o">=</span> <span class="p">[</span><span class="mi">784</span><span class="p">]</span> <span class="o">+</span> <span class="n">hidden_dims</span>
+    
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">hidden_layers</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+        <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">variable_scope</span><span class="p">(</span><span class="s">"layer_"</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)):</span>
+            <span class="n">pre_activations</span> <span class="o">=</span> <span class="n">layer_linear</span><span class="p">(</span><span class="n">g</span><span class="p">[</span><span class="s">'layers'</span><span class="p">][</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">dims</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">],</span> <span class="n">scope</span><span class="o">=</span><span class="s">'layer_'</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">non_binary</span><span class="p">:</span>
+                <span class="n">g</span><span class="p">[</span><span class="s">'layers'</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">sigmoid</span><span class="p">(</span><span class="n">pre_activations</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">g</span><span class="p">[</span><span class="s">'layers'</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">binary_wrapper</span><span class="p">(</span><span class="n">pre_activations</span><span class="p">,</span>
+                                              <span class="n">estimator</span> <span class="o">=</span> <span class="n">estimator</span><span class="p">,</span>
+                                              <span class="n">pass_through</span> <span class="o">=</span> <span class="n">pass_through</span><span class="p">,</span>
+                                              <span class="n">stochastic_tensor</span> <span class="o">=</span> <span class="n">g</span><span class="p">[</span><span class="s">'stochastic'</span><span class="p">],</span>
+                                              <span class="n">slope_tensor</span> <span class="o">=</span> <span class="n">g</span><span class="p">[</span><span class="s">'slope'</span><span class="p">])</span>
+                
+    <span class="n">g</span><span class="p">[</span><span class="s">'pred'</span><span class="p">]</span> <span class="o">=</span> <span class="n">layer_softmax</span><span class="p">(</span><span class="n">g</span><span class="p">[</span><span class="s">'layers'</span><span class="p">][</span><span class="n">hidden_layers</span><span class="p">],</span> <span class="p">[</span><span class="n">dims</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="mi">10</span><span class="p">])</span>
+
+    <span class="n">g</span><span class="p">[</span><span class="s">'loss'</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">tf</span><span class="o">.</span><span class="n">reduce_mean</span><span class="p">(</span><span class="n">g</span><span class="p">[</span><span class="s">'y'</span><span class="p">]</span> <span class="o">*</span> <span class="n">tf</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">g</span><span class="p">[</span><span class="s">'pred'</span><span class="p">]),</span><span class="n">reduction_indices</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="c"># standard cross-entropy, not sparse ce since Y is vectorized</span>
+    <span class="c"># named loss_by_example necessary for REINFORCE estimator</span>
+    <span class="n">tf</span><span class="o">.</span><span class="n">identity</span><span class="p">(</span><span class="n">g</span><span class="p">[</span><span class="s">'loss'</span><span class="p">],</span> <span class="n">name</span><span class="o">=</span><span class="s">"loss_by_example"</span><span class="p">)</span>
+
+    <span class="n">g</span><span class="p">[</span><span class="s">'ts'</span><span class="p">]</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">GradientDescentOptimizer</span><span class="p">(</span><span class="n">lr</span><span class="p">)</span><span class="o">.</span><span class="n">minimize</span><span class="p">(</span><span class="n">g</span><span class="p">[</span><span class="s">'loss'</span><span class="p">])</span>
+
+    <span class="n">g</span><span class="p">[</span><span class="s">'accuracy'</span><span class="p">]</span> <span class="o">=</span> <span class="n">accuracy</span><span class="p">(</span><span class="n">g</span><span class="p">[</span><span class="s">'y'</span><span class="p">],</span> <span class="n">g</span><span class="p">[</span><span class="s">'pred'</span><span class="p">])</span>
+
+    <span class="n">g</span><span class="p">[</span><span class="s">'init_op'</span><span class="p">]</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">global_variables_initializer</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">g</span>
+</code></pre></div></div>
+
+<h2 id="train-the-classifier">Train the classifier</h2>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">train_classifier</span><span class="p">(</span>\
+        <span class="n">hidden_dims</span><span class="o">=</span><span class="p">[</span><span class="mi">100</span><span class="p">,</span><span class="mi">100</span><span class="p">],</span>
+        <span class="n">estimator</span><span class="o">=</span><span class="n">StochasticGradientEstimator</span><span class="o">.</span><span class="n">ST</span><span class="p">,</span>
+        <span class="n">stochastic_train</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+        <span class="n">stochastic_eval</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+        <span class="n">slope_annealing_rate</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+        <span class="n">epochs</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+        <span class="n">lr</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+        <span class="n">non_binary</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+        <span class="n">no_var_adj</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+        <span class="n">train_set</span> <span class="o">=</span> <span class="n">mnist</span><span class="o">.</span><span class="n">train</span><span class="p">,</span>
+        <span class="n">val_set</span> <span class="o">=</span> <span class="n">mnist</span><span class="o">.</span><span class="n">validation</span><span class="p">,</span>
+        <span class="n">verbose</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+        <span class="n">label</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">slope_annealing_rate</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">g</span> <span class="o">=</span> <span class="n">build_classifier</span><span class="p">(</span><span class="n">hidden_dims</span><span class="o">=</span><span class="n">hidden_dims</span><span class="p">,</span> <span class="n">lr</span><span class="o">=</span><span class="n">lr</span><span class="p">,</span> <span class="n">pass_through</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+                                <span class="n">non_binary</span><span class="o">=</span><span class="n">non_binary</span><span class="p">,</span> <span class="n">estimator</span><span class="o">=</span><span class="n">estimator</span><span class="p">,</span> <span class="n">no_var_adj</span><span class="o">=</span><span class="n">no_var_adj</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">g</span> <span class="o">=</span> <span class="n">build_classifier</span><span class="p">(</span><span class="n">hidden_dims</span><span class="o">=</span><span class="n">hidden_dims</span><span class="p">,</span> <span class="n">lr</span><span class="o">=</span><span class="n">lr</span><span class="p">,</span> <span class="n">pass_through</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+                                <span class="n">non_binary</span><span class="o">=</span><span class="n">non_binary</span><span class="p">,</span> <span class="n">estimator</span><span class="o">=</span><span class="n">estimator</span><span class="p">,</span> <span class="n">no_var_adj</span><span class="o">=</span><span class="n">no_var_adj</span><span class="p">)</span>
+
+    <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">Session</span><span class="p">()</span> <span class="k">as</span> <span class="n">sess</span><span class="p">:</span>
+        <span class="n">sess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">g</span><span class="p">[</span><span class="s">'init_op'</span><span class="p">])</span>
+        <span class="n">slope</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">res_tr</span><span class="p">,</span> <span class="n">res_val</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epochs</span><span class="p">):</span>
+            <span class="n">feed_dict</span><span class="o">=</span><span class="p">{</span><span class="n">g</span><span class="p">[</span><span class="s">'x'</span><span class="p">]:</span> <span class="n">val_set</span><span class="o">.</span><span class="n">images</span><span class="p">,</span>
+                       <span class="n">g</span><span class="p">[</span><span class="s">'y'</span><span class="p">]:</span> <span class="n">val_set</span><span class="o">.</span><span class="n">labels</span><span class="p">,</span>
+                       <span class="n">g</span><span class="p">[</span><span class="s">'stochastic'</span><span class="p">]:</span> <span class="n">stochastic_eval</span><span class="p">,</span>
+                       <span class="n">g</span><span class="p">[</span><span class="s">'slope'</span><span class="p">]:</span> <span class="n">slope</span><span class="p">}</span>
+            <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+                <span class="k">print</span><span class="p">(</span><span class="s">"Epoch"</span><span class="p">,</span> <span class="n">epoch</span><span class="p">,</span> <span class="n">sess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">g</span><span class="p">[</span><span class="s">'accuracy'</span><span class="p">],</span> <span class="n">feed_dict</span><span class="o">=</span><span class="n">feed_dict</span><span class="p">))</span>
+
+            <span class="n">accuracy</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1001</span><span class="p">):</span>
+                <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">train_set</span><span class="o">.</span><span class="n">next_batch</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span>
+                <span class="n">feed_dict</span><span class="o">=</span><span class="p">{</span><span class="n">g</span><span class="p">[</span><span class="s">'x'</span><span class="p">]:</span> <span class="n">x</span><span class="p">,</span> <span class="n">g</span><span class="p">[</span><span class="s">'y'</span><span class="p">]:</span> <span class="n">y</span><span class="p">,</span> <span class="n">g</span><span class="p">[</span><span class="s">'stochastic'</span><span class="p">]:</span> <span class="n">stochastic_train</span><span class="p">}</span>
+                <span class="n">acc</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">sess</span><span class="o">.</span><span class="n">run</span><span class="p">([</span><span class="n">g</span><span class="p">[</span><span class="s">'accuracy'</span><span class="p">],</span><span class="n">g</span><span class="p">[</span><span class="s">'ts'</span><span class="p">]],</span> <span class="n">feed_dict</span><span class="o">=</span><span class="n">feed_dict</span><span class="p">)</span>
+                <span class="n">accuracy</span> <span class="o">+=</span> <span class="n">acc</span>
+                <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">100</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">res_tr</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">accuracy</span><span class="o">/</span><span class="mi">100</span><span class="p">)</span>
+                    <span class="n">accuracy</span> <span class="o">=</span> <span class="mi">0</span>
+                    <span class="n">feed_dict</span><span class="o">=</span><span class="p">{</span><span class="n">g</span><span class="p">[</span><span class="s">'x'</span><span class="p">]:</span> <span class="n">val_set</span><span class="o">.</span><span class="n">images</span><span class="p">,</span>
+                               <span class="n">g</span><span class="p">[</span><span class="s">'y'</span><span class="p">]:</span> <span class="n">val_set</span><span class="o">.</span><span class="n">labels</span><span class="p">,</span>
+                               <span class="n">g</span><span class="p">[</span><span class="s">'stochastic'</span><span class="p">]:</span> <span class="n">stochastic_eval</span><span class="p">,</span>
+                               <span class="n">g</span><span class="p">[</span><span class="s">'slope'</span><span class="p">]:</span> <span class="n">slope</span><span class="p">}</span>
+                    <span class="n">res_val</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">g</span><span class="p">[</span><span class="s">'accuracy'</span><span class="p">],</span> <span class="n">feed_dict</span><span class="o">=</span><span class="n">feed_dict</span><span class="p">))</span>
+
+            <span class="k">if</span> <span class="n">slope_annealing_rate</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">slope</span> <span class="o">=</span> <span class="n">slope</span><span class="o">*</span><span class="n">slope_annealing_rate</span>
+                <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+                    <span class="k">print</span><span class="p">(</span><span class="s">"Sigmoid slope:"</span><span class="p">,</span> <span class="n">slope</span><span class="p">)</span>
+
+        <span class="n">feed_dict</span><span class="o">=</span><span class="p">{</span><span class="n">g</span><span class="p">[</span><span class="s">'x'</span><span class="p">]:</span> <span class="n">val_set</span><span class="o">.</span><span class="n">images</span><span class="p">,</span> <span class="n">g</span><span class="p">[</span><span class="s">'y'</span><span class="p">]:</span> <span class="n">val_set</span><span class="o">.</span><span class="n">labels</span><span class="p">,</span>
+                   <span class="n">g</span><span class="p">[</span><span class="s">'stochastic'</span><span class="p">]:</span> <span class="n">stochastic_eval</span><span class="p">,</span> <span class="n">g</span><span class="p">[</span><span class="s">'slope'</span><span class="p">]:</span> <span class="n">slope</span><span class="p">}</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">"Epoch"</span><span class="p">,</span> <span class="n">epoch</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">sess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">g</span><span class="p">[</span><span class="s">'accuracy'</span><span class="p">],</span> <span class="n">feed_dict</span><span class="o">=</span><span class="n">feed_dict</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">label</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">(</span><span class="n">res_tr</span><span class="p">,</span> <span class="n">label</span> <span class="o">+</span> <span class="s">" - Training"</span><span class="p">),</span> <span class="p">(</span><span class="n">res_val</span><span class="p">,</span> <span class="n">label</span> <span class="o">+</span> <span class="s">" - Validation"</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[(</span><span class="n">res_tr</span><span class="p">,</span> <span class="s">"Training"</span><span class="p">),</span> <span class="p">(</span><span class="n">res_val</span><span class="p">,</span> <span class="s">"Validation"</span><span class="p">)]</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">res</span> <span class="o">=</span> <span class="n">train_classifier</span><span class="p">(</span><span class="n">hidden_dims</span><span class="o">=</span><span class="p">[</span><span class="mi">100</span><span class="p">],</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">non_binary</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span> <span class="c"># 20 * 1000 = 20000, 20000/100 = 200</span>
+<span class="n">plot_n</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">lower_y</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s">"Logistic Sigmoid Baseline"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Epoch 20 0.9658
+</code></pre></div></div>
+
+<p class="mycenter"><img src="http://localhost:4000/data/img/bsn/output_16_1.png" alt="png" /></p>
+
+<p>The non-stochastic, non-binary baseline</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">print</span><span class="p">(</span><span class="s">"Variance-adjusted:"</span><span class="p">)</span>
+<span class="n">res1</span> <span class="o">=</span> <span class="n">train_classifier</span><span class="p">(</span><span class="n">hidden_dims</span><span class="o">=</span><span class="p">[</span><span class="mi">100</span><span class="p">],</span> <span class="n">estimator</span><span class="o">=</span><span class="n">StochasticGradientEstimator</span><span class="o">.</span><span class="n">REINFORCE</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+                       <span class="n">lr</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Variance-adjusted:
+Epoch 0 0.0964
+Epoch 1 0.0958
+Epoch 2 0.0958
+Epoch 3 0.0958
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">print</span><span class="p">(</span><span class="s">"Not variance-adjusted:"</span><span class="p">)</span>
+<span class="n">res2</span><span class="o">=</span> <span class="n">train_classifier</span><span class="p">(</span><span class="n">hidden_dims</span><span class="o">=</span><span class="p">[</span><span class="mi">100</span><span class="p">],</span> <span class="n">estimator</span><span class="o">=</span><span class="n">StochasticGradientEstimator</span><span class="o">.</span><span class="n">REINFORCE</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+                       <span class="n">lr</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">no_var_adj</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Not variance-adjusted:
+Epoch 0 0.0988
+Epoch 1 0.0958
+Epoch 2 0.0958
+Epoch 3 0.0958
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">res1</span> <span class="o">=</span> <span class="n">train_classifier</span><span class="p">(</span><span class="n">hidden_dims</span><span class="o">=</span><span class="p">[</span><span class="mi">100</span><span class="p">],</span> <span class="n">estimator</span><span class="o">=</span><span class="n">StochasticGradientEstimator</span><span class="o">.</span><span class="n">REINFORCE</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+                       <span class="n">lr</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s">"Variance-adjusted"</span><span class="p">)</span>
+<span class="n">res2</span><span class="o">=</span> <span class="n">train_classifier</span><span class="p">(</span><span class="n">hidden_dims</span><span class="o">=</span><span class="p">[</span><span class="mi">100</span><span class="p">],</span> <span class="n">estimator</span><span class="o">=</span><span class="n">StochasticGradientEstimator</span><span class="o">.</span><span class="n">REINFORCE</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+                       <span class="n">lr</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">no_var_adj</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s">"Not variance-adjusted"</span><span class="p">)</span>
+
+<span class="n">plot_n</span><span class="p">(</span><span class="n">res1</span> <span class="o">+</span> <span class="n">res2</span><span class="p">,</span> <span class="n">lower_y</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s">"Experiment 1: REINFORCE variance adjustment"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Epoch 20 0.9262
+Epoch 20 0.9264
+</code></pre></div></div>
+
+<p class="mycenter"><img src="http://localhost:4000/data/img/bsn/output_20_1.png" alt="png" /></p>
+
+<p>So variance-adjusted learns a bit faster, but it’s not significant.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">res1</span> <span class="o">=</span> <span class="n">train_classifier</span><span class="p">(</span><span class="n">hidden_dims</span><span class="o">=</span><span class="p">[</span><span class="mi">100</span><span class="p">],</span> <span class="n">estimator</span><span class="o">=</span><span class="n">StochasticGradientEstimator</span><span class="o">.</span><span class="n">ST</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+                       <span class="n">lr</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s">"Pass-through - 0.1"</span><span class="p">)</span>
+<span class="n">res2</span> <span class="o">=</span> <span class="n">train_classifier</span><span class="p">(</span><span class="n">hidden_dims</span><span class="o">=</span><span class="p">[</span><span class="mi">100</span><span class="p">],</span> <span class="n">estimator</span><span class="o">=</span><span class="n">StochasticGradientEstimator</span><span class="o">.</span><span class="n">ST</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+                       <span class="n">lr</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">slope_annealing_rate</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s">"Sigmoid-adjusted - 0.1"</span><span class="p">)</span>
+
+<span class="n">res3</span> <span class="o">=</span> <span class="n">train_classifier</span><span class="p">(</span><span class="n">hidden_dims</span><span class="o">=</span><span class="p">[</span><span class="mi">100</span><span class="p">],</span> <span class="n">estimator</span><span class="o">=</span><span class="n">StochasticGradientEstimator</span><span class="o">.</span><span class="n">ST</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+                       <span class="n">lr</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s">"Pass-through - 0.3"</span><span class="p">)</span>
+<span class="n">res4</span> <span class="o">=</span> <span class="n">train_classifier</span><span class="p">(</span><span class="n">hidden_dims</span><span class="o">=</span><span class="p">[</span><span class="mi">100</span><span class="p">],</span> <span class="n">estimator</span><span class="o">=</span><span class="n">StochasticGradientEstimator</span><span class="o">.</span><span class="n">ST</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+                       <span class="n">lr</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">slope_annealing_rate</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s">"Sigmoid-adjusted - 0.3"</span><span class="p">)</span>
+
+<span class="n">res5</span> <span class="o">=</span> <span class="n">train_classifier</span><span class="p">(</span><span class="n">hidden_dims</span><span class="o">=</span><span class="p">[</span><span class="mi">100</span><span class="p">],</span> <span class="n">estimator</span><span class="o">=</span><span class="n">StochasticGradientEstimator</span><span class="o">.</span><span class="n">ST</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+                       <span class="n">lr</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s">"Pass-through - 1.0"</span><span class="p">)</span>
+<span class="n">res6</span> <span class="o">=</span> <span class="n">train_classifier</span><span class="p">(</span><span class="n">hidden_dims</span><span class="o">=</span><span class="p">[</span><span class="mi">100</span><span class="p">],</span> <span class="n">estimator</span><span class="o">=</span><span class="n">StochasticGradientEstimator</span><span class="o">.</span><span class="n">ST</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+                       <span class="n">lr</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">slope_annealing_rate</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s">"Sigmoid-adjusted - 1.0"</span><span class="p">)</span>
+
+<span class="n">plot_n</span><span class="p">(</span><span class="n">res1</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">+</span> <span class="n">res2</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">+</span> <span class="n">res3</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">+</span> <span class="n">res4</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">+</span> <span class="n">res5</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">+</span> <span class="n">res6</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span>
+       <span class="n">lower_y</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s">"Experiment 2: Pass-through vs sigmoid-adjusted ST"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Epoch 20 0.823
+Epoch 20 0.9572
+Epoch 20 0.7454
+Epoch 20 0.968
+Epoch 20 0.0958
+Epoch 20 0.9516
+</code></pre></div></div>
+
+<p class="mycenter"><img src="http://localhost:4000/data/img/bsn/output_22_1.png" alt="png" /></p>
+
+<p>It seems that sigmoid-adjusted beats pass-through by a wide margin</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">res1</span> <span class="o">=</span> <span class="n">train_classifier</span><span class="p">(</span><span class="n">hidden_dims</span><span class="o">=</span><span class="p">[</span><span class="mi">100</span><span class="p">],</span> <span class="n">estimator</span><span class="o">=</span><span class="n">StochasticGradientEstimator</span><span class="o">.</span><span class="n">ST</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+                       <span class="n">lr</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">slope_annealing_rate</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s">"Sigmoid-adjusted - 0.1"</span><span class="p">)</span>
+<span class="n">res2</span> <span class="o">=</span> <span class="n">train_classifier</span><span class="p">(</span><span class="n">hidden_dims</span><span class="o">=</span><span class="p">[</span><span class="mi">100</span><span class="p">],</span> <span class="n">estimator</span><span class="o">=</span><span class="n">StochasticGradientEstimator</span><span class="o">.</span><span class="n">ST</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+                       <span class="n">lr</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">slope_annealing_rate</span> <span class="o">=</span> <span class="mf">1.1</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s">"Slope-annealed - 0.1"</span><span class="p">)</span>
+
+<span class="n">res3</span> <span class="o">=</span> <span class="n">train_classifier</span><span class="p">(</span><span class="n">hidden_dims</span><span class="o">=</span><span class="p">[</span><span class="mi">100</span><span class="p">],</span> <span class="n">estimator</span><span class="o">=</span><span class="n">StochasticGradientEstimator</span><span class="o">.</span><span class="n">ST</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+                       <span class="n">lr</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">slope_annealing_rate</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s">"Sigmoid-adjusted - 0.3"</span><span class="p">)</span>
+<span class="n">res4</span> <span class="o">=</span> <span class="n">train_classifier</span><span class="p">(</span><span class="n">hidden_dims</span><span class="o">=</span><span class="p">[</span><span class="mi">100</span><span class="p">],</span> <span class="n">estimator</span><span class="o">=</span><span class="n">StochasticGradientEstimator</span><span class="o">.</span><span class="n">ST</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+                       <span class="n">lr</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">slope_annealing_rate</span> <span class="o">=</span> <span class="mf">1.1</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s">"Slope-annealed - 0.3"</span><span class="p">)</span>
+
+<span class="n">res5</span> <span class="o">=</span> <span class="n">train_classifier</span><span class="p">(</span><span class="n">hidden_dims</span><span class="o">=</span><span class="p">[</span><span class="mi">100</span><span class="p">],</span> <span class="n">estimator</span><span class="o">=</span><span class="n">StochasticGradientEstimator</span><span class="o">.</span><span class="n">ST</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+                       <span class="n">lr</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">slope_annealing_rate</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s">"Sigmoid-adjusted - 1.0"</span><span class="p">)</span>
+<span class="n">res6</span> <span class="o">=</span> <span class="n">train_classifier</span><span class="p">(</span><span class="n">hidden_dims</span><span class="o">=</span><span class="p">[</span><span class="mi">100</span><span class="p">],</span> <span class="n">estimator</span><span class="o">=</span><span class="n">StochasticGradientEstimator</span><span class="o">.</span><span class="n">ST</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+                       <span class="n">lr</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">slope_annealing_rate</span> <span class="o">=</span> <span class="mf">1.1</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s">"Slope-annealed - 1.0"</span><span class="p">)</span>
+
+<span class="n">plot_n</span><span class="p">(</span><span class="n">res1</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">+</span> <span class="n">res2</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">+</span> <span class="n">res3</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">+</span> <span class="n">res4</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">+</span> <span class="n">res5</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">+</span> <span class="n">res6</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span>
+       <span class="n">lower_y</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s">"Experiment 3: Sigmoid-adjusted vs slope-annealed ST"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Epoch 20 0.9606
+Epoch 20 0.9702
+Epoch 20 0.9648
+Epoch 20 0.9748
+Epoch 20 0.9614
+Epoch 20 0.9714
+</code></pre></div></div>
+
+<p class="mycenter"><img src="http://localhost:4000/data/img/bsn/output_24_1.png" alt="png" /></p>
+
+<p>Stochastic sigmoid-adjusted even beats baseline model</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">res1</span> <span class="o">=</span> <span class="n">train_classifier</span><span class="p">(</span><span class="n">hidden_dims</span><span class="o">=</span><span class="p">[</span><span class="mi">100</span><span class="p">],</span> <span class="n">estimator</span><span class="o">=</span><span class="n">StochasticGradientEstimator</span><span class="o">.</span><span class="n">ST</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+                        <span class="n">lr</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">slope_annealing_rate</span> <span class="o">=</span> <span class="mf">1.1</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s">"Stochastic, Stochastic"</span><span class="p">)</span>
+<span class="n">res2</span> <span class="o">=</span> <span class="n">train_classifier</span><span class="p">(</span><span class="n">hidden_dims</span><span class="o">=</span><span class="p">[</span><span class="mi">100</span><span class="p">],</span> <span class="n">estimator</span><span class="o">=</span><span class="n">StochasticGradientEstimator</span><span class="o">.</span><span class="n">ST</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+                        <span class="n">lr</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">slope_annealing_rate</span> <span class="o">=</span> <span class="mf">1.1</span><span class="p">,</span> <span class="n">stochastic_eval</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s">"Stochastic, Deterministic"</span><span class="p">)</span>
+<span class="n">res3</span> <span class="o">=</span> <span class="n">train_classifier</span><span class="p">(</span><span class="n">hidden_dims</span><span class="o">=</span><span class="p">[</span><span class="mi">100</span><span class="p">],</span> <span class="n">estimator</span><span class="o">=</span><span class="n">StochasticGradientEstimator</span><span class="o">.</span><span class="n">ST</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+                        <span class="n">lr</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">slope_annealing_rate</span> <span class="o">=</span> <span class="mf">1.1</span><span class="p">,</span> <span class="n">stochastic_train</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">stochastic_eval</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+                        <span class="n">label</span> <span class="o">=</span> <span class="s">"Deterministic, Deterministic"</span><span class="p">)</span>
+
+<span class="n">plot_n</span><span class="p">(</span><span class="n">res1</span> <span class="o">+</span> <span class="n">res2</span> <span class="o">+</span> <span class="n">res3</span><span class="p">,</span>
+       <span class="n">lower_y</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s">"Experiment 5: Stochastic vs Deterministic (Slope-annealed ST)"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Epoch 20 0.9746
+Epoch 20 0.9726
+Epoch 20 0.9748
+</code></pre></div></div>
+
+<p class="mycenter"><img src="http://localhost:4000/data/img/bsn/output_26_1.png" alt="png" /></p>
+
+<p>The results show that deterministic neurons train the fastest, but also display more overfitting and may not achieve the best final results. Stochastic inference and deterministic inference, when combined with stochastic training, are closely comparable. Similar results hold for the REINFORCE estimator.</p>
+
+<p>The effect of depth:</p>
+
+<blockquote>
+  <p>It turns out that the slope-annealed straight-through estimator is resilient to depth, even at a reasonable learning rate. The REINFORCE estimator, on the other hand, starts to fail as depth is introduced. However, if we lower the learning rate dramatically (25x), we can start to get the deeper networks to train with the REINFORCE estimator.</p>
+</blockquote>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">res1</span> <span class="o">=</span> <span class="n">train_classifier</span><span class="p">(</span><span class="n">hidden_dims</span> <span class="o">=</span> <span class="p">[</span><span class="mi">200</span><span class="p">],</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">train_set</span><span class="o">=</span><span class="n">mnist</span><span class="o">.</span><span class="n">validation</span><span class="p">,</span> <span class="n">val_set</span><span class="o">=</span><span class="n">mnist</span><span class="o">.</span><span class="n">test</span><span class="p">,</span>
+                        <span class="n">lr</span> <span class="o">=</span> <span class="mf">0.03</span><span class="p">,</span> <span class="n">non_binary</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s">"Deterministic sigmoid net"</span><span class="p">)</span>
+
+<span class="n">res2</span> <span class="o">=</span> <span class="n">train_classifier</span><span class="p">(</span><span class="n">hidden_dims</span> <span class="o">=</span> <span class="p">[</span><span class="mi">200</span><span class="p">],</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">stochastic_eval</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">train_set</span><span class="o">=</span><span class="n">mnist</span><span class="o">.</span><span class="n">validation</span><span class="p">,</span>
+                        <span class="n">val_set</span><span class="o">=</span><span class="n">mnist</span><span class="o">.</span><span class="n">test</span><span class="p">,</span> <span class="n">slope_annealing_rate</span><span class="o">=</span><span class="mf">1.1</span><span class="p">,</span> <span class="n">estimator</span><span class="o">=</span><span class="n">StochasticGradientEstimator</span><span class="o">.</span><span class="n">ST</span><span class="p">,</span>
+                        <span class="n">lr</span> <span class="o">=</span> <span class="mf">0.3</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s">"Binary stochastic net"</span><span class="p">)</span>
+
+<span class="n">plot_n</span><span class="p">(</span><span class="n">res1</span> <span class="o">+</span> <span class="n">res2</span><span class="p">,</span> <span class="n">lower_y</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s">"Experiment 8: Using binary stochastic neurons as a regularizer"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Epoch 20 0.9306
+Epoch 20 0.9435
+</code></pre></div></div>
+
+<p class="mycenter"><img src="http://localhost:4000/data/img/bsn/output_29_1.png#center" alt="png" /></p>
+
+<style>
+.mycenter {
+    text-align:center;
+}
+</style>
+
+<h3 id="conclusion">Conclusion:</h3>
+<p>I skipped some experiments because they don’t seem relevant. Any way in this post, it shows that we can improve upon the performance of an overfitting multi-layer sigmoid net by turning its neurons binary stochastic neurons with a straight-through estimator. And that slope-annealed straight through estimator is better than other straight through variants, and that it is worth using the variance-adjusted REINFORCE estimator over the not variance-adjusted REINFORCE estimator.</p>
+
+<p><a href="https://r2rt.com/binary-stochastic-neurons-in-tensorflow.html">Original notes.</a></p>
+
+<p><a href="http://localhost:4000/data/code/bsn_debug.py">Commented code for bsn implemented in tensorflow.</a></p>
+
+  </div>
+  
+  <!-- Related posts -->
+  
+  
+  
+    <div class="row related-posts">
+      <h2 class="text-center" style="font-family: initial">Related blog posts:</h2>
+      <div class="medium-12 small-12 columns">
+        
+          
+
+           <h3>
+            <a href="http://localhost:4000/blog/2018/05/29/kramdown_img_notes.html">
+              Kramdown Image Tips
+            </a>
+           </h3>
+
+          
+        
+          
+        
+          
+
+           <h3>
+            <a href="http://localhost:4000/blog/2018/05/24/instant-search.html">
+              Implement Jekyll instant search
+            </a>
+           </h3>
+
+          
+        
+      </div>
+    </div>
+  
+
+
+  <!-- Disqus --><a class="u-url" href="/blog/2018/05/29/bsn.html" hidden></a>
+</article>
+
+
+<script id="dsq-count-scr" src="//everitt257.disqus.com/count.js" async></script>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Everitt&#39;s blog</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Everitt&#39;s blog</li><li><a class="u-email" href="mailto:everitt257@gmail.com">everitt257@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/everitt257"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">everitt257</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>This site fancies machine learning and problems in engineerning in general.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

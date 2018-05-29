@@ -2,6 +2,26 @@
   
     {
     
+      "title"    : "Kramdown Image Tips",
+      "url"      : "/blog/2018/05/29/kramdown_img_notes.html",
+      "category" : "blog",
+      "tags"     : "Kramdown",
+      "date"     : "2018-05-29 00:00:00 +0800"
+      
+    } ,
+  
+    {
+    
+      "title"    : "Binary Stochastic Neurons",
+      "url"      : "/blog/2018/05/29/bsn.html",
+      "category" : "blog",
+      "tags"     : "deep learning, algorithm",
+      "date"     : "2018-05-29 00:00:00 +0800"
+      
+    } ,
+  
+    {
+    
       "title"    : "大数据实验室流程指引",
       "url"      : "/work/2018/05/25/bigdataflowchart.html",
       "category" : "work",
