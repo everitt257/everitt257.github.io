@@ -26,6 +26,8 @@ markdown: kramdown
 theme: minima
 plugins:
   - jekyll-feed
+  - jekyll-paginate
+  - jekyll-gist
 
 show_excerpts: true
 
@@ -33,6 +35,10 @@ show_excerpts: true
 disqus:
   shortname: everitt257
 
+# paginate
+paginate: 4
+
+paginate_path: "/page-:num/"
 
 # Customize navigation links
 header_pages:

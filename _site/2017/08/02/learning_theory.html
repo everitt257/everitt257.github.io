@@ -33,15 +33,15 @@
 <meta name="generator" content="Jekyll v3.8.2" />
 <meta property="og:title" content="Learning Theory" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="$\newcommand{\E}{\operatorname{\mathbb{E}}}$ $\newcommand{\P}{\operatorname{\mathbb{P}}}$ $\newcommand{\R}{\operatorname{\mathbb{R}}}$" />
-<meta property="og:description" content="$\newcommand{\E}{\operatorname{\mathbb{E}}}$ $\newcommand{\P}{\operatorname{\mathbb{P}}}$ $\newcommand{\R}{\operatorname{\mathbb{R}}}$" />
+<meta name="description" content="Generalization error Questions that we might want to ask: Most learning algorithms fit their models to the training set, why should doing well on the training set tell us anything about generalization error? Can we relate error on the training set to generalization error? Are there conditions under which we can actually prove that learning algorithms will work well?" />
+<meta property="og:description" content="Generalization error Questions that we might want to ask: Most learning algorithms fit their models to the training set, why should doing well on the training set tell us anything about generalization error? Can we relate error on the training set to generalization error? Are there conditions under which we can actually prove that learning algorithms will work well?" />
 <link rel="canonical" href="http://localhost:4000/2017/08/02/learning_theory.html" />
 <meta property="og:url" content="http://localhost:4000/2017/08/02/learning_theory.html" />
 <meta property="og:site_name" content="Everitt’s blog" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2017-08-02T00:00:00+08:00" />
 <script type="application/ld+json">
-{"description":"$\\newcommand{\\E}{\\operatorname{\\mathbb{E}}}$ $\\newcommand{\\P}{\\operatorname{\\mathbb{P}}}$ $\\newcommand{\\R}{\\operatorname{\\mathbb{R}}}$","@type":"BlogPosting","url":"http://localhost:4000/2017/08/02/learning_theory.html","headline":"Learning Theory","dateModified":"2017-08-02T00:00:00+08:00","datePublished":"2017-08-02T00:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2017/08/02/learning_theory.html"},"@context":"http://schema.org"}</script>
+{"description":"Generalization error Questions that we might want to ask: Most learning algorithms fit their models to the training set, why should doing well on the training set tell us anything about generalization error? Can we relate error on the training set to generalization error? Are there conditions under which we can actually prove that learning algorithms will work well?","@type":"BlogPosting","url":"http://localhost:4000/2017/08/02/learning_theory.html","headline":"Learning Theory","dateModified":"2017-08-02T00:00:00+08:00","datePublished":"2017-08-02T00:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2017/08/02/learning_theory.html"},"@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Everitt's blog" /></head>
 <body><header class="site-header" role="banner">
@@ -77,18 +77,17 @@
 
   <!-- Body -->
   <div class="post-content e-content" itemprop="articleBody">
-    <p>$\newcommand{\E}{\operatorname{\mathbb{E}}}$
-$\newcommand{\P}{\operatorname{\mathbb{P}}}$
-$\newcommand{\R}{\operatorname{\mathbb{R}}}$</p>
-
-<h2 id="learning-theory">Learning theory</h2>
-<h3 id="generalization-error">Generalization error</h3>
+    <h3 id="generalization-error">Generalization error</h3>
 <p><strong>Questions</strong> that we might want to ask:</p>
 <ul>
   <li>Most learning algorithms fit their models to the training set, why should doing well on the training set tell us anything about generalization error?</li>
   <li>Can we relate error on the training set to generalization error?</li>
   <li>Are there conditions under which we can actually prove that learning algorithms will work well?</li>
 </ul>
+
+<p>$\newcommand{\E}{\operatorname{\mathbb{E}}}$
+$\newcommand{\P}{\operatorname{\mathbb{P}}}$
+$\newcommand{\R}{\operatorname{\mathbb{R}}}$</p>
 
 <p><strong>Hoeffding inequality</strong> (Perhaps the most important inequality in learning theory)
 <script type="math/tex">\P(\frac{1}{n}\sum_{i=1}^{n}(Z_i-\E(Z_i)) \geq t) \leq exp(-\frac{2nt^2}{(b-a)^2})</script></p>

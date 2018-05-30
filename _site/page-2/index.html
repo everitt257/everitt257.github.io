@@ -29,18 +29,19 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.5.0 -->
-<title>Everitt’s blog | This site fancies machine learning and problems in engineerning in general.</title>
+<title>Page 2 of 5 for Everitt’s blog | This site fancies machine learning and problems in engineerning in general.</title>
 <meta name="generator" content="Jekyll v3.8.2" />
 <meta property="og:title" content="Everitt’s blog" />
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="This site fancies machine learning and problems in engineerning in general." />
 <meta property="og:description" content="This site fancies machine learning and problems in engineerning in general." />
-<link rel="canonical" href="http://localhost:4000/" />
-<meta property="og:url" content="http://localhost:4000/" />
+<link rel="canonical" href="http://localhost:4000/page-2/" />
+<meta property="og:url" content="http://localhost:4000/page-2/" />
 <meta property="og:site_name" content="Everitt’s blog" />
-<link rel="next" href="http://localhost:4000/page-2/" />
+<link rel="prev" href="http://localhost:4000/" />
+<link rel="next" href="http://localhost:4000/page-3/" />
 <script type="application/ld+json">
-{"name":"Everitt’s blog","description":"This site fancies machine learning and problems in engineerning in general.","@type":"WebSite","url":"http://localhost:4000/","headline":"Everitt’s blog","@context":"http://schema.org"}</script>
+{"description":"This site fancies machine learning and problems in engineerning in general.","@type":"WebPage","url":"http://localhost:4000/page-2/","headline":"Everitt’s blog","@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Everitt's blog" /></head>
 <body><header class="site-header" role="banner">
@@ -85,62 +86,72 @@
       <!-- Pagination--><li>
           <ul class="tags">
               
-                <li><a href="/tags#Kramdown" class="tag">Kramdown</a></li>
+                <li><a href="/tags#jekyll" class="tag">jekyll</a></li>
               
-          </ul><span class="post-meta">May 29, 2018</span>
+                <li><a href="/tags#json" class="tag">json</a></li>
+              
+          </ul><span class="post-meta">May 24, 2018</span>
         <h3>
-          <a class="post-link" href="/blog/2018/05/29/kramdown_img_notes.html">
-            Kramdown Image Tips
+          <a class="post-link" href="/blog/2018/05/24/instant-search.html">
+            Implement Jekyll instant search
           </a>
-        </h3><p>Here’s how to specify image size in kramdown.
-<img src="http://om1hdizoc.bkt.clouddn.com/18-5-29/54280733.jpg" alt="" /></p>
+        </h3><p>Since Jekyll has no server side execution, we have to rely on storing all the required content in a single file and search our keyword from that file.</p>
 
 </li><li>
           <ul class="tags">
-              
-                <li><a href="/tags#deep learning" class="tag">deep learning</a></li>
               
                 <li><a href="/tags#algorithm" class="tag">algorithm</a></li>
               
-          </ul><span class="post-meta">May 29, 2018</span>
+                <li><a href="/tags#tf-idf" class="tag">tf-idf</a></li>
+              
+                <li><a href="/tags#deep-learning" class="tag">deep-learning</a></li>
+              
+          </ul><span class="post-meta">May 24, 2018</span>
         <h3>
-          <a class="post-link" href="/blog/2018/05/29/bsn.html">
-            Binary Stochastic Neurons
+          <a class="post-link" href="/work/2018/05/24/transformer-cluster-trial.html">
+            变压器厂家聚类分析
           </a>
-        </h3><p>This post is a rebroadcast of R2RT’s bst post. It talks about ST and REINFORCE estimator used in BSN network.</p>
-
-</li><li>
-          <ul class="tags">
-              
-                <li><a href="/tags#work" class="tag">work</a></li>
-              
-          </ul><span class="post-meta">May 25, 2018</span>
-        <h3>
-          <a class="post-link" href="/work/2018/05/25/bigdataflowchart.html">
-            大数据实验室流程指引
-          </a>
-        </h3><h2 id="大数据实验室流程指引">大数据实验室流程指引</h2>
-<p>本操作指引作为大数据实验室的辅助手册，包含大数据实验室操作指南、数据申请流程与工具选型指引三部分。文末附上各类附件。</p>
-
-</li><li>
-          <ul class="tags">
-              
-                <li><a href="/tags#apply" class="tag">apply</a></li>
-              
-                <li><a href="/tags#work" class="tag">work</a></li>
-              
-          </ul><span class="post-meta">May 25, 2018</span>
-        <h3>
-          <a class="post-link" href="/work/2018/05/25/bigdataapply.html">
-            大数据实验室申请指南
-          </a>
-        </h3><h2 id="申请操作指引">申请操作指引</h2>
+        </h3><h2 id="变压器厂家名字聚类重建预测可视化">变压器厂家名字聚类，重建预测，可视化</h2>
+<p>这是一次对变压器的厂家名字做聚类与重建预测和可视化的尝试。使用了以下手段：</p>
 <ol>
-  <li>申请工具</li>
-  <li>申请数据资源</li>
-  <li>待实验室管理员协助申请开通</li>
+  <li>分词</li>
+  <li>短句向量化, 采用简单统计词频方式做向量，没有采用ifidf,因为效果不理想，且短句子用简单的方式效果更好</li>
+  <li>t-sne降维，没有用过pca的原因是效果不理想，重建预测时候学习曲线非常低</li>
+  <li>t-sne 2D可视化</li>
+  <li>其他探索：word2vec词频空间探索相似度高的单词，效果不理想，放弃</li>
+  <li>其他探索：word2vec词频空间可视化</li>
+  <li>重建预测，使用t-sne降维到10维度的空间做初始特征</li>
+  <li>简单4层神经网络，$l = |x’ - x| + \lambda*(\theta)$, lambda是常数，theta是权重</li>
+  <li>神经元：12+6+6+10 = 34个神经元</li>
 </ol>
 
+</li><li>
+          <ul class="tags">
+              
+                <li><a href="/tags#js" class="tag">js</a></li>
+              
+                <li><a href="/tags#html" class="tag">html</a></li>
+              
+          </ul><span class="post-meta">May 24, 2018</span>
+        <h3>
+          <a class="post-link" href="/blog/2018/05/24/test_tag2.html">
+            tag2
+          </a>
+        </h3><p>Only for testing.</p>
+</li><li>
+          <ul class="tags">
+              
+                <li><a href="/tags#js" class="tag">js</a></li>
+              
+                <li><a href="/tags#html" class="tag">html</a></li>
+              
+          </ul><span class="post-meta">May 24, 2018</span>
+        <h3>
+          <a class="post-link" href="/blog/2018/05/24/test_tag1.html">
+            How to add related posts in jekyll
+          </a>
+        </h3><p>This is a record showing how to do the following: 
+<a href="https://alligator.io/jekyll/related-posts-in-jekyll/">How to add relatd post in jekyll</a></p>
 </li></ul>
 
     <!-- Pagination add next and prev -->
@@ -148,17 +159,17 @@
     <div class="pagination">  
       <!-- show paginator prev -->
         
-        <span>&laquo; Prev</span>  
+        <a href="/">&laquo; Prev</a>  
         
       
       <!-- show rest of the page -->
         
           
-          <em>1</em>  
+          <a href="/">1</a>  
           
         
           
-          <a href="/page-2/">2</a>  
+          <em>2</em>  
           
         
           
@@ -176,7 +187,7 @@
       
       <!-- show paginator next -->
         
-        <a href="/page-2/">Next &raquo;</a>  
+        <a href="/page-3/">Next &raquo;</a>  
         
     </div>  
      

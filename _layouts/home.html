@@ -32,13 +32,14 @@ layout: default
   {%- if site.posts.size > 0 -%}
     <h2 class="post-list-heading">{{ page.list_title | default: "Posts" }}</h2>
     <ul class="post-list">
-      {%- for post in site.posts -%}
+      <!-- Pagination-->
+      {%- for post in paginator.posts -%}
       <li>
           <ul class="tags">
               {% for tag in post.tags %}
                 <li><a href="/tags#{{ tag }}" class="tag">{{ tag }}</a></li>
               {% endfor %}
-              </ul>
+          </ul>
         {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
         <span class="post-meta">{{ post.date | date: date_format }}</span>
         <h3>
@@ -52,6 +53,36 @@ layout: default
       </li>
       {%- endfor -%}
     </ul>
+
+    <!-- Pagination add next and prev -->
+    {% if paginator.total_pages > 1 %}  
+    <div class="pagination">  
+      <!-- show paginator prev -->
+      {% if paginator.previous_page %}  
+        <a href="{{ paginator.previous_page_path | prepend: site.baseurl | replace: '//', '/' }}">&laquo; Prev</a>  
+      {% else %}  
+        <span>&laquo; Prev</span>  
+      {% endif %}  
+      
+      <!-- show rest of the page -->
+      {% for page in (1..paginator.total_pages) %}  
+        {% if page == paginator.page %}  
+          <em>{{ page }}</em>  
+        {% elsif page == 1 %}  
+          <a href="{{ paginator.previous_page_path | prepend: site.baseurl | replace: '//', '/' }}">{{ page }}</a>  
+        {% else %}  
+          <a href="{{ site.paginate_path | prepend: site.baseurl | replace: '//', '/' | replace: ':num', page }}">{{ page }}</a>  
+        {% endif %}  
+      {% endfor %}  
+      
+      <!-- show paginator next -->
+      {% if paginator.next_page %}  
+        <a href="{{ paginator.next_page_path | prepend: site.baseurl | replace: '//', '/' }}">Next &raquo;</a>  
+      {% else %}  
+        <span>Next &raquo;</span>  
+      {% endif %}  
+    </div>  
+    {% endif %} 
 
     <!-- <p class="rss-subscribe">subscribe <a href="{{ "/feed.xml" | relative_url }}">via RSS</a></p> -->
   {%- endif -%}

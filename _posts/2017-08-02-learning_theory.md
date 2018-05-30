@@ -3,17 +3,15 @@ layout: post
 title: Learning Theory
 ---
 
-
-$\newcommand{\E}{\operatorname{\mathbb{E}}}$
-$\newcommand{\P}{\operatorname{\mathbb{P}}}$
-$\newcommand{\R}{\operatorname{\mathbb{R}}}$
-
-## Learning theory
 ### Generalization error
 **Questions** that we might want to ask:
 - Most learning algorithms fit their models to the training set, why should doing well on the training set tell us anything about generalization error?
 - Can we relate error on the training set to generalization error?
 - Are there conditions under which we can actually prove that learning algorithms will work well?
+
+$\newcommand{\E}{\operatorname{\mathbb{E}}}$
+$\newcommand{\P}{\operatorname{\mathbb{P}}}$
+$\newcommand{\R}{\operatorname{\mathbb{R}}}$
 
 **Hoeffding inequality** (Perhaps the most important inequality in learning theory)
 $$
