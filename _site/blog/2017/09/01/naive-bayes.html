@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<!-- custom.css -->
+<link rel="stylesheet", href="/css/custom.css">
+
+<!-- mathjax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    TeX: {
+      equationNumbers: {
+        autoNumber: "AMS"
+      }
+    },
+    tex2jax: {
+      inlineMath: [ ['$','$'] ],
+      displayMath: [ ['$$','$$'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+    }
+  });
+</script>
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+<!-- mermaid -->
+<script src="/js/mermaid.min.js"></script>
+<script>mermaid.initialize({startOnLoad:true});</script>
+
+<!-- body -->
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.5.0 -->
+<title>Naive Bayes | Everitt’s blog</title>
+<meta name="generator" content="Jekyll v3.8.2" />
+<meta property="og:title" content="Naive Bayes" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="ML 2 Generative Learning In this notebook we make distinction between discriminative learning and generative learning algorithms. Conditional Probability The conditional probability is fundemental in statistc inference." />
+<meta property="og:description" content="ML 2 Generative Learning In this notebook we make distinction between discriminative learning and generative learning algorithms. Conditional Probability The conditional probability is fundemental in statistc inference." />
+<link rel="canonical" href="http://localhost:4000/blog/2017/09/01/naive-bayes.html" />
+<meta property="og:url" content="http://localhost:4000/blog/2017/09/01/naive-bayes.html" />
+<meta property="og:site_name" content="Everitt’s blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2017-09-01T00:00:00+08:00" />
+<script type="application/ld+json">
+{"description":"ML 2 Generative Learning In this notebook we make distinction between discriminative learning and generative learning algorithms. Conditional Probability The conditional probability is fundemental in statistc inference.","@type":"BlogPosting","url":"http://localhost:4000/blog/2017/09/01/naive-bayes.html","headline":"Naive Bayes","dateModified":"2017-09-01T00:00:00+08:00","datePublished":"2017-09-01T00:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/blog/2017/09/01/naive-bayes.html"},"@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Everitt's blog" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Everitt&#39;s blog</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a><a class="page-link" href="/category/blog.html">Blog</a><a class="page-link" href="/category/work.html">Work</a><a class="page-link" href="/tags.html">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Naive Bayes</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2017-09-01T00:00:00+08:00" itemprop="datePublished">Sep 1, 2017
+      </time></p>
+  </header>
+
+  <!-- Tags -->
+  <ul class="tags">
+    
+      <li><a href="/tags#algorithm" class="tag">algorithm</a></li>
+    
+  </ul>
+
+  <!-- Body -->
+  <div class="post-content e-content" itemprop="articleBody">
+    <h1 id="ml-2-generative-learning">ML 2 Generative Learning</h1>
+<p>In this notebook we make distinction between discriminative learning and generative learning algorithms.</p>
+<h2 id="conditional-probability">Conditional Probability</h2>
+<p>The conditional probability is fundemental in statistc inference.</p>
+
+<script type="math/tex; mode=display">p(x \mid y) = \frac{p(x,y)}{p(y)}</script>
+
+<p>Since $p(x,y) = p(y,x) = p(y \mid x)p(x)$ by the bayes rule, we can also write the above rule as</p>
+
+<script type="math/tex; mode=display">p(x \mid y) = \frac{p(y \mid x)p(x)}{p(y)}</script>
+
+<p>Which is the Bayes rule below. The term $p(x)$ is refered as the <em>class prior</em> while $p(x \mid y)$ is refered as the <em>posterior</em>.</p>
+<h2 id="tricks-with-conditional-probability-and-bayes">Tricks with conditional probability and Bayes</h2>
+<ul>
+  <li>Suppose we want to measure the pmf/pdf of multiple random variables, say $p(x,y,z)$
+    <ul>
+      <li>Sometimes it can be difficult to measure $p(x,y,z)$ directly, <strong>Bayes to the rescue</strong>
+        <ul>
+          <li>$p(x,y,z) = p(x,y \mid z)p(z) = p(x,z \mid y)p(y) = p(y,z \mid x)p(x)$ any combination you like~</li>
+          <li>you can break it down further like this $p(x,y,z) = p(x,y \mid z)p(z) = p(x \mid y,z)p(y \mid z)p(z)$</li>
+          <li>and if $x,y,z$ are independent, you would have $p(x,y,z) = p(x)p(y)p(z)$, looks sweet doesn’t it</li>
+        </ul>
+      </li>
+      <li>Sometimes we concern about joint conditional probability, say $p(x,y \mid z)$
+        <ul>
+          <li>as before we may rewrite this conditional probability in terms of other combination</li>
+          <li>so $p(x,y \mid z) = \frac{p(x,y,z)}{p(z)} = \frac{p(y,z \mid x)}{p(z)}$, which may be easier to compute?</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="bayes-rule">Bayes Rule</h2>
+<p>The bayes rule is used to derive the posterior distribution on y given x</p>
+
+<script type="math/tex; mode=display">p(y\mid x) = \frac{p(x\mid y)p(y)}{p(x)}</script>
+
+<p>Note we don’t actually need to compute p(x) in order to make prediction. The prediction can be made sole based on:</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{split}
+\arg\max_{y}p(y\mid x) &= \arg\max_{y}\frac{p(x\mid y)p(y)}{p(x)} \\
+&= \arg\max_{y}p(x\mid y)p(y)
+\end{split} %]]></script>
+
+<p>Given $p(y)$ the <strong>class priors</strong>. The features $x$ can be broken down into $x1, x2, x3 … x_n$. This means to calculate $p(x\mid y)$ we can rewrite as $p(x_1,x_2,x_3…x_n\mid y)$. If we assume the features are indepently distributed, we can rewrite $p(x \mid y)$ as</p>
+
+<script type="math/tex; mode=display">p(x_1,x_2,x_3...x_n\mid y) = p(x_1\mid y)p(x_2\mid y)p(x_3\mid y)...p(x_n\mid y)</script>
+
+<p>All we need to do is selecting very good features to predict. Also I like to point out these indivisual distributions can be guessed or learned. Another thing is that even if these feautures are not indepent, the equation still holds for most of the time.</p>
+
+<h2 id="gaussian-discriminant-analysis">Gaussian discriminant analysis</h2>
+<p>Before the derivation, we need to understand that what the term <strong>probability of data</strong> is.</p>
+<blockquote>
+  <p>The probability of the data is given by
+$p(\vec{y}\mid X; \theta)$. This quantity is typically viewed a function of $\vec{y}$ (and perhaps $X$),
+for a fixed value of $\theta$</p>
+</blockquote>
+
+<p>$(x_i, y_i)$</p>
+<ul>
+  <li>For least square problems, we are maximizing</li>
+</ul>
+
+<script type="math/tex; mode=display">\ell(w) = \prod_{i=1}^{m}{p(y^i|x^i;w)} = \prod_{i=1}^{m}{\frac{1}{\sqrt{2\pi\sigma}}e^{-\frac{(y^i-w^Tx^i)^2}{2\sigma^2}}}</script>
+
+<ul>
+  <li>For logistic regression, we are maximizing</li>
+</ul>
+
+<script type="math/tex; mode=display">\ell(\theta) = \prod_{i=1}^{m}{p(y^i|x^i;\theta)} = \prod_{i=1}^{m}{(h_{\theta}(x^{(i)}))^{y^{(i)}}(1-h_{\theta}(x^{(i)}))^{1-y^{(i)}}}</script>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- We then take the log of this function since it make the life easier.
+</code></pre></div></div>
+
+<ul>
+  <li>For naive bayes of binary output, we are actually maximizing the joint distribution of data, since the our probability distribution depends on both features and labels.</li>
+</ul>
+
+<script type="math/tex; mode=display">\begin{gather*}
+\ell(\theta,\mu_{0},\mu_{1},\Sigma) = log\prod_{i=1}^{m}{p(x^i,y^i;\theta,\mu_0,\mu_1,\Sigma)} \\
+y\sim{Bernoulli(\theta)} \\
+x\mid y=0 \sim \mathcal{N}(\mu_{0},\,\Sigma) \\
+x\mid y=1 \sim \mathcal{N}(\mu_{1},\,\Sigma)
+\end{gather*}</script>
+
+<h3 id="derivation-of-naive-bayes">Derivation of Naive Bayes</h3>
+<p>I’ll skip this part for now</p>
+
+<h3 id="variations-of-naive-bayes">Variations of Naive Bayes</h3>
+<ul>
+  <li>Multi-variate Bernoulli
+    <ul>
+      <li>Good for binary feature vector</li>
+      <li>Good for modeling text classification, word vector model. [0, 1, 0, …]</li>
+    </ul>
+  </li>
+  <li>Multinomial Model
+    <ul>
+      <li>Quite similiar to Bernoulli Naive bayese, but the distribution is multinomial. For large training set, the accuracy is usually better than the previous one. However this is from empirical experience, in fact the feature selection part largely determines the performance.</li>
+      <li>Good for modeling text classification as well, word event model.</li>
+    </ul>
+  </li>
+  <li>LDA
+    <ul>
+      <li>Continous features, covarience matrix doesn’t change</li>
+    </ul>
+  </li>
+  <li>QDA
+    <ul>
+      <li>Continous features, covarience matrix change depending on prior classes</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="something-to-notice-about-applying-bayes-in-text-classification">Something to notice about applying Bayes in text classification</h3>
+<ul>
+  <li>Usually the size of the samples is outnumbered by the number of features when doing text classification. Namely, we have n » m. This may lead to generalization error which means the model might overfit.</li>
+  <li>Andrew Ng has done some research to regulate this approach to make it efficient in text classification. We won’t need to go into the details but it’s good to know.</li>
+</ul>
+
+  </div>
+  
+  <!-- Related posts -->
+  
+  
+  
+    <div class="row related-posts">
+      <h2 class="text-center" style="font-family: initial">Related blog posts:</h2>
+      <div class="medium-12 small-12 columns">
+        
+          
+
+           <h3>
+            <a href="http://localhost:4000/blog/2018/05/29/kramdown_img_notes.html">
+              Kramdown Image Tips
+            </a>
+           </h3>
+
+          
+        
+          
+
+           <h3>
+            <a href="http://localhost:4000/blog/2018/05/29/bsn.html">
+              Binary Stochastic Neurons
+            </a>
+           </h3>
+
+          
+        
+          
+
+           <h3>
+            <a href="http://localhost:4000/blog/2018/05/24/instant-search.html">
+              Implement Jekyll instant search
+            </a>
+           </h3>
+
+          
+        
+      </div>
+    </div>
+  
+
+
+  <!-- Disqus --><a class="u-url" href="/blog/2017/09/01/naive-bayes.html" hidden></a>
+</article>
+
+
+<script id="dsq-count-scr" src="//everitt257.disqus.com/count.js" async></script>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Everitt&#39;s blog</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Everitt&#39;s blog</li><li><a class="u-email" href="mailto:everitt257@gmail.com">everitt257@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/everitt257"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">everitt257</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>This site fancies machine learning and problems in engineerning in general.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

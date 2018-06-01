@@ -172,6 +172,16 @@
   
     {
     
+      "title"    : "Naive Bayes",
+      "url"      : "/blog/2017/09/01/naive-bayes.html",
+      "category" : "blog",
+      "tags"     : "algorithm",
+      "date"     : "2017-09-01 00:00:00 +0800"
+      
+    } ,
+  
+    {
+    
       "title"    : "Learning Theory",
       "url"      : "/2017/08/02/learning_theory.html",
       "category" : "",
