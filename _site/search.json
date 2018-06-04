@@ -2,6 +2,26 @@
   
     {
     
+      "title"    : "承接Binary, 拥抱ternary和one-hot-neurons",
+      "url"      : "/blog/2018/06/04/ternary-and-one-hot-neuron.html",
+      "category" : "blog",
+      "tags"     : "deep learning, algorithm",
+      "date"     : "2018-06-04 00:00:00 +0800"
+      
+    } ,
+  
+    {
+    
+      "title"    : "来电描述分类器",
+      "url"      : "/work/2018/06/02/april-may-complains.html",
+      "category" : "work",
+      "tags"     : "algorithm",
+      "date"     : "2018-06-02 00:00:00 +0800"
+      
+    } ,
+  
+    {
+    
       "title"    : "Kramdown Image Tips",
       "url"      : "/blog/2018/05/29/kramdown_img_notes.html",
       "category" : "blog",

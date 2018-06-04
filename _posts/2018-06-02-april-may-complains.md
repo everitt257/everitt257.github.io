@@ -253,7 +253,7 @@ print(top100[::-1])
 
 出现频率最高的100个，刨除地名，其中`高温`,`骗人`,`骚扰`,`验证`，`验证码`出现得也比较高。
 
-
+当有新的数据进来的时候我们可以用这个更新我们的词汇空间。前提是保证词汇量不变。很遗憾这里用不上这个函数。
 ```python
 def vectorizer(vocab, features,df=0.5):
     """
@@ -264,33 +264,7 @@ def vectorizer(vocab, features,df=0.5):
     return tqm
 ```
 
-用有限的标签训练初步的贝叶斯分类器
-
-
-```python
-labeld_index = list(due_to_system.index)
-# craft some feature matrix
-features_with_labels = tqm[labeld_index]
-```
-
-
-```python
-labels_pre_trained = np.ones(features_with_labels.shape[0])
-test_features = sp.vstack((features_with_labels, tqm[:10]), format='csr')
-test_labels = np.concatenate((labels_pre_trained,np.zeros(10)),axis=0)
-
-test_classifier = MultinomialNB(alpha=0.1).fit(test_features, test_labels)
-```
-
-
-```python
-test_result = test_classifier.predict(test_features)
-print(test_result)
-```
-
-    [1. 1. 1. 1. 1. 1. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.]
-
-
+用有限的标签训练初步的贝叶斯分类器, 然后再用这个分类器去识别部分未标注的数据。假设这些数据是正确的，再重新训练。这样反复5-6次。
 
 ```python
 labeld_index = list(due_to_system.index)
