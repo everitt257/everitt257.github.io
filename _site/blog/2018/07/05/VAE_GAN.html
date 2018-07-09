@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<!-- custom.css -->
+<link rel="stylesheet", href="/css/custom.css">
+
+<!-- mathjax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    TeX: {
+      equationNumbers: {
+        autoNumber: "AMS"
+      }
+    },
+    tex2jax: {
+      inlineMath: [ ['$','$'] ],
+      displayMath: [ ['$$','$$'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+    }
+  });
+</script>
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+<!-- mermaid -->
+<script src="/js/mermaid.min.js"></script>
+<script>mermaid.initialize({startOnLoad:true});</script>
+
+<!-- body -->
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.5.0 -->
+<title>A comparison between VAE and GAN | Everitt’s blog</title>
+<meta name="generator" content="Jekyll v3.8.2" />
+<meta property="og:title" content="A comparison between VAE and GAN" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="This post concludes VAE and GAN I’ve took some time going over multiple post regarding VAE and GAN. To help myself to better understand these generative model, I decided to write a post about them, comparing them side by side. Also I want to include the necessary implementation details regarding these two models. For this model, I will use the toy dataset which is MNIST. The code in this post will be mainly implemented with Tensorflow." />
+<meta property="og:description" content="This post concludes VAE and GAN I’ve took some time going over multiple post regarding VAE and GAN. To help myself to better understand these generative model, I decided to write a post about them, comparing them side by side. Also I want to include the necessary implementation details regarding these two models. For this model, I will use the toy dataset which is MNIST. The code in this post will be mainly implemented with Tensorflow." />
+<link rel="canonical" href="http://localhost:4000/blog/2018/07/05/VAE_GAN.html" />
+<meta property="og:url" content="http://localhost:4000/blog/2018/07/05/VAE_GAN.html" />
+<meta property="og:site_name" content="Everitt’s blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-07-05T00:00:00+08:00" />
+<script type="application/ld+json">
+{"description":"This post concludes VAE and GAN I’ve took some time going over multiple post regarding VAE and GAN. To help myself to better understand these generative model, I decided to write a post about them, comparing them side by side. Also I want to include the necessary implementation details regarding these two models. For this model, I will use the toy dataset which is MNIST. The code in this post will be mainly implemented with Tensorflow.","@type":"BlogPosting","url":"http://localhost:4000/blog/2018/07/05/VAE_GAN.html","headline":"A comparison between VAE and GAN","dateModified":"2018-07-05T00:00:00+08:00","datePublished":"2018-07-05T00:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/blog/2018/07/05/VAE_GAN.html"},"@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Everitt's blog" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Everitt&#39;s blog</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a><a class="page-link" href="/category/blog.html">Blog</a><a class="page-link" href="/category/work.html">Work</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">A comparison between VAE and GAN</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2018-07-05T00:00:00+08:00" itemprop="datePublished">Jul 5, 2018
+      </time></p>
+  </header>
+
+  <!-- Tags -->
+  <ul class="tags">
+    
+      <li><a href="/tags#deep learning" class="tag">deep learning</a></li>
+    
+      <li><a href="/tags#generative modeling" class="tag">generative modeling</a></li>
+    
+  </ul>
+
+  <!-- Body -->
+  <div class="post-content e-content" itemprop="articleBody">
+    <h3 id="this-post-concludes-vae-and-gan">This post concludes VAE and GAN</h3>
+<p>I’ve took some time going over multiple post regarding VAE and GAN. To help myself to better understand these generative model, I decided to write a post about them, comparing them side by side. Also I want to include the necessary implementation details regarding these two models. For this model, I will use the toy dataset which is MNIST. The code in this post will be mainly implemented with Tensorflow.</p>
+
+<h4 id="vae">VAE</h4>
+<p>The VAE(variational autoencoder) can be best described as autoencoder with a probability twist.</p>
+
+<h4 id="the-motivation-behind-vae">The motivation behind VAE</h4>
+<p>The autoencoder is another network architecture that is used to encode object, such as images into latent variables. The latent variables usually have far less dimension and less parameters than the original object. We usually only use the encoder part after we’re finished with the training with autoencoder.</p>
+
+<p>Another use of encoder part of autoencoder is that it can used to initialize a supervised model. Usually fine-tune the encoder jointly with the classifier.</p>
+
+<p>The autoencoder is usually comprised of these module:
+<img src="http://localhost:4000/data/img/vae_gan/autoencoder_module.png" alt="png" /></p>
+
+<p>However, simply using the autoencoder to generate images will not be considered as a generative model. Say that you input a image, then the output image you generated will always be the same. In another word, the decoder part of autoencoder network is simply generating things it already remembered.</p>
+
+<p>The VAE addresses the above mentioned problem by supplying the latent variables with a sampling technique that makes each feature unit gaussian or some other distribution. In other words, we’ll use the “sampled latent vector” instead of the true latent vector. In the next section will discuss these deductions in detail.
+<img src="http://localhost:4000/data/img/vae_gan/autoencoder_module2.png" alt="png" /></p>
+
+<h4 id="the-mathematical-proof-of-vae">The mathematical proof of VAE</h4>
+<p>In previous section, we talked about adding a supplementary network to so latent variables can be sampled from it. The mathematical intuition behind this is that alone with the decoder network we cannot calculate the data likelihood. And because of that, the posterior density is also intractable.</p>
+
+<p>Data likelihood:</p>
+
+<script type="math/tex; mode=display">p_\theta(x) = \int p_\theta(z) p_\theta(x | z)dz</script>
+
+<p>Posterior density intractable:</p>
+
+<script type="math/tex; mode=display">p_\theta(z | x) = p_\theta(x | z)p_\theta(z)/p_\theta(x)</script>
+
+<p>As the integral part of $p_\theta(x)$ is untractable, the posterior density $p_\theta(z | x)$ is also intractable.</p>
+
+<p>Therefore in order to address this issue of intractability, we define additional encoder network $q_\sigma(z | x)$ that approximates $p_\theta(z | x)$.</p>
+
+<p>Now equipped with $q$ the auxillary encoder network, let’s maximize the data likelihood. Please view the full derivation below:</p>
+
+<p><img src="http://om1hdizoc.bkt.clouddn.com/18-7-5/14120810.jpg" alt="" /></p>
+
+<p>The first two term defines the lower bound on VAE. The third term defines intractable loss. That’s why VAE is optimizing a lower bound on the loss of the likelihood of the data. We can also view the first term $\text{log } p_\theta(x | z)$ as the reconstruction loss. This loss can be estimated via reparametrization trick and L2 binary classification loss. The second term is the KL divergence loss which tries to minimize the difference between posterior distribution $q(z | x)$ and the prior $p(z)$ . We’ll talk about reparametrization trick and KL divergence in the next section.</p>
+
+<p><strong>The reparametrization trick</strong> a trick that let us divert the sampling of $p(x | z)$ outside the network. One might ask why not direct sample the $p(x | z)$? This is because directing sampling is a discrete process so it’s not differentiable. In other words, we want to sampling outside the network.</p>
+
+<script type="math/tex; mode=display">\text{Standard Gaussian Distribution: } x_{std} \Longleftarrow x \sim N(\mu, \Sigma)</script>
+
+<script type="math/tex; mode=display">\text{Convert to any Gaussian Distribution by shifting and adding: }x = \mu + \Sigma^{\frac{1}{2}} x_{std}</script>
+
+<p>The above is the reparametrization trick. We just move the standard Gaussian distribution outside our network. This is best understood with a graph.
+<img src="http://om1hdizoc.bkt.clouddn.com/18-7-6/96073727.jpg" alt="" /></p>
+
+<p><strong>The KL divergence loss</strong> measures the distance between any two distribution. In our case we want to find out what $D_{KL}[Q(z \vert X) \Vert P(z)]$ is. The $P(z)$ term is easy, it’s just unit Gaussian distribution. Hence we want to make our $Q(z \vert x)$ term as close as possible to $N(0, 1)$, so we that we can sample it easily. Now the KL divergence between two Gaussians do have close-form solution. To save the head-ache I’m just going to spit it out.</p>
+
+<script type="math/tex; mode=display">D_{KL}[N(\mu(X), \Sigma(X)) \Vert N(0, 1)] = \frac{1}{2} \, \left( \textrm{tr}(\Sigma(X)) + \mu(X)^T\mu(X) - k - \log \, \det(\Sigma(X)) \right)</script>
+
+<script type="math/tex; mode=display">\text{This can be further reduced to: }</script>
+
+<script type="math/tex; mode=display">D_{KL}[N(\mu(X), \Sigma(X)) \Vert N(0, 1)] = \frac{1}{2} \, \sum_k \left( \Sigma(X) + \mu^2(X) - 1 - \log \Sigma(X) \right)</script>
+
+<p>Also it’s mentioned in the paper by VAE, that is more numerically stable to take the exponent compared to computing the log, so our formula above can written like this:</p>
+
+<script type="math/tex; mode=display">D_{KL}[N(\mu(X), \Sigma(X)) \Vert N(0, 1)] = \frac{1}{2} \sum_k \left( \exp(\Sigma(X)) + \mu^2(X) - 1 - \Sigma(X) \right)</script>
+
+<h4 id="the-code-for-vae">The code for VAE</h4>
+<p>Once you understand the above math. The code for VAE is exceptionally simple. I will only show the important ones. Those in need can go through the original post at <a href="https://github.com/wiseodd/generative-models">here</a>.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># encoder</span>
+<span class="k">def</span> <span class="nf">recognition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_images</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">variable_scope</span><span class="p">(</span><span class="s">"recognition"</span><span class="p">):</span>
+        <span class="n">h1</span> <span class="o">=</span> <span class="n">lrelu</span><span class="p">(</span><span class="n">conv2d</span><span class="p">(</span><span class="n">input_images</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="s">"d_h1"</span><span class="p">))</span> <span class="c"># 28x28x1 -&gt; 14x14x16</span>
+        <span class="n">h2</span> <span class="o">=</span> <span class="n">lrelu</span><span class="p">(</span><span class="n">conv2d</span><span class="p">(</span><span class="n">h1</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="s">"d_h2"</span><span class="p">))</span> <span class="c"># 14x14x16 -&gt; 7x7x32</span>
+        <span class="n">h2_flat</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">h2</span><span class="p">,[</span><span class="bp">self</span><span class="o">.</span><span class="n">batchsize</span><span class="p">,</span> <span class="mi">7</span><span class="o">*</span><span class="mi">7</span><span class="o">*</span><span class="mi">32</span><span class="p">])</span>
+
+        <span class="n">w_mean</span> <span class="o">=</span> <span class="n">dense</span><span class="p">(</span><span class="n">h2_flat</span><span class="p">,</span> <span class="mi">7</span><span class="o">*</span><span class="mi">7</span><span class="o">*</span><span class="mi">32</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_z</span><span class="p">,</span> <span class="s">"w_mean"</span><span class="p">)</span>
+        <span class="n">w_stddev</span> <span class="o">=</span> <span class="n">dense</span><span class="p">(</span><span class="n">h2_flat</span><span class="p">,</span> <span class="mi">7</span><span class="o">*</span><span class="mi">7</span><span class="o">*</span><span class="mi">32</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_z</span><span class="p">,</span> <span class="s">"w_stddev"</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">w_mean</span><span class="p">,</span> <span class="n">w_stddev</span>
+</code></pre></div></div>
+
+<p>Here in the code, <code class="highlighter-rouge">n_z</code> is just the latent variables’ dimension. You can set it to be any number you want. This piece of code simply does convolution followed by standard RELU activation, resulting a 7x7x32 tensor. After that, it reshapes it to a 7x7x32 vector and does fully connected layer from there to output a <code class="highlighter-rouge">n_z</code> dimensional vector.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># decoder</span>
+<span class="k">def</span> <span class="nf">generation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">z</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">variable_scope</span><span class="p">(</span><span class="s">"generation"</span><span class="p">):</span>
+        <span class="n">z_develop</span> <span class="o">=</span> <span class="n">dense</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_z</span><span class="p">,</span> <span class="mi">7</span><span class="o">*</span><span class="mi">7</span><span class="o">*</span><span class="mi">32</span><span class="p">,</span> <span class="n">scope</span><span class="o">=</span><span class="s">'z_matrix'</span><span class="p">)</span>
+        <span class="n">z_matrix</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">z_develop</span><span class="p">,</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">batchsize</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">32</span><span class="p">]))</span>
+        <span class="n">h1</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="n">conv_transpose</span><span class="p">(</span><span class="n">z_matrix</span><span class="p">,</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">batchsize</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">16</span><span class="p">],</span> <span class="s">"g_h1"</span><span class="p">))</span>
+        <span class="n">h2</span> <span class="o">=</span> <span class="n">conv_transpose</span><span class="p">(</span><span class="n">h1</span><span class="p">,</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">batchsize</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="s">"g_h2"</span><span class="p">)</span>
+        <span class="n">h2</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">sigmoid</span><span class="p">(</span><span class="n">h2</span><span class="p">)</span> <span class="c"># uses sigmoid instead of softmax, hmm, so this is binary classificiation</span>
+
+    <span class="k">return</span> <span class="n">h2</span>
+</code></pre></div></div>
+
+<p>The decoder part is pretty much the same as the encoder. Except it does transpose convolution. Some people mixes transpose convolution with deconvolution but we will not discuss the difference here. Another thing to notice is that it uses sigmoid instead of softmax for classification, this means it’s a binary classification. There’re some confusion regarding whether we should use this related to our loss function which is L2 loss. But that’s off topic and maybe I’ll write another post about it. For now just assume this is the correct classification to use.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">image_matrix</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">images</span><span class="p">,[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">z_mean</span><span class="p">,</span> <span class="n">z_stddev</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">recognition</span><span class="p">(</span><span class="n">image_matrix</span><span class="p">)</span>
+<span class="n">samples</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">random_normal</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">batchsize</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">n_z</span><span class="p">],</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+<span class="n">guessed_z</span> <span class="o">=</span> <span class="n">z_mean</span> <span class="o">+</span> <span class="p">(</span><span class="n">z_stddev</span> <span class="o">*</span> <span class="n">samples</span><span class="p">)</span>
+
+<span class="bp">self</span><span class="o">.</span><span class="n">generated_images</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generation</span><span class="p">(</span><span class="n">guessed_z</span><span class="p">)</span>
+<span class="n">generated_flat</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">generated_images</span><span class="p">,</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">batchsize</span><span class="p">,</span> <span class="mi">28</span><span class="o">*</span><span class="mi">28</span><span class="p">])</span>
+
+<span class="bp">self</span><span class="o">.</span><span class="n">generation_loss</span> <span class="o">=</span> <span class="o">-</span><span class="n">tf</span><span class="o">.</span><span class="n">reduce_sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">images</span> <span class="o">*</span> <span class="n">tf</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mf">1e-8</span> <span class="o">+</span> <span class="n">generated_flat</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">images</span><span class="p">)</span> <span class="o">*</span> <span class="n">tf</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mf">1e-8</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">generated_flat</span><span class="p">),</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="bp">self</span><span class="o">.</span><span class="n">latent_loss</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">tf</span><span class="o">.</span><span class="n">reduce_sum</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">z_mean</span><span class="p">)</span> <span class="o">+</span> <span class="n">tf</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">z_stddev</span><span class="p">)</span> <span class="o">-</span> <span class="n">tf</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">z_stddev</span><span class="p">))</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">cost</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reduce_mean</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">generation_loss</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">latent_loss</span><span class="p">)</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">optimizer</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">AdamOptimizer</span><span class="p">(</span><span class="mf">0.001</span><span class="p">)</span><span class="o">.</span><span class="n">minimize</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cost</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>The last piece of puzzle is the loss function. This is pretty self-explainatory so I will not say much about it. All we need to focus is the <code class="highlighter-rouge">generation_loss</code> and the <code class="highlighter-rouge">latent_loss</code>. The <code class="highlighter-rouge">generation_loss</code> is just the L2 loss in pixel levels like we talked about at the beginning of the post, while the <code class="highlighter-rouge">latent_loss</code> will be the close form solution we got from the last section. Everything else is pretty standard, and Adam trainer and reduce_mean loss overall.</p>
+
+<h4 id="gan">GAN</h4>
+<p>GAN is another type of network that does generative learning. It be best explained with the game-theory approach.</p>
+
+<h4 id="the-motivation-behind-gan">The motivation behind GAN</h4>
+<p>GAN is short for Generative Adversarial Network. As the name suggests, it focuses on the adversarial part of the network. Basically there are two characters in the network. The discriminator and the generator. The generator always tries to forge something to get pass by the discriminator while the discriminator tries its best to distinguish between fake and real samples. As you can see. This is a cat &amp; mouse game. The difficulties in the network is that the discriminator is pretty much always stronger than the generator, therefore it’s necessary to tune the parameters of the network and to balance the generator and the discriminator.
+<img src="http://localhost:4000/data/img/vae_gan/GAN_1.png" alt="png" /></p>
+
+<h4 id="the-math-behind-gan">The math behind GAN</h4>
+<p>The training of the GAN is a fight between the generator and the discriminator. This can be represented mathematically as</p>
+
+<script type="math/tex; mode=display">\min_G\max_DV(D,G)</script>
+
+<script type="math/tex; mode=display">V(D,G) = \mathbb{E}_{x \sim p_{data}(x)}[\log D(x)] + \mathbb{E}_{z \sim p_{z}(z)}[\log (1-D(G(z)))]</script>
+
+<p>The above equation can then be broken down into two losses in the implementation of GAN. The first part is the $\max_DV(D,G)$ part. This is telling our model to construct the discriminator loss. which is exactly the same equation, but with a negative signs and changing the <em>max</em> objective to a <em>min</em> objective.</p>
+
+<script type="math/tex; mode=display">\max_DV = \min_D-V</script>
+
+<p>The second part of the loss is the generator’s loss. Notice that there’s only one G term in the $V(D,G)$ function. $\min_GV(D,G)$ tell us to minimize the <strong>V</strong> function by alternating the generator. In other words, it tries to minimize the difference between real and fake samples. Since only the second term contribute to the <strong>V</strong> function. We then rewrite</p>
+
+<script type="math/tex; mode=display">\min_GV = \min_G\mathbb{E}_{z \sim p_{z}(z)}[\log (1-D(G(z)))] = \min_G\mathbb{E}_{z \sim p_{z}(z)}[-\log D(G(z))]</script>
+
+<p>So the first loss function optimizes the parameters in the discriminator’s network while the second loss function optimizes the parameters in the generator’s network. The model would take turn turn in training, but we discuss more about it in the next section.</p>
+
+<h4 id="the-code-for-gan">The code for GAN</h4>
+<p>The generator part:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">generator</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">hidden_size</span><span class="p">):</span>
+    <span class="n">h0</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">softplus</span><span class="p">(</span><span class="n">linear</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">hidden_size</span><span class="p">,</span> <span class="s">'g0'</span><span class="p">))</span>
+    <span class="n">h1</span> <span class="o">=</span> <span class="n">linear</span><span class="p">(</span><span class="n">h0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s">'g1'</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">h1</span>
+</code></pre></div></div>
+<p>The generator is simple. It’s linear transformation passed through some non-linear function. Followed by another linear transformation.</p>
+
+<p>The discriminator part:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">discriminator</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">hidden_size</span><span class="p">):</span>
+    <span class="n">h0</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">tanh</span><span class="p">(</span><span class="n">linear</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">hidden_size</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span> <span class="s">'d0'</span><span class="p">))</span>
+    <span class="n">h1</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">tanh</span><span class="p">(</span><span class="n">linear</span><span class="p">(</span><span class="n">h0</span><span class="p">,</span> <span class="n">hidden_size</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span> <span class="s">'d1'</span><span class="p">))</span>
+    <span class="n">h2</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">tanh</span><span class="p">(</span><span class="n">linear</span><span class="p">(</span><span class="n">h1</span><span class="p">,</span> <span class="n">hidden_size</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span> <span class="s">'d2'</span><span class="p">))</span>
+    <span class="n">h3</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">sigmoid</span><span class="p">(</span><span class="n">linear</span><span class="p">(</span><span class="n">h2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s">'d3'</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">h3</span>
+</code></pre></div></div>
+<p>The discriminator is more powerful than the generator. Because we want it to be able to learn to distinguish accurately between generated and real samples. It outputs sigmoid in which we can interpret as a probability.</p>
+
+<p>The loss function part:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">variable_scope</span><span class="p">(</span><span class="s">'G'</span><span class="p">):</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">placeholder</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="n">G</span> <span class="o">=</span> <span class="n">generator</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">hidden_size</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">variable_scope</span><span class="p">(</span><span class="s">'D'</span><span class="p">)</span> <span class="k">as</span> <span class="n">scope</span><span class="p">:</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">placeholder</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="n">D1</span> <span class="o">=</span> <span class="n">discriminator</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">hidden_size</span><span class="p">)</span>
+    <span class="n">scope</span><span class="o">.</span><span class="n">reuse_variables</span><span class="p">()</span>
+    <span class="n">D2</span> <span class="o">=</span> <span class="n">discriminator</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">hidden_size</span><span class="p">)</span>
+
+<span class="n">loss_d</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reduce_mean</span><span class="p">(</span><span class="o">-</span><span class="n">tf</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">D1</span><span class="p">)</span> <span class="o">-</span> <span class="n">tf</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">D2</span><span class="p">))</span>
+<span class="n">loss_g</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reduce_mean</span><span class="p">(</span><span class="o">-</span><span class="n">tf</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">D2</span><span class="p">))</span>
+</code></pre></div></div>
+<p>The loss functions, as explained in the mathematical formulation of last section, the goal is to have our generator fool the discriminator. And the discriminator being able to tell the difference between real and generated data.</p>
+
+<p>In order to train model for GAN, we need to draw samples from data distribution and the noise distribution. And alternate between optimizing the parameters of the discriminator and the generator.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">Session</span><span class="p">()</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
+    <span class="n">tf</span><span class="o">.</span><span class="n">initialize_all_variables</span><span class="p">()</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+
+    <span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="n">num_steps</span><span class="p">):</span>
+        <span class="c"># update discriminator</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">batch_size</span><span class="p">)</span>
+        <span class="n">z</span> <span class="o">=</span> <span class="n">gen</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">batch_size</span><span class="p">)</span>
+        <span class="n">session</span><span class="o">.</span><span class="n">run</span><span class="p">([</span><span class="n">loss_d</span><span class="p">,</span> <span class="n">opt_d</span><span class="p">],</span> <span class="p">{</span>
+            <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
+            <span class="n">z</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="p">})</span>
+
+        <span class="c"># update generator</span>
+        <span class="n">z</span> <span class="o">=</span> <span class="n">gen</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">batch_size</span><span class="p">)</span>
+        <span class="n">session</span><span class="o">.</span><span class="n">run</span><span class="p">([</span><span class="n">loss_g</span><span class="p">,</span> <span class="n">opt_g</span><span class="p">],</span> <span class="p">{</span>
+            <span class="n">z</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="p">})</span>
+</code></pre></div></div>
+
+<p>There are actually many ways to fool the discriminator. In fact if the data generated has a mean value of the real data in this simple example then it is going to be able to fool the discriminator. Collapsing to a parameter setting where it always emits the same point is a common failure mode for GAN.</p>
+
+<p>There are exist many possible solution to this problem. It is not entirely clear how to generalize this to a bigger problem.</p>
+
+<h4 id="improving-the-sample-diversity">Improving the sample diversity</h4>
+<p>As quoted in the paper “Improved Techniques for Training GANs”:</p>
+<blockquote>
+  <p>Because the discriminator processes each example independently, there is no coordination between its gradients, and thus no mechanism to tell the outputs of the generator to become dissimilar to each other.</p>
+</blockquote>
+
+<p>Therefore it’s easy for the GAN network to collapse to single mode. An technique for elevating this type of failure is obviously let the discriminator make use of the <em>side information</em> when training a batch of samples. This means letting the discriminator look at multiple data examples in combination and perform a so called <strong>minibatch discrimination</strong></p>
+
+<p class="mycenter"><img src="http://om1hdizoc.bkt.clouddn.com/18-7-9/1985574.jpg" alt="" /></p>
+
+<p>This is basically doing the following:</p>
+<ul>
+  <li>Take the output of the intermediate layer of the discriminator</li>
+  <li>Multiply with a 3D tensor to produce a matrix (in code we just multiply 2D matrix then reshape to get 3D tensor, where each sub tensor is of different matrix)</li>
+  <li>Compute $L_1$ distance between rows in the this matrix across all samples in a batch</li>
+  <li>Apply a negative exponential</li>
+  <li>Take the sum of these exponential distances. The result will be [batch_size, kernels]. The “kenerl” is a big aspect of which we want to compared to other samples to</li>
+  <li>Concatenate the original input to the minibatch layer and pass to next layer of the discriminator</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">minibatch</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">num_kernels</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">kernel_dim</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">linear</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">num_kernels</span> <span class="o">*</span> <span class="n">kernel_dim</span><span class="p">)</span>
+    <span class="n">activation</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_kernels</span><span class="p">,</span> <span class="n">kernel_dim</span><span class="p">))</span>
+    <span class="n">diffs</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">activation</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span> <span class="o">-</span> \
+        <span class="n">tf</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">activation</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">]),</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">abs_diffs</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reduce_sum</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="nb">abs</span><span class="p">(</span><span class="n">diffs</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">minibatch_features</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reduce_sum</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">abs_diffs</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">tf</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="p">[</span><span class="nb">input</span><span class="p">,</span> <span class="n">minibatch_features</span><span class="p">])</span>
+</code></pre></div></div>
+<p>In Tensorflow it will look like this. The experiment result shows that it makes the generator to maintain most of the width of the original data. Not perfect but much better than plain GAN model.</p>
+
+<h3 id="comparison-and-conclusion">Comparison and Conclusion</h3>
+
+<style>
+.mycenter {
+    text-align:center;
+}
+</style>
+
+
+  </div>
+  
+  <!-- Related posts -->
+  
+  
+  
+    <div class="row related-posts">
+      <h2 class="text-center" style="font-family: initial">Related blog posts:</h2>
+      <div class="medium-12 small-12 columns">
+        
+          
+        
+          
+
+           <h3>
+            <a href="http://localhost:4000/blog/2018/06/22/discrete_embeddings.html">
+              Discussion of generation models, sequential generation
+            </a>
+           </h3>
+
+          
+        
+          
+
+           <h3>
+            <a href="http://localhost:4000/blog/2018/06/04/ternary-and-one-hot-neuron.html">
+              承接Binary, 拥抱ternary和one-hot-neurons
+            </a>
+           </h3>
+
+          
+        
+      </div>
+    </div>
+  
+
+
+  <!-- Disqus --><a class="u-url" href="/blog/2018/07/05/VAE_GAN.html" hidden></a>
+</article>
+
+
+<script id="dsq-count-scr" src="//everitt257.disqus.com/count.js" async></script>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Everitt&#39;s blog</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Everitt&#39;s blog</li><li><a class="u-email" href="mailto:everitt257@gmail.com">everitt257@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/everitt257"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">everitt257</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>This site fancies machine learning and problems in engineerning in general.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

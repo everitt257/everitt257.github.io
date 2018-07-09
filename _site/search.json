@@ -2,6 +2,26 @@
   
     {
     
+      "title"    : "A comparison between VAE and GAN",
+      "url"      : "/blog/2018/07/05/VAE_GAN.html",
+      "category" : "blog",
+      "tags"     : "deep learning, generative modeling",
+      "date"     : "2018-07-05 00:00:00 +0800"
+      
+    } ,
+  
+    {
+    
+      "title"    : "Discussion of generation models, sequential generation",
+      "url"      : "/blog/2018/06/22/discrete_embeddings.html",
+      "category" : "blog",
+      "tags"     : "deep learning, algorithm",
+      "date"     : "2018-06-22 00:00:00 +0800"
+      
+    } ,
+  
+    {
+    
       "title"    : "承接Binary, 拥抱ternary和one-hot-neurons",
       "url"      : "/blog/2018/06/04/ternary-and-one-hot-neuron.html",
       "category" : "blog",
