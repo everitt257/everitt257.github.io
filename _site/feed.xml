@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2018-07-10T00:10:09+08:00</updated><id>http://localhost:4000/</id><title type="html">Everitt’s blog</title><subtitle>This site fancies machine learning and problems in engineerning in general.</subtitle><entry><title type="html">A comparison between VAE and GAN</title><link href="http://localhost:4000/blog/2018/07/05/VAE_GAN.html" rel="alternate" type="text/html" title="A comparison between VAE and GAN" /><published>2018-07-05T00:00:00+08:00</published><updated>2018-07-05T00:00:00+08:00</updated><id>http://localhost:4000/blog/2018/07/05/VAE_GAN</id><content type="html" xml:base="http://localhost:4000/blog/2018/07/05/VAE_GAN.html">&lt;h3 id=&quot;this-post-concludes-vae-and-gan&quot;&gt;This post concludes VAE and GAN&lt;/h3&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2018-07-11T07:29:22+08:00</updated><id>http://localhost:4000/</id><title type="html">Everitt’s blog</title><subtitle>This site fancies machine learning and problems in engineerning in general.</subtitle><entry><title type="html">A comparison between VAE and GAN</title><link href="http://localhost:4000/blog/2018/07/05/VAE_GAN.html" rel="alternate" type="text/html" title="A comparison between VAE and GAN" /><published>2018-07-05T00:00:00+08:00</published><updated>2018-07-05T00:00:00+08:00</updated><id>http://localhost:4000/blog/2018/07/05/VAE_GAN</id><content type="html" xml:base="http://localhost:4000/blog/2018/07/05/VAE_GAN.html">&lt;h3 id=&quot;this-post-concludes-vae-and-gan&quot;&gt;This post concludes VAE and GAN&lt;/h3&gt;
 &lt;p&gt;I’ve took some time going over multiple post regarding VAE and GAN. To help myself to better understand these generative model, I decided to write a post about them, comparing them side by side. Also I want to include the necessary implementation details regarding these two models. For this model, I will use the toy dataset which is MNIST. The code in this post will be mainly implemented with Tensorflow.&lt;/p&gt;
 
 &lt;h4 id=&quot;vae&quot;&gt;VAE&lt;/h4&gt;
@@ -131,6 +131,26 @@
 &lt;script type=&quot;math/tex; mode=display&quot;&gt;\min_GV = \min_G\mathbb{E}_{z \sim p_{z}(z)}[\log (1-D(G(z)))] = \min_G\mathbb{E}_{z \sim p_{z}(z)}[-\log D(G(z))]&lt;/script&gt;
 
 &lt;p&gt;So the first loss function optimizes the parameters in the discriminator’s network while the second loss function optimizes the parameters in the generator’s network. The model would take turn turn in training, but we discuss more about it in the next section.&lt;/p&gt;
+&lt;h4 id=&quot;sampling&quot;&gt;Sampling&lt;/h4&gt;
+&lt;p&gt;Before we get into the training of GAN, we need to to sample both our data and noise, say for example our data is distributed as $X \sim \mathcal{N}(-1, 1)$ and our noise/latent variable is distributed as $Z \sim \mathcal{N}(0, 1)$. However if we just blindly sample them from two independent resource, the training of GAN will not lead to good result. This is because nothing is enforcing the adjacent pints in the latent space domain being mapped to adjacent points in the X domain (real sample domain). In one minibatch, we might train our generator to map some latent samples to some X domain, however in another minibatch we might points very close to the previous latent samples but mapping to a very different location in X. This implies a completely different mapping G from the previous minibatch, so the optimizer will fail to converge.&lt;/p&gt;
+
+&lt;p class=&quot;mycenter&quot;&gt;&lt;img src=&quot;http://localhost:4000/data/img/vae_gan/sampling_1.png&quot; alt=&quot;png&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;To get over this, we want to use a trick called stratified sampling. That is we want our align our X and Z (latent space) domain so that the total length of the arrows taking points from Z to X is minimized.&lt;/p&gt;
+
+&lt;p&gt;Two steps for doing this (for the 1-D example):&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;Stretch the domain of Z to be the same size of X. So that G will not to learn to stretch.&lt;/li&gt;
+  &lt;li&gt;Generate $M$ equally spaced points along the domain of Z and then jitter the points randomly. The $M$ stands for the points to sample, both in Z and X.&lt;/li&gt;
+  &lt;li&gt;Sort X (Z is already sorted in step 2)&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p class=&quot;mycenter&quot;&gt;&lt;img src=&quot;http://localhost:4000/data/img/vae_gan/sampling_2.png&quot; alt=&quot;png&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;As quoted by Eric Jang in his post regarding GAN:&lt;/p&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;This step was crucial for me to get this example working: when dealing with random noise as input, failing to align the transformation map properly will give rise to a host of other problems, like massive gradients that kill ReLU units early on, plateaus in the objective function, or performance not scaling with minibatch size.&lt;/p&gt;
+&lt;/blockquote&gt;
 
 &lt;h4 id=&quot;the-code-for-gan&quot;&gt;The code for GAN&lt;/h4&gt;
 &lt;p&gt;The generator part:&lt;/p&gt;
@@ -223,9 +243,19 @@
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;p&gt;In Tensorflow it will look like this. The experiment result shows that it makes the generator to maintain most of the width of the original data. Not perfect but much better than plain GAN model.&lt;/p&gt;
 
-&lt;h3 id=&quot;comparison-and-conclusion&quot;&gt;Comparison and Conclusion&lt;/h3&gt;
+&lt;h4 id=&quot;comparison-and-conclusion&quot;&gt;Comparison and Conclusion&lt;/h4&gt;
+&lt;p&gt;In this post we have gone over two popular generative model. One is the VAE and the other is the GAN. The VAE uses something called density approximation while the GAN use a direct approach that was rooted in game theory. The VAE usually generate a more blurry picture than the GAN. However it does have more control than the plain GAN since one can manipulate the latent vector. The GAN on the other hand generate more realistic images but loses the control to latent vectors.&lt;/p&gt;
 
-&lt;style&gt;
+&lt;p&gt;One big problem of these generative model is the evaluation of the generated quality. This is still an open area of research and I plan to do some followups on that. It’s also possible to combine VAE and GAN together to fully utilize the best of both to generate certain class of realistic images. This is something we may cover in the future as well.&lt;/p&gt;
+
+&lt;h4 id=&quot;reference-code&quot;&gt;Reference code&lt;/h4&gt;
+&lt;p&gt;These are some reference code I used to write this post. They are of incredible help.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/AYLIEN/gan-intro&quot;&gt;1-D GAN&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/kvfrans/variational-autoencoder&quot;&gt;VAN MNIST&lt;/a&gt;&lt;/p&gt;
+
+&lt;style&gt; 
 .mycenter {
     text-align:center;
 }

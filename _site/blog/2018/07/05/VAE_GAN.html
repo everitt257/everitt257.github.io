@@ -216,6 +216,26 @@
 <script type="math/tex; mode=display">\min_GV = \min_G\mathbb{E}_{z \sim p_{z}(z)}[\log (1-D(G(z)))] = \min_G\mathbb{E}_{z \sim p_{z}(z)}[-\log D(G(z))]</script>
 
 <p>So the first loss function optimizes the parameters in the discriminator’s network while the second loss function optimizes the parameters in the generator’s network. The model would take turn turn in training, but we discuss more about it in the next section.</p>
+<h4 id="sampling">Sampling</h4>
+<p>Before we get into the training of GAN, we need to to sample both our data and noise, say for example our data is distributed as $X \sim \mathcal{N}(-1, 1)$ and our noise/latent variable is distributed as $Z \sim \mathcal{N}(0, 1)$. However if we just blindly sample them from two independent resource, the training of GAN will not lead to good result. This is because nothing is enforcing the adjacent pints in the latent space domain being mapped to adjacent points in the X domain (real sample domain). In one minibatch, we might train our generator to map some latent samples to some X domain, however in another minibatch we might points very close to the previous latent samples but mapping to a very different location in X. This implies a completely different mapping G from the previous minibatch, so the optimizer will fail to converge.</p>
+
+<p class="mycenter"><img src="http://localhost:4000/data/img/vae_gan/sampling_1.png" alt="png" /></p>
+
+<p>To get over this, we want to use a trick called stratified sampling. That is we want our align our X and Z (latent space) domain so that the total length of the arrows taking points from Z to X is minimized.</p>
+
+<p>Two steps for doing this (for the 1-D example):</p>
+<ol>
+  <li>Stretch the domain of Z to be the same size of X. So that G will not to learn to stretch.</li>
+  <li>Generate $M$ equally spaced points along the domain of Z and then jitter the points randomly. The $M$ stands for the points to sample, both in Z and X.</li>
+  <li>Sort X (Z is already sorted in step 2)</li>
+</ol>
+
+<p class="mycenter"><img src="http://localhost:4000/data/img/vae_gan/sampling_2.png" alt="png" /></p>
+
+<p>As quoted by Eric Jang in his post regarding GAN:</p>
+<blockquote>
+  <p>This step was crucial for me to get this example working: when dealing with random noise as input, failing to align the transformation map properly will give rise to a host of other problems, like massive gradients that kill ReLU units early on, plateaus in the objective function, or performance not scaling with minibatch size.</p>
+</blockquote>
 
 <h4 id="the-code-for-gan">The code for GAN</h4>
 <p>The generator part:</p>
@@ -308,9 +328,19 @@
 </code></pre></div></div>
 <p>In Tensorflow it will look like this. The experiment result shows that it makes the generator to maintain most of the width of the original data. Not perfect but much better than plain GAN model.</p>
 
-<h3 id="comparison-and-conclusion">Comparison and Conclusion</h3>
+<h4 id="comparison-and-conclusion">Comparison and Conclusion</h4>
+<p>In this post we have gone over two popular generative model. One is the VAE and the other is the GAN. The VAE uses something called density approximation while the GAN use a direct approach that was rooted in game theory. The VAE usually generate a more blurry picture than the GAN. However it does have more control than the plain GAN since one can manipulate the latent vector. The GAN on the other hand generate more realistic images but loses the control to latent vectors.</p>
 
-<style>
+<p>One big problem of these generative model is the evaluation of the generated quality. This is still an open area of research and I plan to do some followups on that. It’s also possible to combine VAE and GAN together to fully utilize the best of both to generate certain class of realistic images. This is something we may cover in the future as well.</p>
+
+<h4 id="reference-code">Reference code</h4>
+<p>These are some reference code I used to write this post. They are of incredible help.</p>
+
+<p><a href="https://github.com/AYLIEN/gan-intro">1-D GAN</a></p>
+
+<p><a href="https://github.com/kvfrans/variational-autoencoder">VAN MNIST</a></p>
+
+<style> 
 .mycenter {
     text-align:center;
 }
