@@ -2,6 +2,16 @@
   
     {
     
+      "title"    : "YOLO vs Faster RCNN",
+      "url"      : "/post/2018/08/10/object_detection.html",
+      "category" : "post",
+      "tags"     : "deep learning, detection",
+      "date"     : "2018-08-10 00:00:00 +0800"
+      
+    } ,
+  
+    {
+    
       "title"    : "A comparison between VAE and GAN",
       "url"      : "/blog/2018/07/05/VAE_GAN.html",
       "category" : "blog",

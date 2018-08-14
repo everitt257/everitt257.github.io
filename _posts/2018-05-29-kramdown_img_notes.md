@@ -3,6 +3,7 @@ layout: post
 title: Kramdown Image Tips
 category: blog
 tags: Kramdown
+comments: true
 ---
 
 Here's how to specify image size in kramdown.

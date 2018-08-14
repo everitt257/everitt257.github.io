@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<!-- custom.css -->
+<link rel="stylesheet", href="/css/custom.css">
+
+<!-- mathjax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    TeX: {
+      equationNumbers: {
+        autoNumber: "AMS"
+      }
+    },
+    tex2jax: {
+      inlineMath: [ ['$','$'] ],
+      displayMath: [ ['$$','$$'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+    }
+  });
+</script>
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+<!-- mermaid -->
+<script src="/js/mermaid.min.js"></script>
+<script>mermaid.initialize({startOnLoad:true});</script>
+
+<!-- body -->
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.5.0 -->
+<title>YOLO vs Faster RCNN | Everitt’s blog</title>
+<meta name="generator" content="Jekyll v3.8.2" />
+<meta property="og:title" content="YOLO vs Faster RCNN" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="This post talks about YOLO and Faster-RCNN. These are the two popular approaches for doing object detection that are anchor based. Faster RCNN offers a regional of interest region for doing convolution while YOLO does detection and classification at the same time. I would say that YOLO appears to be a cleaner way of doing object detection since it’s fully end-to-end training. The Faster RCNN offers end-to-end training as well, but the steps are much more involved. Nevertheless I will describe both approaches carefully in detail." />
+<meta property="og:description" content="This post talks about YOLO and Faster-RCNN. These are the two popular approaches for doing object detection that are anchor based. Faster RCNN offers a regional of interest region for doing convolution while YOLO does detection and classification at the same time. I would say that YOLO appears to be a cleaner way of doing object detection since it’s fully end-to-end training. The Faster RCNN offers end-to-end training as well, but the steps are much more involved. Nevertheless I will describe both approaches carefully in detail." />
+<link rel="canonical" href="http://localhost:4000/post/2018/08/10/object_detection.html" />
+<meta property="og:url" content="http://localhost:4000/post/2018/08/10/object_detection.html" />
+<meta property="og:site_name" content="Everitt’s blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-08-10T00:00:00+08:00" />
+<script type="application/ld+json">
+{"description":"This post talks about YOLO and Faster-RCNN. These are the two popular approaches for doing object detection that are anchor based. Faster RCNN offers a regional of interest region for doing convolution while YOLO does detection and classification at the same time. I would say that YOLO appears to be a cleaner way of doing object detection since it’s fully end-to-end training. The Faster RCNN offers end-to-end training as well, but the steps are much more involved. Nevertheless I will describe both approaches carefully in detail.","@type":"BlogPosting","url":"http://localhost:4000/post/2018/08/10/object_detection.html","headline":"YOLO vs Faster RCNN","dateModified":"2018-08-10T00:00:00+08:00","datePublished":"2018-08-10T00:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/post/2018/08/10/object_detection.html"},"@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Everitt's blog" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Everitt&#39;s blog</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a><a class="page-link" href="/category/blog.html">Blog</a><a class="page-link" href="/category/work.html">Work</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">YOLO vs Faster RCNN</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2018-08-10T00:00:00+08:00" itemprop="datePublished">Aug 10, 2018
+      </time></p>
+  </header>
+
+  <!-- Tags -->
+  <ul class="tags">
+    
+      <li><a href="/tags#deep learning" class="tag">deep learning</a></li>
+    
+      <li><a href="/tags#detection" class="tag">detection</a></li>
+    
+  </ul>
+
+  <!-- Body -->
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>This post talks about YOLO and Faster-RCNN. These are the two popular approaches for doing object detection that are anchor based. Faster RCNN offers a regional of interest region for doing convolution while YOLO does detection and classification at the same time. I would say that YOLO appears to be a cleaner way of doing object detection since it’s fully end-to-end training. The Faster RCNN offers end-to-end training as well, but the steps are much more involved. Nevertheless I will describe both approaches carefully in detail.</p>
+
+<h2 id="faster-rcnn">Faster RCNN</h2>
+
+<h3 id="architecture-of-faster-rcnn">Architecture of Faster RCNN</h3>
+<p>The Faster RCNN is based of VGG16 as shown in the above image:
+<img src="http://om1hdizoc.bkt.clouddn.com/18-8-13/84689386.jpg" alt="" />
+The author basically takes the original image as input and shrinks it 16x times at conv5 layer. And then applies 1x1 convolution to that feature map two times. One 1x1 convolution ouputs 2K output channels, the K stands for the number of anchors and number 2 here means either it’s foreground or background. In the original paper, the author set three ratios and three scales for anchor boxes, making the total number $K=9$.</p>
+
+<p>Another 1x1 convolution outputs 4K output channels. This number stands for 4 coordinate related information. They each are <code class="highlighter-rouge">x-center</code>,<code class="highlighter-rouge">y-center</code>,<code class="highlighter-rouge">width</code>,<code class="highlighter-rouge">height</code>.</p>
+
+<p>Aside from outputting these 4 predictions regarding coordinates and 2 prediction regarding foreground and background. The network will also generate training labels on the fly. It takes all anchor boxes on the feature map and calculate the IOU between anchors and ground-truth. It then decides what which anchor is responsible for what ground-truth boxes by the following rules:</p>
+
+<ol>
+  <li>IOU &gt; 0.7 or the biggest IOU, anchor boxes are deemed as foreground.</li>
+  <li>IOU &lt;= 0.3, anchor boxes are deemed as background.</li>
+  <li>Any IOU in between should be labeled as “Don’t care”</li>
+</ol>
+
+<p>Then randomly sample 128 anchor boxes as foreground samples and 128 anchor boxes as background. If foreground samples are less than 128 than complement the samples with negative samples (background). This part generates labels for anchor boxes. It would also need to generate the offset locations between sampled anchor-boxes and ground-truth boxes.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="n">targets_dx</span> <span class="o">=</span> <span class="p">(</span><span class="n">gt_ctr_x</span> <span class="o">-</span> <span class="n">ex_ctr_x</span><span class="p">)</span> <span class="o">/</span> <span class="n">ex_widths</span>
+    <span class="n">targets_dy</span> <span class="o">=</span> <span class="p">(</span><span class="n">gt_ctr_y</span> <span class="o">-</span> <span class="n">ex_ctr_y</span><span class="p">)</span> <span class="o">/</span> <span class="n">ex_heights</span>
+    <span class="n">targets_dw</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">gt_widths</span> <span class="o">/</span> <span class="n">ex_widths</span><span class="p">)</span>
+    <span class="n">targets_dh</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">gt_heights</span> <span class="o">/</span> <span class="n">ex_heights</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><code class="highlighter-rouge">gt_ctr_x</code> stands for ground truth coordinates. And <code class="highlighter-rouge">ex_widths</code> stands for anchor width.</p>
+
+<h3 id="training-of-region-of-interest-proposal-network">Training of region of interest proposal network</h3>
+<p>To get a better understanding of Faster-RCNN, I’ve provided the above directed graph for easier understanding.</p>
+<div class="mermaid">
+graph LR
+    A[Input Image]--&gt;B[Feature Extraction]
+    B--&gt;E[Training Labels]
+    B--&gt;C[Coordinates Prediction, 4K]
+    B--&gt;D[Foreground and Background Prediction, 2K]
+    C--&gt;E[Loss function]
+    D--&gt;E[Loss function]
+</div>
+
+<h3 id="post-processing">Post Processing</h3>
+<p>Not much to say about this part. The predicted boxes are filtered with non-maximum suppression, which filters out boxes with IOU less than some threshold. After NMS, we preserve the top $k$ boxes.</p>
+
+<h3 id="classification">Classification</h3>
+<p>After ROI is done, we are left with a lot of choices for doing classification. Of course one can feed each region of interest into a pretrained CNN network for inference. However it may be slow if we fed them one by one. In the original RCNN paper, the author proposed that we resize every region of interest first, then run CNN to extract features for those region, then finally uses some kind of classification method such as SVM to decide what to label them. With Faster RCNN, also in Fast RCNN, the author proposed that we use ROI Pooling (Region of Interest Pooling) for extracting fixed sized feature maps.</p>
+
+<p>Sadly I haven’t gone through the code for ROI pooling myself. However I do know it takes a region of interest in the original image or the feature map and split the region into fixed sections. It then it go through maximum pooling for theses fixed sections and stack multiple feature layers onto each other. Of course for object detection there exist multiple region of interest and multiple feature maps. But let’s keep it simple to say we’re only left with one region of interest and three layers of feature maps for that region.</p>
+
+<h3 id="loss-function">Loss function</h3>
+<p>Faster RCNN uses cross-entropy for foreground and background loss, and l1 regression for coordinates.
+<img src="http://om1hdizoc.bkt.clouddn.com/18-8-14/41961686.jpg" alt="" /></p>
+
+<h2 id="yolo">YOLO</h2>
+<p>YOLO stands for You Only Look Once. In practical it runs a lot faster than faster rcnn due it’s simpler architecture. Unlike faster RCNN, it’s trained to do classification and bounding box regression at the same time.</p>
+
+<h3 id="architecture-of-yolo">Architecture of YOLO</h3>
+<p>The architecture of YOLO got it’s inspiration from GoogleNet. We can view the architecture below:</p>
+
+<p><img src="http://om1hdizoc.bkt.clouddn.com/18-8-14/52468198.jpg" alt="" /></p>
+
+<p>We can see that it has some 1x1 convolutions in between to increase the non-linearity of network and also to reduce feature spaces of the network.</p>
+
+<h3 id="pipeline-of-yolo">Pipeline of YOLO</h3>
+<p>Before we do anything with YOLO, we have to prepare training labels. The process is shown below:</p>
+<div class="mermaid">
+graph TB
+    B1(Input Image)--&gt;B2(7x7 Grid labels with 25 channels)
+    B3(and ground truths)--&gt;B2
+</div>
+
+<p>For the 25 channels, 20 as output category, 4 as ground truth coordinates, 1 as ground truth confidence.</p>
+
+<p>After preprocessing with ground truth and training data, we go through the training process:</p>
+
+<div class="mermaid">
+graph TB
+    A[Input Image]--&gt;B[Resize 448x448]
+    B--&gt;C[Feature Extraction 7x7x30]
+    C--&gt;E[Predict 2 anchor boxes plus 2 confidence, so total output=10]
+    C--&gt;D[Predict cell category, total output=20]
+    D--&gt;G
+    E--&gt;F[Compute IOU and masks for anchor boxes and grid]
+    F--&gt;G[Compute loss function]
+    B2(7x7 Grid labels with 25 channels)--&gt;G
+</div>
+
+<h3 id="post-processing-1">Post Processing</h3>
+<p>This part is similiar to Faster RCNN, so I will not describe them here.</p>
+
+<h3 id="loss-function-1">Loss function</h3>
+<p>YOLO used l2 loss for bounding box regression, classification.
+<img src="http://om1hdizoc.bkt.clouddn.com/18-8-14/97046698.jpg" alt="" /></p>
+
+<h2 id="conclusion-and-comparison">Conclusion and comparison</h2>
+<p>We can see that YOLO and Faster RCNN both share some similarities. They both uses a anchor box based network structure, both uses bounding both regression. Things that differs YOLO from Faster RCNN is that it makes classification and bounding box regression at the same time. Judging from the year they were published, it make sense that YOLO wanted a more elegant way to do regression and classification. YOLO however does have it’s drawback in object detection. YOLO has difficulty detecting objects that are small and close to each other due to only two anchor boxes in a grid predicting only one class of object. It doesn’t generalize well when objects in the image show rare aspects of ratio. Faster RCNN on the other hand, do detect small objects well since it has nine anchors in a single grid, however it fails to do real-time detection with its two step architecture.</p>
+
+  </div>
+  
+  <!-- Related posts -->
+  
+  
+  
+
+
+  <!-- Disqus --><a class="u-url" href="/post/2018/08/10/object_detection.html" hidden></a>
+</article>
+
+<div id="disqus_thread"></div>
+<script>
+
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = 'https://everitt257.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+<script id="dsq-count-scr" src="//everitt257.disqus.com/count.js" async></script>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Everitt&#39;s blog</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Everitt&#39;s blog</li><li><a class="u-email" href="mailto:everitt257@gmail.com">everitt257@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/everitt257"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">everitt257</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>This site fancies machine learning and problems in engineerning in general.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
