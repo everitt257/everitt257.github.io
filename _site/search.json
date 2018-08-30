@@ -2,6 +2,16 @@
   
     {
     
+      "title"    : "文本检测与识别 CTPN &amp;&amp; CRNN &amp;&amp; STN",
+      "url"      : "/post/2018/08/30/ctpn-crnn-stn.html",
+      "category" : "post",
+      "tags"     : "deep learning, detection",
+      "date"     : "2018-08-30 00:00:00 +0800"
+      
+    } ,
+  
+    {
+    
       "title"    : "YOLO vs Faster RCNN",
       "url"      : "/post/2018/08/10/object_detection.html",
       "category" : "post",

@@ -31,18 +31,18 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.5.0 -->
-<title>Everitt’s blog | This site fancies machine learning and problems in engineerning in general.</title>
+<title>Page 7 of 7 for Everitt’s blog | This site fancies machine learning and problems in engineerning in general.</title>
 <meta name="generator" content="Jekyll v3.8.2" />
 <meta property="og:title" content="Everitt’s blog" />
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="This site fancies machine learning and problems in engineerning in general." />
 <meta property="og:description" content="This site fancies machine learning and problems in engineerning in general." />
-<link rel="canonical" href="http://localhost:4000/" />
-<meta property="og:url" content="http://localhost:4000/" />
+<link rel="canonical" href="http://localhost:4000/page-7/" />
+<meta property="og:url" content="http://localhost:4000/page-7/" />
 <meta property="og:site_name" content="Everitt’s blog" />
-<link rel="next" href="http://localhost:4000/page-2/" />
+<link rel="prev" href="http://localhost:4000/page-6/" />
 <script type="application/ld+json">
-{"name":"Everitt’s blog","description":"This site fancies machine learning and problems in engineerning in general.","@type":"WebSite","url":"http://localhost:4000/","headline":"Everitt’s blog","@context":"http://schema.org"}</script>
+{"description":"This site fancies machine learning and problems in engineerning in general.","@type":"WebPage","url":"http://localhost:4000/page-7/","headline":"Everitt’s blog","@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Everitt's blog" /></head>
 <body><header class="site-header" role="banner">
@@ -89,13 +89,13 @@
     <div class="pagination">  
       <!-- show paginator prev -->
         
-        <span>&laquo; Prev</span>  
+        <a href="/page-6/">&laquo; Prev</a>  
         
       
       <!-- show rest of the page -->
         
           
-          <em>1</em>  
+          <a href="/page-6/">1</a>  
           
         
           
@@ -119,13 +119,13 @@
           
         
           
-          <a href="/page-7/">7</a>  
+          <em>7</em>  
           
         
       
       <!-- show paginator next -->
         
-        <a href="/page-2/">Next &raquo;</a>  
+        <span>Next &raquo;</span>  
         
     </div>  
      <h2 class="post-list-heading">Posts</h2>
@@ -133,68 +133,18 @@
       <!-- Pagination--><li>
           <ul class="tags">
               
-                <li><a href="/tags#deep learning" class="tag">deep learning</a></li>
-              
-                <li><a href="/tags#detection" class="tag">detection</a></li>
-              
-          </ul><span class="post-meta">Aug 30, 2018</span>
+          </ul><span class="post-meta">Aug 2, 2017</span>
         <h3>
-          <a class="post-link" href="/post/2018/08/30/ctpn-crnn-stn.html">
-            文本检测与识别 CTPN &amp;&amp; CRNN &amp;&amp; STN
+          <a class="post-link" href="/2017/08/02/learning_theory.html">
+            Learning Theory
           </a>
-        </h3><h2 id="总结">总结</h2>
+        </h3><h3 id="generalization-error">Generalization error</h3>
+<p><strong>Questions</strong> that we might want to ask:</p>
 <ul>
-  <li>端到端文本检测，端到端日期识别</li>
-  <li>不需要进行字符分割和水平缩放，可识别任意长度序列</li>
-  <li>CNN+RNN架构，检测结果更具鲁棒性</li>
-  <li>CTC选择最优序列</li>
-  <li>可检测部分旋转后的日期</li>
-  <li>无需对旋转后的角度进行数据标注</li>
-  <li>STN + CTPN + CRNN</li>
+  <li>Most learning algorithms fit their models to the training set, why should doing well on the training set tell us anything about generalization error?</li>
+  <li>Can we relate error on the training set to generalization error?</li>
+  <li>Are there conditions under which we can actually prove that learning algorithms will work well?</li>
 </ul>
-
-</li><li>
-          <ul class="tags">
-              
-                <li><a href="/tags#deep learning" class="tag">deep learning</a></li>
-              
-                <li><a href="/tags#detection" class="tag">detection</a></li>
-              
-          </ul><span class="post-meta">Aug 10, 2018</span>
-        <h3>
-          <a class="post-link" href="/post/2018/08/10/object_detection.html">
-            YOLO vs Faster RCNN
-          </a>
-        </h3><p>This post talks about YOLO and Faster-RCNN. These are the two popular approaches for doing object detection that are anchor based. Faster RCNN offers a regional of interest region for doing convolution while YOLO does detection and classification at the same time. I would say that YOLO appears to be a cleaner way of doing object detection since it’s fully end-to-end training. The Faster RCNN offers end-to-end training as well, but the steps are much more involved. Nevertheless I will describe both approaches carefully in detail.</p>
-
-</li><li>
-          <ul class="tags">
-              
-                <li><a href="/tags#deep learning" class="tag">deep learning</a></li>
-              
-                <li><a href="/tags#generative modeling" class="tag">generative modeling</a></li>
-              
-          </ul><span class="post-meta">Jul 5, 2018</span>
-        <h3>
-          <a class="post-link" href="/blog/2018/07/05/VAE_GAN.html">
-            A comparison between VAE and GAN
-          </a>
-        </h3><h3 id="this-post-concludes-vae-and-gan">This post concludes VAE and GAN</h3>
-<p>I’ve took some time going over multiple post regarding VAE and GAN. To help myself to better understand these generative model, I decided to write a post about them, comparing them side by side. Also I want to include the necessary implementation details regarding these two models. For this model, I will use the toy dataset which is MNIST. The code in this post will be mainly implemented with Tensorflow.</p>
-
-</li><li>
-          <ul class="tags">
-              
-                <li><a href="/tags#deep learning" class="tag">deep learning</a></li>
-              
-                <li><a href="/tags#algorithm" class="tag">algorithm</a></li>
-              
-          </ul><span class="post-meta">Jun 22, 2018</span>
-        <h3>
-          <a class="post-link" href="/blog/2018/06/22/discrete_embeddings.html">
-            Discussion of generation models, sequential generation
-          </a>
-        </h3><p>Previously I’ve read about R2RT’s post regarding sequential generation and discrete embeddings. I thought I’ll write something to remind myself the details of this post and to compare it with other generation models.</p>
 
 </li></ul>
 
@@ -203,13 +153,13 @@
     <div class="pagination">  
       <!-- show paginator prev -->
         
-        <span>&laquo; Prev</span>  
+        <a href="/page-6/">&laquo; Prev</a>  
         
       
       <!-- show rest of the page -->
         
           
-          <em>1</em>  
+          <a href="/page-6/">1</a>  
           
         
           
@@ -233,13 +183,13 @@
           
         
           
-          <a href="/page-7/">7</a>  
+          <em>7</em>  
           
         
       
       <!-- show paginator next -->
         
-        <a href="/page-2/">Next &raquo;</a>  
+        <span>Next &raquo;</span>  
         
     </div>  
      
