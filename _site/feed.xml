@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.2">Jekyll</generator><link href="http://localhost/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost/" rel="alternate" type="text/html" /><updated>2018-10-17T17:34:58+08:00</updated><id>http://localhost/</id><title type="html">Everitt’s blog</title><subtitle>This site fancies machine learning and problems in engineerning in general.</subtitle><entry><title type="html">Detection and Drivable road segmentation</title><link href="http://localhost/2018/10/17/ssd-fc8.html" rel="alternate" type="text/html" title="Detection and Drivable road segmentation" /><published>2018-10-17T00:00:00+08:00</published><updated>2018-10-17T00:00:00+08:00</updated><id>http://localhost/2018/10/17/ssd-fc8</id><content type="html" xml:base="http://localhost/2018/10/17/ssd-fc8.html">&lt;p&gt;This post showcases the training result of a combination of SSD and FC8 network. Modified SSD which classifies 41 classes and FC8 network that outputs 3 types of road.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.2">Jekyll</generator><link href="http://localhost:8080/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:8080/" rel="alternate" type="text/html" /><updated>2018-10-17T23:49:19+08:00</updated><id>http://localhost:8080/</id><title type="html">Everitt’s blog</title><subtitle>This site fancies machine learning and problems in engineerning in general.</subtitle><entry><title type="html">Detection and Drivable road segmentation</title><link href="http://localhost:8080/2018/10/17/ssd-fc8.html" rel="alternate" type="text/html" title="Detection and Drivable road segmentation" /><published>2018-10-17T00:00:00+08:00</published><updated>2018-10-17T00:00:00+08:00</updated><id>http://localhost:8080/2018/10/17/ssd-fc8</id><content type="html" xml:base="http://localhost:8080/2018/10/17/ssd-fc8.html">&lt;p&gt;This post showcases the training result of a combination of SSD and FC8 network. Modified SSD which classifies 41 classes and FC8 network that outputs 3 types of road.&lt;/p&gt;
 
 &lt;ul&gt;
   &lt;li&gt;Training specs
@@ -13,13 +13,16 @@
     &lt;/ul&gt;
   &lt;/li&gt;
   &lt;li&gt;Samples from final training:
-&lt;img src=&quot;http://localhost:80/data/img/ssd_fc8/1.png&quot; alt=&quot;png&quot; /&gt;
-&lt;img src=&quot;http://localhost:80/data/img/ssd_fc8/2.png&quot; alt=&quot;png&quot; /&gt;
-&lt;img src=&quot;http://localhost:80/data/img/ssd_fc8/3.png&quot; alt=&quot;png&quot; /&gt;
-&lt;img src=&quot;http://localhost:80/data/img/ssd_fc8/4.png&quot; alt=&quot;png&quot; /&gt;&lt;/li&gt;
-  &lt;li&gt;Final thoughts
-Something I failed to solve to fit a polynomial line on the segmentation map. Perhaps one day I will come up with a solution for dealing with such problem, but now I feel drifted away from this project so let’s just let it be. Finally I didn’t put these code on my github. Perhaps it will stay on my hard drive forever. Most of the time was spend on writing miscellanous stuffs such as parsing the data and writing code for post-processing. I felt that AI needs proper engineerning more than just designing the network itself.&lt;/li&gt;
-&lt;/ul&gt;</content><author><name></name></author><category term="deep learning" /><category term="detection" /><summary type="html">This post showcases the training result of a combination of SSD and FC8 network. Modified SSD which classifies 41 classes and FC8 network that outputs 3 types of road.</summary></entry><entry><title type="html">文本检测与识别 CTPN &amp;amp;&amp;amp; CRNN &amp;amp;&amp;amp; STN</title><link href="http://localhost/post/2018/08/30/ctpn-crnn-stn.html" rel="alternate" type="text/html" title="文本检测与识别 CTPN &amp;&amp; CRNN &amp;&amp; STN" /><published>2018-08-30T00:00:00+08:00</published><updated>2018-08-30T00:00:00+08:00</updated><id>http://localhost/post/2018/08/30/ctpn-crnn-stn</id><content type="html" xml:base="http://localhost/post/2018/08/30/ctpn-crnn-stn.html">&lt;h2 id=&quot;总结&quot;&gt;总结&lt;/h2&gt;
+&lt;img src=&quot;http://localhost:8080/data/img/ssd_fc8/1.png&quot; alt=&quot;png&quot; /&gt;
+&lt;img src=&quot;http://localhost:8080/data/img/ssd_fc8/2.png&quot; alt=&quot;png&quot; /&gt;
+&lt;img src=&quot;http://localhost:8080/data/img/ssd_fc8/3.png&quot; alt=&quot;png&quot; /&gt;
+&lt;img src=&quot;http://localhost:8080/data/img/ssd_fc8/4.png&quot; alt=&quot;png&quot; /&gt;&lt;/li&gt;
+  &lt;li&gt;Final thoughts&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Something I failed to solve to fit a polynomial line on the segmentation map. I actually just realized I should predict polynomial points on the label set instead of doing the full segmentation prediction. So ideally the network should just spits out polynomial points for the contour of the segmentation map.&lt;/p&gt;
+
+&lt;p&gt;Finally I didn’t put these code on my github. Perhaps it will stay on my hard drive forever. Most of the time was spend on writing miscellanous stuffs such as parsing the data and writing code for post-processing. I felt that AI needs proper engineerning more than just designing the network itself.&lt;/p&gt;</content><author><name></name></author><category term="deep learning" /><category term="detection" /><summary type="html">This post showcases the training result of a combination of SSD and FC8 network. Modified SSD which classifies 41 classes and FC8 network that outputs 3 types of road.</summary></entry><entry><title type="html">文本检测与识别 CTPN &amp;amp;&amp;amp; CRNN &amp;amp;&amp;amp; STN</title><link href="http://localhost:8080/post/2018/08/30/ctpn-crnn-stn.html" rel="alternate" type="text/html" title="文本检测与识别 CTPN &amp;&amp; CRNN &amp;&amp; STN" /><published>2018-08-30T00:00:00+08:00</published><updated>2018-08-30T00:00:00+08:00</updated><id>http://localhost:8080/post/2018/08/30/ctpn-crnn-stn</id><content type="html" xml:base="http://localhost:8080/post/2018/08/30/ctpn-crnn-stn.html">&lt;h2 id=&quot;总结&quot;&gt;总结&lt;/h2&gt;
 &lt;ul&gt;
   &lt;li&gt;端到端文本检测，端到端日期识别&lt;/li&gt;
   &lt;li&gt;不需要进行字符分割和水平缩放，可识别任意长度序列&lt;/li&gt;
@@ -97,7 +100,7 @@ Bipolar interpolation.&lt;/p&gt;
 
 &lt;hr /&gt;
 &lt;p&gt;附图：
-&lt;img src=&quot;http://om1hdizoc.bkt.clouddn.com/18-8-30/50991810.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;</content><author><name></name></author><category term="post" /><category term="deep learning" /><category term="detection" /><summary type="html">总结 端到端文本检测，端到端日期识别 不需要进行字符分割和水平缩放，可识别任意长度序列 CNN+RNN架构，检测结果更具鲁棒性 CTC选择最优序列 可检测部分旋转后的日期 无需对旋转后的角度进行数据标注 STN + CTPN + CRNN</summary></entry><entry><title type="html">YOLO vs Faster RCNN</title><link href="http://localhost/post/2018/08/10/object_detection.html" rel="alternate" type="text/html" title="YOLO vs Faster RCNN" /><published>2018-08-10T00:00:00+08:00</published><updated>2018-08-10T00:00:00+08:00</updated><id>http://localhost/post/2018/08/10/object_detection</id><content type="html" xml:base="http://localhost/post/2018/08/10/object_detection.html">&lt;p&gt;This post talks about YOLO and Faster-RCNN. These are the two popular approaches for doing object detection that are anchor based. Faster RCNN offers a regional of interest region for doing convolution while YOLO does detection and classification at the same time. I would say that YOLO appears to be a cleaner way of doing object detection since it’s fully end-to-end training. The Faster RCNN offers end-to-end training as well, but the steps are much more involved. Nevertheless I will describe both approaches carefully in detail.&lt;/p&gt;
+&lt;img src=&quot;http://om1hdizoc.bkt.clouddn.com/18-8-30/50991810.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;</content><author><name></name></author><category term="post" /><category term="deep learning" /><category term="detection" /><summary type="html">总结 端到端文本检测，端到端日期识别 不需要进行字符分割和水平缩放，可识别任意长度序列 CNN+RNN架构，检测结果更具鲁棒性 CTC选择最优序列 可检测部分旋转后的日期 无需对旋转后的角度进行数据标注 STN + CTPN + CRNN</summary></entry><entry><title type="html">YOLO vs Faster RCNN</title><link href="http://localhost:8080/post/2018/08/10/object_detection.html" rel="alternate" type="text/html" title="YOLO vs Faster RCNN" /><published>2018-08-10T00:00:00+08:00</published><updated>2018-08-10T00:00:00+08:00</updated><id>http://localhost:8080/post/2018/08/10/object_detection</id><content type="html" xml:base="http://localhost:8080/post/2018/08/10/object_detection.html">&lt;p&gt;This post talks about YOLO and Faster-RCNN. These are the two popular approaches for doing object detection that are anchor based. Faster RCNN offers a regional of interest region for doing convolution while YOLO does detection and classification at the same time. I would say that YOLO appears to be a cleaner way of doing object detection since it’s fully end-to-end training. The Faster RCNN offers end-to-end training as well, but the steps are much more involved. Nevertheless I will describe both approaches carefully in detail.&lt;/p&gt;
 
 &lt;h2 id=&quot;faster-rcnn&quot;&gt;Faster RCNN&lt;/h2&gt;
 
@@ -192,7 +195,7 @@ graph TB
 &lt;img src=&quot;http://om1hdizoc.bkt.clouddn.com/18-8-14/97046698.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;conclusion-and-comparison&quot;&gt;Conclusion and comparison&lt;/h2&gt;
-&lt;p&gt;We can see that YOLO and Faster RCNN both share some similarities. They both uses a anchor box based network structure, both uses bounding both regression. Things that differs YOLO from Faster RCNN is that it makes classification and bounding box regression at the same time. Judging from the year they were published, it make sense that YOLO wanted a more elegant way to do regression and classification. YOLO however does have it’s drawback in object detection. YOLO has difficulty detecting objects that are small and close to each other due to only two anchor boxes in a grid predicting only one class of object. It doesn’t generalize well when objects in the image show rare aspects of ratio. Faster RCNN on the other hand, do detect small objects well since it has nine anchors in a single grid, however it fails to do real-time detection with its two step architecture.&lt;/p&gt;</content><author><name></name></author><category term="post" /><category term="deep learning" /><category term="detection" /><summary type="html">This post talks about YOLO and Faster-RCNN. These are the two popular approaches for doing object detection that are anchor based. Faster RCNN offers a regional of interest region for doing convolution while YOLO does detection and classification at the same time. I would say that YOLO appears to be a cleaner way of doing object detection since it’s fully end-to-end training. The Faster RCNN offers end-to-end training as well, but the steps are much more involved. Nevertheless I will describe both approaches carefully in detail.</summary></entry><entry><title type="html">A comparison between VAE and GAN</title><link href="http://localhost/blog/2018/07/05/VAE_GAN.html" rel="alternate" type="text/html" title="A comparison between VAE and GAN" /><published>2018-07-05T00:00:00+08:00</published><updated>2018-07-05T00:00:00+08:00</updated><id>http://localhost/blog/2018/07/05/VAE_GAN</id><content type="html" xml:base="http://localhost/blog/2018/07/05/VAE_GAN.html">&lt;h3 id=&quot;this-post-concludes-vae-and-gan&quot;&gt;This post concludes VAE and GAN&lt;/h3&gt;
+&lt;p&gt;We can see that YOLO and Faster RCNN both share some similarities. They both uses a anchor box based network structure, both uses bounding both regression. Things that differs YOLO from Faster RCNN is that it makes classification and bounding box regression at the same time. Judging from the year they were published, it make sense that YOLO wanted a more elegant way to do regression and classification. YOLO however does have it’s drawback in object detection. YOLO has difficulty detecting objects that are small and close to each other due to only two anchor boxes in a grid predicting only one class of object. It doesn’t generalize well when objects in the image show rare aspects of ratio. Faster RCNN on the other hand, do detect small objects well since it has nine anchors in a single grid, however it fails to do real-time detection with its two step architecture.&lt;/p&gt;</content><author><name></name></author><category term="post" /><category term="deep learning" /><category term="detection" /><summary type="html">This post talks about YOLO and Faster-RCNN. These are the two popular approaches for doing object detection that are anchor based. Faster RCNN offers a regional of interest region for doing convolution while YOLO does detection and classification at the same time. I would say that YOLO appears to be a cleaner way of doing object detection since it’s fully end-to-end training. The Faster RCNN offers end-to-end training as well, but the steps are much more involved. Nevertheless I will describe both approaches carefully in detail.</summary></entry><entry><title type="html">A comparison between VAE and GAN</title><link href="http://localhost:8080/blog/2018/07/05/VAE_GAN.html" rel="alternate" type="text/html" title="A comparison between VAE and GAN" /><published>2018-07-05T00:00:00+08:00</published><updated>2018-07-05T00:00:00+08:00</updated><id>http://localhost:8080/blog/2018/07/05/VAE_GAN</id><content type="html" xml:base="http://localhost:8080/blog/2018/07/05/VAE_GAN.html">&lt;h3 id=&quot;this-post-concludes-vae-and-gan&quot;&gt;This post concludes VAE and GAN&lt;/h3&gt;
 &lt;p&gt;I’ve took some time going over multiple post regarding VAE and GAN. To help myself to better understand these generative model, I decided to write a post about them, comparing them side by side. Also I want to include the necessary implementation details regarding these two models. For this model, I will use the toy dataset which is MNIST. The code in this post will be mainly implemented with Tensorflow.&lt;/p&gt;
 
 &lt;h4 id=&quot;vae&quot;&gt;VAE&lt;/h4&gt;
@@ -204,12 +207,12 @@ graph TB
 &lt;p&gt;Another use of encoder part of autoencoder is that it can used to initialize a supervised model. Usually fine-tune the encoder jointly with the classifier.&lt;/p&gt;
 
 &lt;p&gt;The autoencoder is usually comprised of these module:
-&lt;img src=&quot;http://localhost:80/data/img/vae_gan/autoencoder_module.png&quot; alt=&quot;png&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;http://localhost:8080/data/img/vae_gan/autoencoder_module.png&quot; alt=&quot;png&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;However, simply using the autoencoder to generate images will not be considered as a generative model. Say that you input a image, then the output image you generated will always be the same. In another word, the decoder part of autoencoder network is simply generating things it already remembered.&lt;/p&gt;
 
 &lt;p&gt;The VAE addresses the above mentioned problem by supplying the latent variables with a sampling technique that makes each feature unit gaussian or some other distribution. In other words, we’ll use the “sampled latent vector” instead of the true latent vector. In the next section will discuss these deductions in detail.
-&lt;img src=&quot;http://localhost:80/data/img/vae_gan/autoencoder_module2.png&quot; alt=&quot;png&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;http://localhost:8080/data/img/vae_gan/autoencoder_module2.png&quot; alt=&quot;png&quot; /&gt;&lt;/p&gt;
 
 &lt;h4 id=&quot;the-mathematical-proof-of-vae&quot;&gt;The mathematical proof of VAE&lt;/h4&gt;
 &lt;p&gt;In previous section, we talked about adding a supplementary network to so latent variables can be sampled from it. The mathematical intuition behind this is that alone with the decoder network we cannot calculate the data likelihood. And because of that, the posterior density is also intractable.&lt;/p&gt;
@@ -307,7 +310,7 @@ graph TB
 
 &lt;h4 id=&quot;the-motivation-behind-gan&quot;&gt;The motivation behind GAN&lt;/h4&gt;
 &lt;p&gt;GAN is short for Generative Adversarial Network. As the name suggests, it focuses on the adversarial part of the network. Basically there are two characters in the network. The discriminator and the generator. The generator always tries to forge something to get pass by the discriminator while the discriminator tries its best to distinguish between fake and real samples. As you can see. This is a cat &amp;amp; mouse game. The difficulties in the network is that the discriminator is pretty much always stronger than the generator, therefore it’s necessary to tune the parameters of the network and to balance the generator and the discriminator.
-&lt;img src=&quot;http://localhost:80/data/img/vae_gan/GAN_1.png&quot; alt=&quot;png&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;http://localhost:8080/data/img/vae_gan/GAN_1.png&quot; alt=&quot;png&quot; /&gt;&lt;/p&gt;
 
 &lt;h4 id=&quot;the-math-behind-gan&quot;&gt;The math behind GAN&lt;/h4&gt;
 &lt;p&gt;The training of the GAN is a fight between the generator and the discriminator. This can be represented mathematically as&lt;/p&gt;
@@ -328,7 +331,7 @@ graph TB
 &lt;h4 id=&quot;sampling&quot;&gt;Sampling&lt;/h4&gt;
 &lt;p&gt;Before we get into the training of GAN, we need to to sample both our data and noise, say for example our data is distributed as $X \sim \mathcal{N}(-1, 1)$ and our noise/latent variable is distributed as $Z \sim \mathcal{N}(0, 1)$. However if we just blindly sample them from two independent resource, the training of GAN will not lead to good result. This is because nothing is enforcing the adjacent pints in the latent space domain being mapped to adjacent points in the X domain (real sample domain). In one minibatch, we might train our generator to map some latent samples to some X domain, however in another minibatch we might points very close to the previous latent samples but mapping to a very different location in X. This implies a completely different mapping G from the previous minibatch, so the optimizer will fail to converge.&lt;/p&gt;
 
-&lt;p class=&quot;mycenter&quot;&gt;&lt;img src=&quot;http://localhost:80/data/img/vae_gan/sampling_1.png&quot; alt=&quot;png&quot; /&gt;&lt;/p&gt;
+&lt;p class=&quot;mycenter&quot;&gt;&lt;img src=&quot;http://localhost:8080/data/img/vae_gan/sampling_1.png&quot; alt=&quot;png&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;To get over this, we want to use a trick called stratified sampling. That is we want our align our X and Z (latent space) domain so that the total length of the arrows taking points from Z to X is minimized.&lt;/p&gt;
 
@@ -339,7 +342,7 @@ graph TB
   &lt;li&gt;Sort X (Z is already sorted in step 2)&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;p class=&quot;mycenter&quot;&gt;&lt;img src=&quot;http://localhost:80/data/img/vae_gan/sampling_2.png&quot; alt=&quot;png&quot; /&gt;&lt;/p&gt;
+&lt;p class=&quot;mycenter&quot;&gt;&lt;img src=&quot;http://localhost:8080/data/img/vae_gan/sampling_2.png&quot; alt=&quot;png&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;As quoted by Eric Jang in his post regarding GAN:&lt;/p&gt;
 &lt;blockquote&gt;
@@ -440,7 +443,7 @@ graph TB
 &lt;h4 id=&quot;comparison-and-conclusion&quot;&gt;Comparison and Conclusion&lt;/h4&gt;
 &lt;p&gt;In this post we have gone over two popular generative model. One is the VAE and the other is the GAN. The VAE uses something called density approximation while the GAN use a direct approach that was rooted in game theory. The VAE usually generate a more blurry picture than the GAN. However it does have more control than the plain GAN in terms of what kind of image we want to generate since the latent vector is generated by an encoder whereas in GAN the latent vector comes from random noise. We also see the difference in the loss function as well. The VAN can compare the generated and original samples directly whereas in GAN the generated samples can only be judged fake or real. However the GAN on the other hand generate more realistic images since it make uses of adversarial network. Now this network can be a deep network which would make it more powerful.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://localhost:80/data/img/vae_gan/CompareVG.png&quot; alt=&quot;png&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://localhost:8080/data/img/vae_gan/CompareVG.png&quot; alt=&quot;png&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;One big problem of these generative model is the evaluation of the generated quality. This is still an open area of research and I plan to do some followups on that. It’s also possible to combine VAE and GAN together to fully utilize the best of both to generate certain class of realistic images. This is something we may cover in the future as well.&lt;/p&gt;
 
@@ -455,7 +458,7 @@ graph TB
 .mycenter {
     text-align:center;
 }
-&lt;/style&gt;</content><author><name></name></author><category term="blog" /><category term="deep learning" /><category term="generative modeling" /><summary type="html">This post concludes VAE and GAN I’ve took some time going over multiple post regarding VAE and GAN. To help myself to better understand these generative model, I decided to write a post about them, comparing them side by side. Also I want to include the necessary implementation details regarding these two models. For this model, I will use the toy dataset which is MNIST. The code in this post will be mainly implemented with Tensorflow.</summary></entry><entry><title type="html">Discussion of generation models, sequential generation</title><link href="http://localhost/blog/2018/06/22/discrete_embeddings.html" rel="alternate" type="text/html" title="Discussion of generation models, sequential generation" /><published>2018-06-22T00:00:00+08:00</published><updated>2018-06-22T00:00:00+08:00</updated><id>http://localhost/blog/2018/06/22/discrete_embeddings</id><content type="html" xml:base="http://localhost/blog/2018/06/22/discrete_embeddings.html">&lt;p&gt;Previously I’ve read about R2RT’s post regarding sequential generation and discrete embeddings. I thought I’ll write something to remind myself the details of this post and to compare it with other generation models.&lt;/p&gt;
+&lt;/style&gt;</content><author><name></name></author><category term="blog" /><category term="deep learning" /><category term="generative modeling" /><summary type="html">This post concludes VAE and GAN I’ve took some time going over multiple post regarding VAE and GAN. To help myself to better understand these generative model, I decided to write a post about them, comparing them side by side. Also I want to include the necessary implementation details regarding these two models. For this model, I will use the toy dataset which is MNIST. The code in this post will be mainly implemented with Tensorflow.</summary></entry><entry><title type="html">Discussion of generation models, sequential generation</title><link href="http://localhost:8080/blog/2018/06/22/discrete_embeddings.html" rel="alternate" type="text/html" title="Discussion of generation models, sequential generation" /><published>2018-06-22T00:00:00+08:00</published><updated>2018-06-22T00:00:00+08:00</updated><id>http://localhost:8080/blog/2018/06/22/discrete_embeddings</id><content type="html" xml:base="http://localhost:8080/blog/2018/06/22/discrete_embeddings.html">&lt;p&gt;Previously I’ve read about R2RT’s post regarding sequential generation and discrete embeddings. I thought I’ll write something to remind myself the details of this post and to compare it with other generation models.&lt;/p&gt;
 
 &lt;p&gt;Discrete embedding can prevent overfitting as we’ve seen it in my other post. It can also communicate fuzzy ideas with concrete symbols. This means (1) we can create a language model over the embeddings, which give us give RNN-based generation of internal embeddings, and (2) index sub-parts of the embeddings, whichi gives us access to the search techniques that go beyong cosine similarity, such as phrase search.&lt;/p&gt;
 
@@ -504,7 +507,7 @@ graph TB
 .mycenter {
     text-align:center;
 }
-&lt;/style&gt;</content><author><name></name></author><category term="blog" /><category term="deep learning" /><category term="algorithm" /><summary type="html">Previously I’ve read about R2RT’s post regarding sequential generation and discrete embeddings. I thought I’ll write something to remind myself the details of this post and to compare it with other generation models.</summary></entry><entry><title type="html">承接Binary, 拥抱ternary和one-hot-neurons</title><link href="http://localhost/blog/2018/06/04/ternary-and-one-hot-neuron.html" rel="alternate" type="text/html" title="承接Binary, 拥抱ternary和one-hot-neurons" /><published>2018-06-04T00:00:00+08:00</published><updated>2018-06-04T00:00:00+08:00</updated><id>http://localhost/blog/2018/06/04/ternary-and-one-hot-neuron</id><content type="html" xml:base="http://localhost/blog/2018/06/04/ternary-and-one-hot-neuron.html">&lt;p&gt;之前有个blog是转载R2RT的BSN网络。后续他又发了一篇关于BSN的进阶，不过没有做深度优化。在这里我再把他用中文转载出来说一下。如果对原贴感兴趣可以查看&lt;a href=&quot;https://r2rt.com/binary-stochastic-neurons-in-tensorflow.html&quot;&gt;这里&lt;/a&gt;. 如果对我注释的代码感兴趣，或者对里面各种矩阵的形状感兴趣可以看&lt;a href=&quot;/blog/2018/05/29/bsn.html&quot;&gt;这里&lt;/a&gt;.&lt;/p&gt;
+&lt;/style&gt;</content><author><name></name></author><category term="blog" /><category term="deep learning" /><category term="algorithm" /><summary type="html">Previously I’ve read about R2RT’s post regarding sequential generation and discrete embeddings. I thought I’ll write something to remind myself the details of this post and to compare it with other generation models.</summary></entry><entry><title type="html">承接Binary, 拥抱ternary和one-hot-neurons</title><link href="http://localhost:8080/blog/2018/06/04/ternary-and-one-hot-neuron.html" rel="alternate" type="text/html" title="承接Binary, 拥抱ternary和one-hot-neurons" /><published>2018-06-04T00:00:00+08:00</published><updated>2018-06-04T00:00:00+08:00</updated><id>http://localhost:8080/blog/2018/06/04/ternary-and-one-hot-neuron</id><content type="html" xml:base="http://localhost:8080/blog/2018/06/04/ternary-and-one-hot-neuron.html">&lt;p&gt;之前有个blog是转载R2RT的BSN网络。后续他又发了一篇关于BSN的进阶，不过没有做深度优化。在这里我再把他用中文转载出来说一下。如果对原贴感兴趣可以查看&lt;a href=&quot;https://r2rt.com/binary-stochastic-neurons-in-tensorflow.html&quot;&gt;这里&lt;/a&gt;. 如果对我注释的代码感兴趣，或者对里面各种矩阵的形状感兴趣可以看&lt;a href=&quot;/blog/2018/05/29/bsn.html&quot;&gt;这里&lt;/a&gt;.&lt;/p&gt;
 
 &lt;h2 id=&quot;n-ary-neurons&quot;&gt;N-ary neurons&lt;/h2&gt;
 &lt;p&gt;Binary神经元只能输出0或者1。万一我们希望有更多选择，像是不同颜色，渐变起来我们希望给他赋予整数值好区分。[0,1,2,3…]或许是个好的选择。在这里我们考虑一下简单的case。也就是当我们只有3种颜色的时候，我们可以定义他们为[-1,0,1]。我们希望有这样一个激活函数，像是梯子一样经过这3个区间。为什么呢？因为如果不是梯子，不是扁平的，如果是倾斜的像斜率为1的曲线的话那么当这个神经元在学习的时候就不会好好待在那个地方，而是被迫往其他地方转移。&lt;/p&gt;
@@ -539,7 +542,7 @@ graph TB
 &lt;span class=&quot;n&quot;&gt;plt&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;show&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://localhost:80/data/img/ternary-one-hot/output_2_0.png&quot; alt=&quot;png&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://localhost:8080/data/img/ternary-one-hot/output_2_0.png&quot; alt=&quot;png&quot; /&gt;&lt;/p&gt;
 
 &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;f_acti&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;1.5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;0.5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
     &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;np&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tanh&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;np&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tanh&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
@@ -551,7 +554,7 @@ graph TB
 &lt;span class=&quot;n&quot;&gt;plt&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;show&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://localhost:80/data/img/ternary-one-hot/output_3_0.png&quot; alt=&quot;png&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://localhost:8080/data/img/ternary-one-hot/output_3_0.png&quot; alt=&quot;png&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;可以看到这个函数不像$\tanh$, 它还会在0处短暂停留。因此它可以输出多一个维度。&lt;/p&gt;
 
@@ -596,7 +599,7 @@ graph TB
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h2 id=&quot;结论&quot;&gt;结论&lt;/h2&gt;
-&lt;p&gt;从实验上来看，ternary表现似乎没有binary好，这也可能是作者并没有完全优化与实现slope-annealing的原因。还有可能是因为MNIST本身不够复杂，ternary可能更适合用在大型，更多维度的数据集上。&lt;/p&gt;</content><author><name></name></author><category term="blog" /><category term="deep learning" /><category term="algorithm" /><summary type="html">之前有个blog是转载R2RT的BSN网络。后续他又发了一篇关于BSN的进阶，不过没有做深度优化。在这里我再把他用中文转载出来说一下。如果对原贴感兴趣可以查看这里. 如果对我注释的代码感兴趣，或者对里面各种矩阵的形状感兴趣可以看这里.</summary></entry><entry><title type="html">来电描述分类器</title><link href="http://localhost/work/2018/06/02/april-may-complains.html" rel="alternate" type="text/html" title="来电描述分类器" /><published>2018-06-02T00:00:00+08:00</published><updated>2018-06-02T00:00:00+08:00</updated><id>http://localhost/work/2018/06/02/april-may-complains</id><content type="html" xml:base="http://localhost/work/2018/06/02/april-may-complains.html">&lt;p&gt;目标是统计4月和5月因为联系方式错误而产生的抱怨工单。本身只有少量标注的信息，本次探索是从一个非业务人员的角度去探索如何分类抱怨的类型。&lt;/p&gt;
+&lt;p&gt;从实验上来看，ternary表现似乎没有binary好，这也可能是作者并没有完全优化与实现slope-annealing的原因。还有可能是因为MNIST本身不够复杂，ternary可能更适合用在大型，更多维度的数据集上。&lt;/p&gt;</content><author><name></name></author><category term="blog" /><category term="deep learning" /><category term="algorithm" /><summary type="html">之前有个blog是转载R2RT的BSN网络。后续他又发了一篇关于BSN的进阶，不过没有做深度优化。在这里我再把他用中文转载出来说一下。如果对原贴感兴趣可以查看这里. 如果对我注释的代码感兴趣，或者对里面各种矩阵的形状感兴趣可以看这里.</summary></entry><entry><title type="html">来电描述分类器</title><link href="http://localhost:8080/work/2018/06/02/april-may-complains.html" rel="alternate" type="text/html" title="来电描述分类器" /><published>2018-06-02T00:00:00+08:00</published><updated>2018-06-02T00:00:00+08:00</updated><id>http://localhost:8080/work/2018/06/02/april-may-complains</id><content type="html" xml:base="http://localhost:8080/work/2018/06/02/april-may-complains.html">&lt;p&gt;目标是统计4月和5月因为联系方式错误而产生的抱怨工单。本身只有少量标注的信息，本次探索是从一个非业务人员的角度去探索如何分类抱怨的类型。&lt;/p&gt;
 
 &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;numpy&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;np&lt;/span&gt;
 &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;matplotlib.pyplot&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;plt&lt;/span&gt;
@@ -961,11 +964,11 @@ Prefix dict has been built succesfully.
 
 &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;april_complains&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;to_excel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;april_complains.xlsx&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 &lt;span class=&quot;n&quot;&gt;may_complains&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;to_excel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;may_complains.xlsx&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name></name></author><category term="work" /><category term="algorithm" /><summary type="html">目标是统计4月和5月因为联系方式错误而产生的抱怨工单。本身只有少量标注的信息，本次探索是从一个非业务人员的角度去探索如何分类抱怨的类型。</summary></entry><entry><title type="html">Kramdown Image Tips</title><link href="http://localhost/blog/2018/05/29/kramdown_img_notes.html" rel="alternate" type="text/html" title="Kramdown Image Tips" /><published>2018-05-29T00:00:00+08:00</published><updated>2018-05-29T00:00:00+08:00</updated><id>http://localhost/blog/2018/05/29/kramdown_img_notes</id><content type="html" xml:base="http://localhost/blog/2018/05/29/kramdown_img_notes.html">&lt;p&gt;Here’s how to specify image size in kramdown.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name></name></author><category term="work" /><category term="algorithm" /><summary type="html">目标是统计4月和5月因为联系方式错误而产生的抱怨工单。本身只有少量标注的信息，本次探索是从一个非业务人员的角度去探索如何分类抱怨的类型。</summary></entry><entry><title type="html">Kramdown Image Tips</title><link href="http://localhost:8080/blog/2018/05/29/kramdown_img_notes.html" rel="alternate" type="text/html" title="Kramdown Image Tips" /><published>2018-05-29T00:00:00+08:00</published><updated>2018-05-29T00:00:00+08:00</updated><id>http://localhost:8080/blog/2018/05/29/kramdown_img_notes</id><content type="html" xml:base="http://localhost:8080/blog/2018/05/29/kramdown_img_notes.html">&lt;p&gt;Here’s how to specify image size in kramdown.
 &lt;img src=&quot;http://om1hdizoc.bkt.clouddn.com/18-5-29/54280733.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Here’s how to center image in kramdown.
-&lt;img src=&quot;http://om1hdizoc.bkt.clouddn.com/18-5-29/35187185.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;</content><author><name></name></author><category term="blog" /><category term="Kramdown" /><summary type="html">Here’s how to specify image size in kramdown.</summary></entry><entry><title type="html">Binary Stochastic Neurons</title><link href="http://localhost/blog/2018/05/29/bsn.html" rel="alternate" type="text/html" title="Binary Stochastic Neurons" /><published>2018-05-29T00:00:00+08:00</published><updated>2018-05-29T00:00:00+08:00</updated><id>http://localhost/blog/2018/05/29/bsn</id><content type="html" xml:base="http://localhost/blog/2018/05/29/bsn.html">&lt;p&gt;This post is a rebroadcast of R2RT’s bst post. It talks about ST and REINFORCE estimator used in BSN network.&lt;/p&gt;
+&lt;img src=&quot;http://om1hdizoc.bkt.clouddn.com/18-5-29/35187185.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;</content><author><name></name></author><category term="blog" /><category term="Kramdown" /><summary type="html">Here’s how to specify image size in kramdown.</summary></entry><entry><title type="html">Binary Stochastic Neurons</title><link href="http://localhost:8080/blog/2018/05/29/bsn.html" rel="alternate" type="text/html" title="Binary Stochastic Neurons" /><published>2018-05-29T00:00:00+08:00</published><updated>2018-05-29T00:00:00+08:00</updated><id>http://localhost:8080/blog/2018/05/29/bsn</id><content type="html" xml:base="http://localhost:8080/blog/2018/05/29/bsn.html">&lt;p&gt;This post is a rebroadcast of R2RT’s bst post. It talks about ST and REINFORCE estimator used in BSN network.&lt;/p&gt;
 
 &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;numpy&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;np&lt;/span&gt;
 &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;tensorflow&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tf&lt;/span&gt;
@@ -1325,7 +1328,7 @@ Prefix dict has been built succesfully.
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Epoch 20 0.9658
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p class=&quot;mycenter&quot;&gt;&lt;img src=&quot;http://localhost:80/data/img/bsn/output_16_1.png&quot; alt=&quot;png&quot; /&gt;&lt;/p&gt;
+&lt;p class=&quot;mycenter&quot;&gt;&lt;img src=&quot;http://localhost:8080/data/img/bsn/output_16_1.png&quot; alt=&quot;png&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;The non-stochastic, non-binary baseline&lt;/p&gt;
 
@@ -1365,7 +1368,7 @@ Epoch 3 0.0958
 Epoch 20 0.9264
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p class=&quot;mycenter&quot;&gt;&lt;img src=&quot;http://localhost:80/data/img/bsn/output_20_1.png&quot; alt=&quot;png&quot; /&gt;&lt;/p&gt;
+&lt;p class=&quot;mycenter&quot;&gt;&lt;img src=&quot;http://localhost:8080/data/img/bsn/output_20_1.png&quot; alt=&quot;png&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;So variance-adjusted learns a bit faster, but it’s not significant.&lt;/p&gt;
 
@@ -1396,7 +1399,7 @@ Epoch 20 0.0958
 Epoch 20 0.9516
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p class=&quot;mycenter&quot;&gt;&lt;img src=&quot;http://localhost:80/data/img/bsn/output_22_1.png&quot; alt=&quot;png&quot; /&gt;&lt;/p&gt;
+&lt;p class=&quot;mycenter&quot;&gt;&lt;img src=&quot;http://localhost:8080/data/img/bsn/output_22_1.png&quot; alt=&quot;png&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;It seems that sigmoid-adjusted beats pass-through by a wide margin&lt;/p&gt;
 
@@ -1427,7 +1430,7 @@ Epoch 20 0.9614
 Epoch 20 0.9714
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p class=&quot;mycenter&quot;&gt;&lt;img src=&quot;http://localhost:80/data/img/bsn/output_24_1.png&quot; alt=&quot;png&quot; /&gt;&lt;/p&gt;
+&lt;p class=&quot;mycenter&quot;&gt;&lt;img src=&quot;http://localhost:8080/data/img/bsn/output_24_1.png&quot; alt=&quot;png&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Stochastic sigmoid-adjusted even beats baseline model&lt;/p&gt;
 
@@ -1448,7 +1451,7 @@ Epoch 20 0.9726
 Epoch 20 0.9748
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p class=&quot;mycenter&quot;&gt;&lt;img src=&quot;http://localhost:80/data/img/bsn/output_26_1.png&quot; alt=&quot;png&quot; /&gt;&lt;/p&gt;
+&lt;p class=&quot;mycenter&quot;&gt;&lt;img src=&quot;http://localhost:8080/data/img/bsn/output_26_1.png&quot; alt=&quot;png&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;The results show that deterministic neurons train the fastest, but also display more overfitting and may not achieve the best final results. Stochastic inference and deterministic inference, when combined with stochastic training, are closely comparable. Similar results hold for the REINFORCE estimator.&lt;/p&gt;
 
@@ -1472,7 +1475,7 @@ Epoch 20 0.9748
 Epoch 20 0.9435
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p class=&quot;mycenter&quot;&gt;&lt;img src=&quot;http://localhost:80/data/img/bsn/output_29_1.png#center&quot; alt=&quot;png&quot; /&gt;&lt;/p&gt;
+&lt;p class=&quot;mycenter&quot;&gt;&lt;img src=&quot;http://localhost:8080/data/img/bsn/output_29_1.png#center&quot; alt=&quot;png&quot; /&gt;&lt;/p&gt;
 
 &lt;style&gt;
 .mycenter {
@@ -1485,7 +1488,7 @@ Epoch 20 0.9435
 
 &lt;p&gt;&lt;a href=&quot;https://r2rt.com/binary-stochastic-neurons-in-tensorflow.html&quot;&gt;Original notes.&lt;/a&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;a href=&quot;http://localhost:80/data/code/bsn_debug.py&quot;&gt;Commented code for bsn implemented in tensorflow.&lt;/a&gt;&lt;/p&gt;</content><author><name></name></author><category term="blog" /><category term="deep learning" /><category term="algorithm" /><summary type="html">This post is a rebroadcast of R2RT’s bst post. It talks about ST and REINFORCE estimator used in BSN network.</summary></entry><entry><title type="html">大数据实验室流程指引</title><link href="http://localhost/work/2018/05/25/bigdataflowchart.html" rel="alternate" type="text/html" title="大数据实验室流程指引" /><published>2018-05-25T00:00:00+08:00</published><updated>2018-05-25T00:00:00+08:00</updated><id>http://localhost/work/2018/05/25/bigdataflowchart</id><content type="html" xml:base="http://localhost/work/2018/05/25/bigdataflowchart.html">&lt;h2 id=&quot;大数据实验室流程指引&quot;&gt;大数据实验室流程指引&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&quot;http://localhost:8080/data/code/bsn_debug.py&quot;&gt;Commented code for bsn implemented in tensorflow.&lt;/a&gt;&lt;/p&gt;</content><author><name></name></author><category term="blog" /><category term="deep learning" /><category term="algorithm" /><summary type="html">This post is a rebroadcast of R2RT’s bst post. It talks about ST and REINFORCE estimator used in BSN network.</summary></entry><entry><title type="html">大数据实验室流程指引</title><link href="http://localhost:8080/work/2018/05/25/bigdataflowchart.html" rel="alternate" type="text/html" title="大数据实验室流程指引" /><published>2018-05-25T00:00:00+08:00</published><updated>2018-05-25T00:00:00+08:00</updated><id>http://localhost:8080/work/2018/05/25/bigdataflowchart</id><content type="html" xml:base="http://localhost:8080/work/2018/05/25/bigdataflowchart.html">&lt;h2 id=&quot;大数据实验室流程指引&quot;&gt;大数据实验室流程指引&lt;/h2&gt;
 &lt;p&gt;本操作指引作为大数据实验室的辅助手册，包含大数据实验室操作指南、数据申请流程与工具选型指引三部分。文末附上各类附件。&lt;/p&gt;
 
 &lt;h3 id=&quot;大数据实验室流程指南&quot;&gt;大数据实验室流程指南&lt;/h3&gt;

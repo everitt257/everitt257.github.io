@@ -37,15 +37,15 @@
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="变压器厂家名字聚类，重建预测，可视化 这是一次对变压器的厂家名字做聚类与重建预测和可视化的尝试。使用了以下手段： 分词 短句向量化, 采用简单统计词频方式做向量，没有采用ifidf,因为效果不理想，且短句子用简单的方式效果更好 t-sne降维，没有用过pca的原因是效果不理想，重建预测时候学习曲线非常低 t-sne 2D可视化 其他探索：word2vec词频空间探索相似度高的单词，效果不理想，放弃 其他探索：word2vec词频空间可视化 重建预测，使用t-sne降维到10维度的空间做初始特征 简单4层神经网络，$l = |x’ - x| + \lambda*(\theta)$, lambda是常数，theta是权重 神经元：12+6+6+10 = 34个神经元" />
 <meta property="og:description" content="变压器厂家名字聚类，重建预测，可视化 这是一次对变压器的厂家名字做聚类与重建预测和可视化的尝试。使用了以下手段： 分词 短句向量化, 采用简单统计词频方式做向量，没有采用ifidf,因为效果不理想，且短句子用简单的方式效果更好 t-sne降维，没有用过pca的原因是效果不理想，重建预测时候学习曲线非常低 t-sne 2D可视化 其他探索：word2vec词频空间探索相似度高的单词，效果不理想，放弃 其他探索：word2vec词频空间可视化 重建预测，使用t-sne降维到10维度的空间做初始特征 简单4层神经网络，$l = |x’ - x| + \lambda*(\theta)$, lambda是常数，theta是权重 神经元：12+6+6+10 = 34个神经元" />
-<link rel="canonical" href="http://localhost/work/2018/05/24/transformer-cluster-trial.html" />
-<meta property="og:url" content="http://localhost/work/2018/05/24/transformer-cluster-trial.html" />
+<link rel="canonical" href="http://localhost:8080/work/2018/05/24/transformer-cluster-trial.html" />
+<meta property="og:url" content="http://localhost:8080/work/2018/05/24/transformer-cluster-trial.html" />
 <meta property="og:site_name" content="Everitt’s blog" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2018-05-24T00:00:00+08:00" />
 <script type="application/ld+json">
-{"description":"变压器厂家名字聚类，重建预测，可视化 这是一次对变压器的厂家名字做聚类与重建预测和可视化的尝试。使用了以下手段： 分词 短句向量化, 采用简单统计词频方式做向量，没有采用ifidf,因为效果不理想，且短句子用简单的方式效果更好 t-sne降维，没有用过pca的原因是效果不理想，重建预测时候学习曲线非常低 t-sne 2D可视化 其他探索：word2vec词频空间探索相似度高的单词，效果不理想，放弃 其他探索：word2vec词频空间可视化 重建预测，使用t-sne降维到10维度的空间做初始特征 简单4层神经网络，$l = |x’ - x| + \\lambda*(\\theta)$, lambda是常数，theta是权重 神经元：12+6+6+10 = 34个神经元","@type":"BlogPosting","url":"http://localhost/work/2018/05/24/transformer-cluster-trial.html","headline":"变压器厂家聚类分析","dateModified":"2018-05-24T00:00:00+08:00","datePublished":"2018-05-24T00:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost/work/2018/05/24/transformer-cluster-trial.html"},"@context":"http://schema.org"}</script>
+{"description":"变压器厂家名字聚类，重建预测，可视化 这是一次对变压器的厂家名字做聚类与重建预测和可视化的尝试。使用了以下手段： 分词 短句向量化, 采用简单统计词频方式做向量，没有采用ifidf,因为效果不理想，且短句子用简单的方式效果更好 t-sne降维，没有用过pca的原因是效果不理想，重建预测时候学习曲线非常低 t-sne 2D可视化 其他探索：word2vec词频空间探索相似度高的单词，效果不理想，放弃 其他探索：word2vec词频空间可视化 重建预测，使用t-sne降维到10维度的空间做初始特征 简单4层神经网络，$l = |x’ - x| + \\lambda*(\\theta)$, lambda是常数，theta是权重 神经元：12+6+6+10 = 34个神经元","@type":"BlogPosting","url":"http://localhost:8080/work/2018/05/24/transformer-cluster-trial.html","headline":"变压器厂家聚类分析","dateModified":"2018-05-24T00:00:00+08:00","datePublished":"2018-05-24T00:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:8080/work/2018/05/24/transformer-cluster-trial.html"},"@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
-<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost/feed.xml" title="Everitt's blog" /></head>
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:8080/feed.xml" title="Everitt's blog" /></head>
 <body><header class="site-header" role="banner">
 
   <div class="wrapper"><a class="site-title" rel="author" href="/">Everitt&#39;s blog</a><nav class="site-nav">
@@ -103,31 +103,31 @@
 <ul>
   <li>
     <p>T-SNE，2维聚类，CountVector，已更新
-<img src="http://localhost/data/img/new_result0.png" alt="T-SNE 2维聚类" /></p>
+<img src="http://localhost:8080/data/img/new_result0.png" alt="T-SNE 2维聚类" /></p>
   </li>
   <li>
     <p>T-SNE，2维聚类，序号标注，CountVector，已更新
-<img src="http://localhost/data/img/COUNT2_TSNE_Visualize.png" alt="序号标注" /></p>
+<img src="http://localhost:8080/data/img/COUNT2_TSNE_Visualize.png" alt="序号标注" /></p>
   </li>
   <li>
     <p>T-SNE，2维聚类，序号标注，TfidfVector，已过期，前面有些初始化的数据不对
-<img src="http://localhost/data/img/TFIDF_TSNE_with_numbers.png" alt=" " /></p>
+<img src="http://localhost:8080/data/img/TFIDF_TSNE_with_numbers.png" alt=" " /></p>
   </li>
   <li>
     <p>Word2Vec词频空间可视化，这个说明不了太多问题，已过期
-<img src="http://localhost/data/img/result3.png" alt="" /></p>
+<img src="http://localhost:8080/data/img/result3.png" alt="" /></p>
   </li>
   <li>
     <p>K-Means 40个聚类，这个说明不了太多问题，已过期
-<img src="http://localhost/data/img/result4.png" alt="" /></p>
+<img src="http://localhost:8080/data/img/result4.png" alt="" /></p>
   </li>
   <li>
     <p>Autoencoder(重建预测)，T-SNE，10维降维，学习曲线，横轴是尝试次数，最后稳定在92%的准确性 已更新
-<img src="http://localhost/data/img/autoencoder10_learning_tendency.png" alt="" /></p>
+<img src="http://localhost:8080/data/img/autoencoder10_learning_tendency.png" alt="" /></p>
   </li>
   <li>
     <p>Autoencoder(重建预测)，T-SNE，10维降维，预测与实际的L2距离, 横轴是序号，已更新
-<img src="http://localhost/data/img/autoencoder10_prediction_result.png" alt="" /></p>
+<img src="http://localhost:8080/data/img/autoencoder10_prediction_result.png" alt="" /></p>
   </li>
 </ul>
 
@@ -187,7 +187,7 @@
           
 
            <h3>
-            <a href="http://localhost:80/work/2018/06/02/april-may-complains.html">
+            <a href="http://localhost:8080/work/2018/06/02/april-may-complains.html">
               来电描述分类器
             </a>
            </h3>
@@ -197,7 +197,7 @@
           
 
            <h3>
-            <a href="http://localhost:80/work/2018/05/25/bigdataflowchart.html">
+            <a href="http://localhost:8080/work/2018/05/25/bigdataflowchart.html">
               大数据实验室流程指引
             </a>
            </h3>
@@ -207,7 +207,7 @@
           
 
            <h3>
-            <a href="http://localhost:80/work/2018/05/25/bigdataapply.html">
+            <a href="http://localhost:8080/work/2018/05/25/bigdataapply.html">
               大数据实验室申请指南
             </a>
            </h3>

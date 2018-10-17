@@ -38,15 +38,15 @@
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="背景 写这个主题的主要原因是在南宁开电力行业信息年会时听到了一个关于大数据脱敏算法的实现过程案例。在该会上北邮的博士后为我们介绍了关于大数据脱敏的一些主要测量模型和基于这些模型的难点和痛点而做出来的分布式算法。本人听这个会之前并无对数据脱敏有太多了解，这次借写稿的机会做了一些关于数据脱敏的知识的调查，希望可以起到抛砖引玉的作用。" />
 <meta property="og:description" content="背景 写这个主题的主要原因是在南宁开电力行业信息年会时听到了一个关于大数据脱敏算法的实现过程案例。在该会上北邮的博士后为我们介绍了关于大数据脱敏的一些主要测量模型和基于这些模型的难点和痛点而做出来的分布式算法。本人听这个会之前并无对数据脱敏有太多了解，这次借写稿的机会做了一些关于数据脱敏的知识的调查，希望可以起到抛砖引玉的作用。" />
-<link rel="canonical" href="http://localhost/work/2017/12/25/data-desensitization.html" />
-<meta property="og:url" content="http://localhost/work/2017/12/25/data-desensitization.html" />
+<link rel="canonical" href="http://localhost:8080/work/2017/12/25/data-desensitization.html" />
+<meta property="og:url" content="http://localhost:8080/work/2017/12/25/data-desensitization.html" />
 <meta property="og:site_name" content="Everitt’s blog" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2017-12-25T00:00:00+08:00" />
 <script type="application/ld+json">
-{"description":"背景 写这个主题的主要原因是在南宁开电力行业信息年会时听到了一个关于大数据脱敏算法的实现过程案例。在该会上北邮的博士后为我们介绍了关于大数据脱敏的一些主要测量模型和基于这些模型的难点和痛点而做出来的分布式算法。本人听这个会之前并无对数据脱敏有太多了解，这次借写稿的机会做了一些关于数据脱敏的知识的调查，希望可以起到抛砖引玉的作用。","author":{"@type":"Person","name":"Xuandong Xu"},"@type":"BlogPosting","url":"http://localhost/work/2017/12/25/data-desensitization.html","headline":"浅谈数据脱敏","dateModified":"2017-12-25T00:00:00+08:00","datePublished":"2017-12-25T00:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost/work/2017/12/25/data-desensitization.html"},"@context":"http://schema.org"}</script>
+{"description":"背景 写这个主题的主要原因是在南宁开电力行业信息年会时听到了一个关于大数据脱敏算法的实现过程案例。在该会上北邮的博士后为我们介绍了关于大数据脱敏的一些主要测量模型和基于这些模型的难点和痛点而做出来的分布式算法。本人听这个会之前并无对数据脱敏有太多了解，这次借写稿的机会做了一些关于数据脱敏的知识的调查，希望可以起到抛砖引玉的作用。","author":{"@type":"Person","name":"Xuandong Xu"},"@type":"BlogPosting","url":"http://localhost:8080/work/2017/12/25/data-desensitization.html","headline":"浅谈数据脱敏","dateModified":"2017-12-25T00:00:00+08:00","datePublished":"2017-12-25T00:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:8080/work/2017/12/25/data-desensitization.html"},"@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
-<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost/feed.xml" title="Everitt's blog" /></head>
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:8080/feed.xml" title="Everitt's blog" /></head>
 <body><header class="site-header" role="banner">
 
   <div class="wrapper"><a class="site-title" rel="author" href="/">Everitt&#39;s blog</a><nav class="site-nav">
@@ -140,7 +140,7 @@
 
 <p>$K$组匿名（$K$-Anonymity）。$K$组匿名通过泛化，匿名（泛化的极致）等手段对半标识符进行变形。假设我们只对标识列进行脱敏，可是攻击者任然可能通过公共的关于半标识列的数据库对被攻击者进行定位，从而获取敏感信息。基于这个原因，我们有必要对半标识列进行数据脱敏。这里只举关于数据泛化的例子进行说明。如图1所示，数据泛化对年龄列进行更为泛化的语义替换。</p>
 
-<p style="text-align:center"><img src="http://localhost/data/img/K.PNG" alt="4组泛化，截图来自Ashwin[@ashwin_-diversity:_2007][]{data-label=&quot;fig:KA&quot;}" /></p>
+<p style="text-align:center"><img src="http://localhost:8080/data/img/K.PNG" alt="4组泛化，截图来自Ashwin[@ashwin_-diversity:_2007][]{data-label=&quot;fig:KA&quot;}" /></p>
 
 <p>病人的邮编号，年龄，与国籍进行了关于数据泛化的数据变形。所有半识别列相等的行为一个相等集。如[fig:KA]
 中表二中的第一个相等集行{1,2,3,4}为一个相等集，而行{5,6,7,8}又为一个相等集。相等集种有几行就代表K值为多大的$K$组匿名。如果一张表里所有相等集的$K$值不同，取K值最小的那个称为关于与该表的$K$组匿名。</p>
@@ -182,7 +182,7 @@ Entropy(E) \geq \log L\end{gathered}</script>
 
 <p>以下通过实现第一个定义（敏感属性列存在$L$个不同的值）来举例说明。以之前那个图表为例，我们发现可以挪动与交换一些行数实现$L=3$的多样性。</p>
 
-<p style="text-align:center"><img src="http://localhost/data/img/3D.png" alt="3组多样性，截图来自Ashwin[@ashwin_-diversity:_2007][]{data-label=&quot;fig:3D&quot;}" /></p>
+<p style="text-align:center"><img src="http://localhost:8080/data/img/3D.png" alt="3组多样性，截图来自Ashwin[@ashwin_-diversity:_2007][]{data-label=&quot;fig:3D&quot;}" /></p>
 
 <p>在这里我们发现，交换一些行数实现了关于3的多样性。如[fig:3D]所示，第二个相等集中的行{5,6,7,8}中的{5,6,7}拥有最少为3的不同敏感属性。这意味着发生属性泄露的最低可能性降低至$1/3$。该表符合$L$为3的多样性。</p>
 
@@ -199,7 +199,7 @@ Entropy(E) \geq \log L\end{gathered}</script>
       <li>
         <p>相似性攻击：假设表里的敏感属性列有着类似的值或者名字，尽管完成了依据$L$多样性的原则完成了数据脱敏，依然容易造成属性泄露。以下举例说明[@ninghui_t-closeness:_2007]：</p>
 
-        <p style="text-align:center"><img src="http://localhost/data/img/Simliar3.png" alt="相似性攻击说明[]{data-label=&quot;fig:s3&quot;}" /></p>
+        <p style="text-align:center"><img src="http://localhost:8080/data/img/Simliar3.png" alt="相似性攻击说明[]{data-label=&quot;fig:s3&quot;}" /></p>
       </li>
       <li>
         <p>倾斜攻击：假设表里的敏感属性裂存在较大的倾斜，类似某种疾病1:99的分布比例。那么为了满足$L=2$的多样性，我们构建的数据集可能强行将被攻击者的属性曝光率从$1\%$上升至$50\%$。这显然不是我们想看到的现象。</p>
@@ -264,7 +264,7 @@ Distance与EMD。另一点需要再次强调，无论是哪一种衡量数据脱
           
 
            <h3>
-            <a href="http://localhost:80/work/2018/06/02/april-may-complains.html">
+            <a href="http://localhost:8080/work/2018/06/02/april-may-complains.html">
               来电描述分类器
             </a>
            </h3>
@@ -274,7 +274,7 @@ Distance与EMD。另一点需要再次强调，无论是哪一种衡量数据脱
           
 
            <h3>
-            <a href="http://localhost:80/work/2018/05/25/bigdataflowchart.html">
+            <a href="http://localhost:8080/work/2018/05/25/bigdataflowchart.html">
               大数据实验室流程指引
             </a>
            </h3>
@@ -284,7 +284,7 @@ Distance与EMD。另一点需要再次强调，无论是哪一种衡量数据脱
           
 
            <h3>
-            <a href="http://localhost:80/work/2018/05/25/bigdataapply.html">
+            <a href="http://localhost:8080/work/2018/05/25/bigdataapply.html">
               大数据实验室申请指南
             </a>
            </h3>
