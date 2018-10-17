@@ -37,15 +37,15 @@
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="This post concludes VAE and GAN I’ve took some time going over multiple post regarding VAE and GAN. To help myself to better understand these generative model, I decided to write a post about them, comparing them side by side. Also I want to include the necessary implementation details regarding these two models. For this model, I will use the toy dataset which is MNIST. The code in this post will be mainly implemented with Tensorflow." />
 <meta property="og:description" content="This post concludes VAE and GAN I’ve took some time going over multiple post regarding VAE and GAN. To help myself to better understand these generative model, I decided to write a post about them, comparing them side by side. Also I want to include the necessary implementation details regarding these two models. For this model, I will use the toy dataset which is MNIST. The code in this post will be mainly implemented with Tensorflow." />
-<link rel="canonical" href="http://localhost:4000/blog/2018/07/05/VAE_GAN.html" />
-<meta property="og:url" content="http://localhost:4000/blog/2018/07/05/VAE_GAN.html" />
+<link rel="canonical" href="http://localhost/blog/2018/07/05/VAE_GAN.html" />
+<meta property="og:url" content="http://localhost/blog/2018/07/05/VAE_GAN.html" />
 <meta property="og:site_name" content="Everitt’s blog" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2018-07-05T00:00:00+08:00" />
 <script type="application/ld+json">
-{"description":"This post concludes VAE and GAN I’ve took some time going over multiple post regarding VAE and GAN. To help myself to better understand these generative model, I decided to write a post about them, comparing them side by side. Also I want to include the necessary implementation details regarding these two models. For this model, I will use the toy dataset which is MNIST. The code in this post will be mainly implemented with Tensorflow.","@type":"BlogPosting","url":"http://localhost:4000/blog/2018/07/05/VAE_GAN.html","headline":"A comparison between VAE and GAN","dateModified":"2018-07-05T00:00:00+08:00","datePublished":"2018-07-05T00:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/blog/2018/07/05/VAE_GAN.html"},"@context":"http://schema.org"}</script>
+{"description":"This post concludes VAE and GAN I’ve took some time going over multiple post regarding VAE and GAN. To help myself to better understand these generative model, I decided to write a post about them, comparing them side by side. Also I want to include the necessary implementation details regarding these two models. For this model, I will use the toy dataset which is MNIST. The code in this post will be mainly implemented with Tensorflow.","@type":"BlogPosting","url":"http://localhost/blog/2018/07/05/VAE_GAN.html","headline":"A comparison between VAE and GAN","dateModified":"2018-07-05T00:00:00+08:00","datePublished":"2018-07-05T00:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost/blog/2018/07/05/VAE_GAN.html"},"@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
-<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Everitt's blog" /></head>
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost/feed.xml" title="Everitt's blog" /></head>
 <body><header class="site-header" role="banner">
 
   <div class="wrapper"><a class="site-title" rel="author" href="/">Everitt&#39;s blog</a><nav class="site-nav">
@@ -95,12 +95,12 @@
 <p>Another use of encoder part of autoencoder is that it can used to initialize a supervised model. Usually fine-tune the encoder jointly with the classifier.</p>
 
 <p>The autoencoder is usually comprised of these module:
-<img src="http://localhost:4000/data/img/vae_gan/autoencoder_module.png" alt="png" /></p>
+<img src="http://localhost:80/data/img/vae_gan/autoencoder_module.png" alt="png" /></p>
 
 <p>However, simply using the autoencoder to generate images will not be considered as a generative model. Say that you input a image, then the output image you generated will always be the same. In another word, the decoder part of autoencoder network is simply generating things it already remembered.</p>
 
 <p>The VAE addresses the above mentioned problem by supplying the latent variables with a sampling technique that makes each feature unit gaussian or some other distribution. In other words, we’ll use the “sampled latent vector” instead of the true latent vector. In the next section will discuss these deductions in detail.
-<img src="http://localhost:4000/data/img/vae_gan/autoencoder_module2.png" alt="png" /></p>
+<img src="http://localhost:80/data/img/vae_gan/autoencoder_module2.png" alt="png" /></p>
 
 <h4 id="the-mathematical-proof-of-vae">The mathematical proof of VAE</h4>
 <p>In previous section, we talked about adding a supplementary network to so latent variables can be sampled from it. The mathematical intuition behind this is that alone with the decoder network we cannot calculate the data likelihood. And because of that, the posterior density is also intractable.</p>
@@ -198,7 +198,7 @@
 
 <h4 id="the-motivation-behind-gan">The motivation behind GAN</h4>
 <p>GAN is short for Generative Adversarial Network. As the name suggests, it focuses on the adversarial part of the network. Basically there are two characters in the network. The discriminator and the generator. The generator always tries to forge something to get pass by the discriminator while the discriminator tries its best to distinguish between fake and real samples. As you can see. This is a cat &amp; mouse game. The difficulties in the network is that the discriminator is pretty much always stronger than the generator, therefore it’s necessary to tune the parameters of the network and to balance the generator and the discriminator.
-<img src="http://localhost:4000/data/img/vae_gan/GAN_1.png" alt="png" /></p>
+<img src="http://localhost:80/data/img/vae_gan/GAN_1.png" alt="png" /></p>
 
 <h4 id="the-math-behind-gan">The math behind GAN</h4>
 <p>The training of the GAN is a fight between the generator and the discriminator. This can be represented mathematically as</p>
@@ -219,7 +219,7 @@
 <h4 id="sampling">Sampling</h4>
 <p>Before we get into the training of GAN, we need to to sample both our data and noise, say for example our data is distributed as $X \sim \mathcal{N}(-1, 1)$ and our noise/latent variable is distributed as $Z \sim \mathcal{N}(0, 1)$. However if we just blindly sample them from two independent resource, the training of GAN will not lead to good result. This is because nothing is enforcing the adjacent pints in the latent space domain being mapped to adjacent points in the X domain (real sample domain). In one minibatch, we might train our generator to map some latent samples to some X domain, however in another minibatch we might points very close to the previous latent samples but mapping to a very different location in X. This implies a completely different mapping G from the previous minibatch, so the optimizer will fail to converge.</p>
 
-<p class="mycenter"><img src="http://localhost:4000/data/img/vae_gan/sampling_1.png" alt="png" /></p>
+<p class="mycenter"><img src="http://localhost:80/data/img/vae_gan/sampling_1.png" alt="png" /></p>
 
 <p>To get over this, we want to use a trick called stratified sampling. That is we want our align our X and Z (latent space) domain so that the total length of the arrows taking points from Z to X is minimized.</p>
 
@@ -230,7 +230,7 @@
   <li>Sort X (Z is already sorted in step 2)</li>
 </ol>
 
-<p class="mycenter"><img src="http://localhost:4000/data/img/vae_gan/sampling_2.png" alt="png" /></p>
+<p class="mycenter"><img src="http://localhost:80/data/img/vae_gan/sampling_2.png" alt="png" /></p>
 
 <p>As quoted by Eric Jang in his post regarding GAN:</p>
 <blockquote>
@@ -331,7 +331,7 @@
 <h4 id="comparison-and-conclusion">Comparison and Conclusion</h4>
 <p>In this post we have gone over two popular generative model. One is the VAE and the other is the GAN. The VAE uses something called density approximation while the GAN use a direct approach that was rooted in game theory. The VAE usually generate a more blurry picture than the GAN. However it does have more control than the plain GAN in terms of what kind of image we want to generate since the latent vector is generated by an encoder whereas in GAN the latent vector comes from random noise. We also see the difference in the loss function as well. The VAN can compare the generated and original samples directly whereas in GAN the generated samples can only be judged fake or real. However the GAN on the other hand generate more realistic images since it make uses of adversarial network. Now this network can be a deep network which would make it more powerful.</p>
 
-<p><img src="http://localhost:4000/data/img/vae_gan/CompareVG.png" alt="png" /></p>
+<p><img src="http://localhost:80/data/img/vae_gan/CompareVG.png" alt="png" /></p>
 
 <p>One big problem of these generative model is the evaluation of the generated quality. This is still an open area of research and I plan to do some followups on that. It’s also possible to combine VAE and GAN together to fully utilize the best of both to generate certain class of realistic images. This is something we may cover in the future as well.</p>
 
@@ -364,7 +364,7 @@
           
 
            <h3>
-            <a href="http://localhost:4000/blog/2018/06/22/discrete_embeddings.html">
+            <a href="http://localhost:80/blog/2018/06/22/discrete_embeddings.html">
               Discussion of generation models, sequential generation
             </a>
            </h3>
@@ -374,7 +374,7 @@
           
 
            <h3>
-            <a href="http://localhost:4000/blog/2018/06/04/ternary-and-one-hot-neuron.html">
+            <a href="http://localhost:80/blog/2018/06/04/ternary-and-one-hot-neuron.html">
               承接Binary, 拥抱ternary和one-hot-neurons
             </a>
            </h3>

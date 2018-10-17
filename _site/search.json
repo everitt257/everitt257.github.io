@@ -2,6 +2,16 @@
   
     {
     
+      "title"    : "Detection and Drivable road segmentation",
+      "url"      : "/2018/10/17/ssd-fc8.html",
+      "category" : "",
+      "tags"     : "deep learning, detection",
+      "date"     : "2018-10-17 00:00:00 +0800"
+      
+    } ,
+  
+    {
+    
       "title"    : "文本检测与识别 CTPN &amp;&amp; CRNN &amp;&amp; STN",
       "url"      : "/post/2018/08/30/ctpn-crnn-stn.html",
       "category" : "post",
