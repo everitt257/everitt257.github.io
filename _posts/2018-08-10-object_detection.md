@@ -12,6 +12,7 @@ This post talks about YOLO and Faster-RCNN. These are the two popular approaches
 ### Architecture of Faster RCNN
 The Faster RCNN is based of VGG16 as shown in the above image:
 ![image](https://ws3.sinaimg.cn/large/007BQ0gBgy1fzqqlthpt3j30c30ffmyj.jpg)
+
 The author basically takes the original image as input and shrinks it 16x times at conv5 layer. And then applies 1x1 convolution to that feature map two times. One 1x1 convolution ouputs 2K output channels, the K stands for the number of anchors and number 2 here means either it's foreground or background. In the original paper, the author set three ratios and three scales for anchor boxes, making the total number $K=9$.
 
 Another 1x1 convolution outputs 4K output channels. This number stands for 4 coordinate related information. They each are `x-center`,`y-center`,`width`,`height`.
