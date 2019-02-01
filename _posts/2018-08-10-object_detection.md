@@ -103,4 +103,5 @@ YOLO used l2 loss for bounding box regression, classification.
 We can see that YOLO and Faster RCNN both share some similarities. They both uses a anchor box based network structure, both uses bounding both regression. Things that differs YOLO from Faster RCNN is that it makes classification and bounding box regression at the same time. Judging from the year they were published, it make sense that YOLO wanted a more elegant way to do regression and classification. YOLO however does have it's drawback in object detection. YOLO has difficulty detecting objects that are small and close to each other due to only two anchor boxes in a grid predicting only one class of object. It doesn't generalize well when objects in the image show rare aspects of ratio. Faster RCNN on the other hand, do detect small objects well since it has nine anchors in a single grid, however it fails to do real-time detection with its two step architecture.
 
 ### Reference
-[Faster RCNN Reference](https://zhuanlan.zhihu.com/p/24916624?refer=xiaoleimlnote)
+[Faster RCNN reference](https://zhuanlan.zhihu.com/p/24916624?refer=xiaoleimlnote)
+[YOLO explained reference](https://zhuanlan.zhihu.com/p/24916786?refer=xiaoleimlnote)
