@@ -11,7 +11,7 @@ This post talks about YOLO and Faster-RCNN. These are the two popular approaches
 
 ### Architecture of Faster RCNN
 The Faster RCNN is based of VGG16 as shown in the above image:
-![](http://om1hdizoc.bkt.clouddn.com/18-8-13/84689386.jpg)
+![image](https://ws3.sinaimg.cn/large/007BQ0gBgy1fzqqlthpt3j30c30ffmyj.jpg)
 The author basically takes the original image as input and shrinks it 16x times at conv5 layer. And then applies 1x1 convolution to that feature map two times. One 1x1 convolution ouputs 2K output channels, the K stands for the number of anchors and number 2 here means either it's foreground or background. In the original paper, the author set three ratios and three scales for anchor boxes, making the total number $K=9$.
 
 Another 1x1 convolution outputs 4K output channels. This number stands for 4 coordinate related information. They each are `x-center`,`y-center`,`width`,`height`.
@@ -100,3 +100,6 @@ YOLO used l2 loss for bounding box regression, classification.
 
 ## Conclusion and comparison
 We can see that YOLO and Faster RCNN both share some similarities. They both uses a anchor box based network structure, both uses bounding both regression. Things that differs YOLO from Faster RCNN is that it makes classification and bounding box regression at the same time. Judging from the year they were published, it make sense that YOLO wanted a more elegant way to do regression and classification. YOLO however does have it's drawback in object detection. YOLO has difficulty detecting objects that are small and close to each other due to only two anchor boxes in a grid predicting only one class of object. It doesn't generalize well when objects in the image show rare aspects of ratio. Faster RCNN on the other hand, do detect small objects well since it has nine anchors in a single grid, however it fails to do real-time detection with its two step architecture.
+
+### Reference
+[Faster RCNN Reference](https://zhuanlan.zhihu.com/p/24916624?refer=xiaoleimlnote)
