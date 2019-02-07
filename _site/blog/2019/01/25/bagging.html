@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<!-- custom.css -->
+<link rel="stylesheet", href="/css/custom.css">
+
+<!-- mathjax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    TeX: {
+      equationNumbers: {
+        autoNumber: "AMS"
+      }
+    },
+    tex2jax: {
+      inlineMath: [ ['$','$'] ],
+      displayMath: [ ['$$','$$'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+    }
+  });
+</script>
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+<!-- mermaid -->
+<script src="/js/mermaid.min.js"></script>
+<script>mermaid.initialize({startOnLoad:true});</script>
+
+<!-- body -->
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.5.0 -->
+<title>Boosting &amp; Bagging | Everitt’s blog</title>
+<meta name="generator" content="Jekyll v3.8.2" />
+<meta property="og:title" content="Boosting &amp; Bagging" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="In this post we discuss boostrap sampling and the bagging framework. And many of its applications." />
+<meta property="og:description" content="In this post we discuss boostrap sampling and the bagging framework. And many of its applications." />
+<link rel="canonical" href="http://localhost:8080/blog/2019/01/25/bagging.html" />
+<meta property="og:url" content="http://localhost:8080/blog/2019/01/25/bagging.html" />
+<meta property="og:site_name" content="Everitt’s blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2019-01-25T00:00:00+08:00" />
+<script type="application/ld+json">
+{"description":"In this post we discuss boostrap sampling and the bagging framework. And many of its applications.","@type":"BlogPosting","url":"http://localhost:8080/blog/2019/01/25/bagging.html","headline":"Boosting &amp; Bagging","dateModified":"2019-01-25T00:00:00+08:00","datePublished":"2019-01-25T00:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:8080/blog/2019/01/25/bagging.html"},"@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:8080/feed.xml" title="Everitt's blog" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Everitt&#39;s blog</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a><a class="page-link" href="/category/blog.html">Blog</a><a class="page-link" href="/category/work.html">Work</a><a class="page-link" href="/tags.html">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Boosting &amp; Bagging</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2019-01-25T00:00:00+08:00" itemprop="datePublished">Jan 25, 2019
+      </time></p>
+  </header>
+
+  <!-- Tags -->
+  <ul class="tags">
+    
+      <li><a href="/tags#machine learning" class="tag">machine learning</a></li>
+    
+      <li><a href="/tags#trees" class="tag">trees</a></li>
+    
+  </ul>
+
+  <!-- Body -->
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>In this post we discuss boostrap sampling and the bagging framework. And many of its applications.</p>
+
+<h1 id="boostrap-sampling--bagging">Boostrap Sampling &amp; Bagging</h1>
+<ul>
+  <li>bootstrap sampling {may sample the same sample}</li>
+  <li>bootstrap sampling under bagging framework {take multiple samples to train individual classifier}
+    <h1 id="boost">Boost</h1>
+    <p>There’re multiple boosting technique out there. Adaboost,  GBDT (Mart), XGBoost, lightBGM. This note covers Adaboost for the time being.</p>
+    <h2 id="adaboost">Adaboost</h2>
+  </li>
+  <li>weak classifier put under bagging framework
+    <ul>
+      <li>everything combined –&gt; ensemble learning</li>
+    </ul>
+  </li>
+  <li>weighted weak classifier, training sampling weighting –&gt; adaboosting
+    <ul>
+      <li>adaboosting induction
+        <ul>
+          <li>general weighted function for prediction</li>
+          <li>make use of exponetial function $e^{-Y\cdot f(X)}$ for comparing similarity {reason for using this is because it has better performance than l2 loss in classification?}</li>
+          <li>link for <a href="https://mp.weixin.qq.com/s?__biz=MzU4MjQ3MDkwNA==&amp;mid=2247486478&amp;idx=1&amp;sn=8557d1ffbd2bc11027e642cc0a36f8ef&amp;chksm=fdb69199cac1188ff006b7c4bdfcd17f15f521b759081813627be3b5d13715d7c41fccec3a3f&amp;scene=21#wechat_redirect">induction</a></li>
+          <li><strong>core idea</strong>: two phase
+            <ul>
+              <li>math: <img src="https://ws3.sinaimg.cn/large/007BQ0gBgy1fzl1pnjwm5j30ft029t9d.jpg" alt="image" /></li>
+              <li>phase 1:
+                <ul>
+                  <li>keep the weights for the samples, train the current weak classifier, computes the weighted error for the current classifier, use the error to compute the weight for the current weak classifier.</li>
+                </ul>
+              </li>
+              <li>phase 2:
+                <ul>
+                  <li>use the weight of the current the weak classifier to update the weights for the samples.</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li>application: face detection, before nn was fully applicable, make use of Haar features
+            <h1 id="decision-tree--random-forest">Decision Tree &amp; Random Forest</h1>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>weak classifier made up with decision tree –&gt; random forest (simple vote, no weights changing)
+    <ul>
+      <li>decision tree
+        <ul>
+          <li>core idea: search all feature space to find one feature that achieves maximum information gain.</li>
+          <li>$\max E_{gain} = \max_{features} (E_{original} - E_{split})$ in another word, maximizes the entropy gain is the same as minimizes the impurity.</li>
+          <li>classification {measures with entropy gain, gini purity, miss-classification}</li>
+          <li>regression {measures with  l2 loss, mapping of piecewise constant function}
+  <a href="https://postimg.cc/D4gZYzpR"><img src="https://i.postimg.cc/PNGwJpWf/image.png" alt="image.png" /></a>
+  <em>since it is piecewise constant function, if we take a decesion tree and seperate it small enough, in theory it can simulate any non-linear function.</em></li>
+        </ul>
+      </li>
+      <li>drawbacks of decision tree
+        <ul>
+          <li>as long as the depth of the tree is deep enough, we can achieve very high precision in the test set. However when the feature dimension is too high, the “curse of dimension” may happen and the model will overfit.</li>
+          <li>complex trimming technique, it’s like tuning hyper-parameters. Many methods exist, the common one used in classifiying is Cost-Complexity Pruning (CCP).</li>
+        </ul>
+      </li>
+      <li><strong>Using decision tree under the bagging framework, is called the Random Forest</strong>
+        <ul>
+          <li>each tree is a weak classifier, with merely 50% accucray is enough</li>
+          <li>each tree is made with random sample</li>
+          <li>also the feature for composing the tree is randomly selected</li>
+        </ul>
+      </li>
+      <li>multiple decision tree compared with single decision tree effectively reduces the variance.</li>
+    </ul>
+  </li>
+  <li>xgboost, see “More about Decision Tree”</li>
+</ul>
+
+
+  </div>
+  
+  <!-- Related posts -->
+  
+  
+  
+    <div class="row related-posts">
+      <h2 class="text-center" style="font-family: initial">Related blog posts:</h2>
+      <div class="medium-12 small-12 columns">
+        
+          
+
+           <h3>
+            <a href="http://localhost:8080/blog/2019/02/07/RoI-Explained.html">
+              ROI pooling, align, warping
+            </a>
+           </h3>
+
+          
+        
+          
+
+           <h3>
+            <a href="http://localhost:8080/blog/2019/01/26/decision-tree.html">
+              Decision Tree Variants
+            </a>
+           </h3>
+
+          
+        
+          
+        
+      </div>
+    </div>
+  
+
+
+  <!-- Disqus --><a class="u-url" href="/blog/2019/01/25/bagging.html" hidden></a>
+</article>
+
+
+<script id="dsq-count-scr" src="//everitt257.disqus.com/count.js" async></script>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Everitt&#39;s blog</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Everitt&#39;s blog</li><li><a class="u-email" href="mailto:everitt257@gmail.com">everitt257@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/everitt257"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">everitt257</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>This site fancies machine learning and problems in engineerning in general.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

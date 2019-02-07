@@ -2,6 +2,36 @@
   
     {
     
+      "title"    : "ROI pooling, align, warping",
+      "url"      : "/blog/2019/02/07/RoI-Explained.html",
+      "category" : "blog",
+      "tags"     : "deep learning, ROI, detection",
+      "date"     : "2019-02-07 00:00:00 +0800"
+      
+    } ,
+  
+    {
+    
+      "title"    : "Decision Tree Variants",
+      "url"      : "/blog/2019/01/26/decision-tree.html",
+      "category" : "blog",
+      "tags"     : "machine learning, trees",
+      "date"     : "2019-01-26 00:00:00 +0800"
+      
+    } ,
+  
+    {
+    
+      "title"    : "Boosting &amp; Bagging",
+      "url"      : "/blog/2019/01/25/bagging.html",
+      "category" : "blog",
+      "tags"     : "machine learning, trees",
+      "date"     : "2019-01-25 00:00:00 +0800"
+      
+    } ,
+  
+    {
+    
       "title"    : "Detection and Drivable road segmentation",
       "url"      : "/2018/10/17/ssd-fc8.html",
       "category" : "",

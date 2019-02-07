@@ -31,7 +31,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.5.0 -->
-<title>Page 2 of 7 for Everitt’s blog | This site fancies machine learning and problems in engineerning in general.</title>
+<title>Page 2 of 8 for Everitt’s blog | This site fancies machine learning and problems in engineerning in general.</title>
 <meta name="generator" content="Jekyll v3.8.2" />
 <meta property="og:title" content="Everitt’s blog" />
 <meta property="og:locale" content="en_US" />
@@ -123,6 +123,10 @@
           <a href="/page-7/">7</a>  
           
         
+          
+          <a href="/page-8/">8</a>  
+          
+        
       
       <!-- show paginator next -->
         
@@ -136,14 +140,52 @@
               
                 <li><a href="/tags#deep learning" class="tag">deep learning</a></li>
               
-                <li><a href="/tags#algorithm" class="tag">algorithm</a></li>
+                <li><a href="/tags#detection" class="tag">detection</a></li>
               
-          </ul><span class="post-meta">Jun 22, 2018</span>
+          </ul><span class="post-meta">Aug 30, 2018</span>
         <h3>
-          <a class="post-link" href="/blog/2018/06/22/discrete_embeddings.html">
-            Discussion of generation models, sequential generation
+          <a class="post-link" href="/post/2018/08/30/ctpn-crnn-stn.html">
+            文本检测与识别 CTPN &amp;&amp; CRNN &amp;&amp; STN
           </a>
-        </h3><p>Previously I’ve read about R2RT’s post regarding sequential generation and discrete embeddings. I thought I’ll write something to remind myself the details of this post and to compare it with other generation models.</p>
+        </h3><h2 id="总结">总结</h2>
+<ul>
+  <li>端到端文本检测，端到端日期识别</li>
+  <li>不需要进行字符分割和水平缩放，可识别任意长度序列</li>
+  <li>CNN+RNN架构，检测结果更具鲁棒性</li>
+  <li>CTC选择最优序列</li>
+  <li>可检测部分旋转后的日期</li>
+  <li>无需对旋转后的角度进行数据标注</li>
+  <li>STN + CTPN + CRNN</li>
+</ul>
+
+</li><li>
+          <ul class="tags">
+              
+                <li><a href="/tags#deep learning" class="tag">deep learning</a></li>
+              
+                <li><a href="/tags#detection" class="tag">detection</a></li>
+              
+          </ul><span class="post-meta">Aug 10, 2018</span>
+        <h3>
+          <a class="post-link" href="/post/2018/08/10/object_detection.html">
+            YOLO vs Faster RCNN
+          </a>
+        </h3><p>This post talks about YOLO and Faster-RCNN. These are the two popular approaches for doing object detection that are anchor based. Faster RCNN offers a regional of interest region for doing convolution while YOLO does detection and classification at the same time. I would say that YOLO appears to be a cleaner way of doing object detection since it’s fully end-to-end training. The Faster RCNN offers end-to-end training as well, but the steps are much more involved. Nevertheless I will describe both approaches carefully in detail.</p>
+
+</li><li>
+          <ul class="tags">
+              
+                <li><a href="/tags#deep learning" class="tag">deep learning</a></li>
+              
+                <li><a href="/tags#generative modeling" class="tag">generative modeling</a></li>
+              
+          </ul><span class="post-meta">Jul 5, 2018</span>
+        <h3>
+          <a class="post-link" href="/blog/2018/07/05/VAE_GAN.html">
+            A comparison between VAE and GAN
+          </a>
+        </h3><h3 id="this-post-concludes-vae-and-gan">This post concludes VAE and GAN</h3>
+<p>I’ve took some time going over multiple post regarding VAE and GAN. To help myself to better understand these generative model, I decided to write a post about them, comparing them side by side. Also I want to include the necessary implementation details regarding these two models. For this model, I will use the toy dataset which is MNIST. The code in this post will be mainly implemented with Tensorflow.</p>
 
 </li><li>
           <ul class="tags">
@@ -152,37 +194,12 @@
               
                 <li><a href="/tags#algorithm" class="tag">algorithm</a></li>
               
-          </ul><span class="post-meta">Jun 4, 2018</span>
+          </ul><span class="post-meta">Jun 22, 2018</span>
         <h3>
-          <a class="post-link" href="/blog/2018/06/04/ternary-and-one-hot-neuron.html">
-            承接Binary, 拥抱ternary和one-hot-neurons
+          <a class="post-link" href="/blog/2018/06/22/discrete_embeddings.html">
+            Discussion of generation models, sequential generation
           </a>
-        </h3><p>之前有个blog是转载R2RT的BSN网络。后续他又发了一篇关于BSN的进阶，不过没有做深度优化。在这里我再把他用中文转载出来说一下。如果对原贴感兴趣可以查看<a href="https://r2rt.com/binary-stochastic-neurons-in-tensorflow.html">这里</a>. 如果对我注释的代码感兴趣，或者对里面各种矩阵的形状感兴趣可以看<a href="/blog/2018/05/29/bsn.html">这里</a>.</p>
-
-</li><li>
-          <ul class="tags">
-              
-                <li><a href="/tags#algorithm" class="tag">algorithm</a></li>
-              
-          </ul><span class="post-meta">Jun 2, 2018</span>
-        <h3>
-          <a class="post-link" href="/work/2018/06/02/april-may-complains.html">
-            来电描述分类器
-          </a>
-        </h3><p>目标是统计4月和5月因为联系方式错误而产生的抱怨工单。本身只有少量标注的信息，本次探索是从一个非业务人员的角度去探索如何分类抱怨的类型。</p>
-
-</li><li>
-          <ul class="tags">
-              
-                <li><a href="/tags#Kramdown" class="tag">Kramdown</a></li>
-              
-          </ul><span class="post-meta">May 29, 2018</span>
-        <h3>
-          <a class="post-link" href="/blog/2018/05/29/kramdown_img_notes.html">
-            Kramdown Image Tips
-          </a>
-        </h3><p>Here’s how to specify image size in kramdown.
-<img src="http://om1hdizoc.bkt.clouddn.com/18-5-29/54280733.jpg" alt="" /></p>
+        </h3><p>Previously I’ve read about R2RT’s post regarding sequential generation and discrete embeddings. I thought I’ll write something to remind myself the details of this post and to compare it with other generation models.</p>
 
 </li></ul>
 
@@ -222,6 +239,10 @@
         
           
           <a href="/page-7/">7</a>  
+          
+        
+          
+          <a href="/page-8/">8</a>  
           
         
       

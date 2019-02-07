@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<!-- custom.css -->
+<link rel="stylesheet", href="/css/custom.css">
+
+<!-- mathjax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    TeX: {
+      equationNumbers: {
+        autoNumber: "AMS"
+      }
+    },
+    tex2jax: {
+      inlineMath: [ ['$','$'] ],
+      displayMath: [ ['$$','$$'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+    }
+  });
+</script>
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+<!-- mermaid -->
+<script src="/js/mermaid.min.js"></script>
+<script>mermaid.initialize({startOnLoad:true});</script>
+
+<!-- body -->
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.5.0 -->
+<title>ROI pooling, align, warping | Everitt’s blog</title>
+<meta name="generator" content="Jekyll v3.8.2" />
+<meta property="og:title" content="ROI pooling, align, warping" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="First question. How how ROI (region of interest) in the original image get mapped to a feature map?" />
+<meta property="og:description" content="First question. How how ROI (region of interest) in the original image get mapped to a feature map?" />
+<link rel="canonical" href="http://localhost:8080/blog/2019/02/07/RoI-Explained.html" />
+<meta property="og:url" content="http://localhost:8080/blog/2019/02/07/RoI-Explained.html" />
+<meta property="og:site_name" content="Everitt’s blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2019-02-07T00:00:00+08:00" />
+<script type="application/ld+json">
+{"description":"First question. How how ROI (region of interest) in the original image get mapped to a feature map?","@type":"BlogPosting","url":"http://localhost:8080/blog/2019/02/07/RoI-Explained.html","headline":"ROI pooling, align, warping","dateModified":"2019-02-07T00:00:00+08:00","datePublished":"2019-02-07T00:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:8080/blog/2019/02/07/RoI-Explained.html"},"@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:8080/feed.xml" title="Everitt's blog" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Everitt&#39;s blog</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a><a class="page-link" href="/category/blog.html">Blog</a><a class="page-link" href="/category/work.html">Work</a><a class="page-link" href="/tags.html">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">ROI pooling, align, warping</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2019-02-07T00:00:00+08:00" itemprop="datePublished">Feb 7, 2019
+      </time></p>
+  </header>
+
+  <!-- Tags -->
+  <ul class="tags">
+    
+      <li><a href="/tags#deep learning" class="tag">deep learning</a></li>
+    
+      <li><a href="/tags#ROI" class="tag">ROI</a></li>
+    
+      <li><a href="/tags#detection" class="tag">detection</a></li>
+    
+  </ul>
+
+  <!-- Body -->
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>First question. How how ROI (region of interest) in the original image get mapped to a feature map?</p>
+
+<ol>
+  <li>Computation of receptive field</li>
+  <li>Computation of coordinates mapped back to feature map</li>
+</ol>
+
+<p>The first one is easy enough. It’s basically the following formula used backward.</p>
+
+<p><strong>output field size = ( input field size - kernel size + 2*padding ) / stride + 1</strong></p>
+
+<p>when used in backward:
+<script type="math/tex">r_i = s_i\cdot(r_{i+1}-1) + k_i -2*\text{padding}</script></p>
+
+<p>when reflected in code, it becomes:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">inFromOut</span><span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="n">layernum</span><span class="p">):</span><span class="c"># computing receptive field from backward</span>
+    <span class="n">RF</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">for</span> <span class="n">layer</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">layernum</span><span class="p">)):</span>
+        <span class="n">fsize</span><span class="p">,</span> <span class="n">stride</span><span class="p">,</span> <span class="n">pad</span> <span class="o">=</span> <span class="n">net</span><span class="p">[</span><span class="n">layer</span><span class="p">]</span>
+        <span class="n">RF</span> <span class="o">=</span> <span class="p">((</span><span class="n">RF</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span> <span class="n">stride</span><span class="p">)</span> <span class="o">+</span> <span class="n">fsize</span> <span class="o">-</span> <span class="mi">2</span><span class="o">*</span><span class="n">pad</span>
+    <span class="k">return</span> <span class="n">RF</span>
+</code></pre></div></div>
+
+<p>The second question. For reference I just copied the formula here:
+<script type="math/tex">p_i = s_i \cdot p_{i+1} + ((k_i-1)/2 - \text{padding})</script>
+for conv/pooling.</p>
+
+<p>Basically you are mapping the coordinate of feature map for next layer back to the coordinate for that feature point’s receptive field (center) of previous feature map.</p>
+
+<p>A picture can well explain this: 
+<img src="https://s2.ax1x.com/2019/02/05/kJqliq.png" alt="kJqliq.png" /></p>
+
+<p>So using this formula to get to the relationship between the coordinates of ROI in the original image and the coordinates of feature map.</p>
+
+<p>Usually you want to mapping area of coordinates of the feature map a little smaller than the formula calculated. So you just do this:</p>
+
+<p>For the upper left corner coordinate. We have x coordinate:
+<script type="math/tex">x^{'} = \left \lfloor{x}\right \rfloor + 1</script>
+and for y coordinate:
+<script type="math/tex">y^{'} = \left \lfloor{y}\right \rfloor + 1</script></p>
+
+<p>For the bottom right corner, vice versa for x coordinate：
+<script type="math/tex">x^{'} = \left \lfloor{x}\right \rfloor - 1</script>
+and for y coordinate:
+<script type="math/tex">y^{'} = \left \lfloor{y}\right \rfloor - 1</script>
+where $x^{‘}$and $y^{‘}$ is the coordinate in the feature map.</p>
+
+<p><a href="https://zhuanlan.zhihu.com/p/24780433">ROI Mapping Reference</a></p>
+
+<hr />
+<h2 id="roi-pooling">ROI pooling</h2>
+
+<p>This concept is easy when you understand the above.
+So here’s a reference for your interest. I won’t bother explaining this over here. I just put some bulletpoints here in case the reference fails.</p>
+
+<p><a href="https://deepsense.ai/region-of-interest-pooling-explained/">ROI Pooling Reference</a></p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>## Region of interest pooling — description
+
+Region of interest pooling is a neural-net layer used for object detection tasks. It was first proposed by Ross Girshick in April 2015 (the article can be found  [here](https://cdn-sv1.deepsense.ai/wp-content/uploads/2017/02/1504.08083.pdf)) and it achieves a significant speedup of both training and testing. It also maintains a high detection accuracy. The layer takes two inputs:
+
+1.  A fixed-size feature map obtained from a deep convolutional network with several convolutions and max pooling layers.
+2.  An  N x 5 matrix of representing a list of regions of interest, where N is a number of RoIs. The first column represents the image index and the remaining four are the coordinates of the top left and bottom right corners of the region.
+</code></pre></div></div>
+
+<p>The procedure:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>What does the RoI pooling actually do? For every region of interest from the input list,  it takes a section of the input feature map that corresponds to it and scales it  to some pre-defined size (e.g., 7×7). The scaling is done by:
+
+1.  Dividing the region proposal into equal-sized sections (the number of which is the same as the dimension of the output)
+2.  Finding the largest value in each section
+3.  Copying these max values to the output buffer
+</code></pre></div></div>
+
+<p><strong>The drawbacks of ROI pooling:</strong>
+  <img src="https://s2.ax1x.com/2019/02/06/kYg2Kx.png" alt="kYg2Kx.png" />
+  As we can see it in the picture, the ROI pooling has these roundoff errors that may occur. Due to floating point division.</p>
+
+<p>The first round off error comes when you map the coordinate on image to coordinates on the feature map. Suppose the divident is 32. Then a floor function after a division will make the the coordinate on the feature map to lose 0.78*32 on the original input image.</p>
+
+<p>The second round off error comes when coordinates on the feature map get quantized on the RoI pooling layer. Suppose 7x7 is what we set for the RoI pooling layer. Then floor after 20/7 will make every grid on the 7x7 map 2x2. Which means you will lose $(20-2<em>7) * (7+5) * 4 = 6</em>12*4$ pixels on the original feature map. Thus loss of resolution when feeding it through FC layers and softmax layers and so on.</p>
+
+<hr />
+
+<h2 id="roi-align">ROI Align</h2>
+
+<p>ROI Align comes from the “Mask RCNN” paper. It mainly deals the round-off errors that was introduced with ROI pooling.</p>
+
+<p><img src="https://s2.ax1x.com/2019/02/06/kY7gb9.png" alt="kY7gb9.png" /></p>
+
+<p>The difference was to introduce bilinear interpolation when calculate the pixel’s value for the floating  point coordinate. For example (18.4, 240.8). This is a floating point coordinate. We however know the what pixel value for (18, 240) and (19, 241). So to estimate (18.4, 240.8) we can use a technique used in many image processing tricks that is called <em>bilinear interpolation</em>.</p>
+
+<p>The step are processed as follow:</p>
+<ol>
+  <li>The coordinates on the feature map is not quantizied as in RoI Pooling.</li>
+  <li>The coordinates on the RoI pooling layer is also not quantizied as in the original RoI Pooling.</li>
+  <li>The ROI pooling layer divide the feature map into M by N grid. For each small grid, the unit is then sampled K times. For the MaskRCNN paper they used K=4 for best result.</li>
+  <li>Divide each unit equally by 4 means finding the center pixel values for the these 4 regions in the unit. Of course these centers are floating point based. Therefore we use <strong>bilinear interpolation</strong> to predict its value.</li>
+  <li>After bilinearr interpolation, we perform maxpooling on thses 4 samples to output the unit’s value.</li>
+</ol>
+
+<p><a href="https://en.wikipedia.org/wiki/Bilinear_interpolation">Bilinear interpolation reference</a></p>
+
+<p><a href="https://blog.csdn.net/Bruce_0712/article/details/80287385">ROI Align Reference</a></p>
+
+<p>RoIAlign is reported to outperform RoIPooling on both COCO and VOC 2007 dataset. The COCO dataset is more significant due to more smaller bounding boxes with smaller objects for recognition.</p>
+
+<hr />
+
+<h2 id="roi-warping-layer">RoI Warping Layer</h2>
+
+<p>Another technique that was proposed by other researcher at MS Asia. The RoI Warping Layer crop and warp a certain ROI on the feature map to a fixed dimension.</p>
+
+<p>They still use bipolar interpolation for enlarging or shrinking the image to the same dimension.</p>
+
+<p><a href="http://tech-algorithm.com/articles/bilinear-image-scaling/">Java code for bipolar interpolation for image enlarging</a></p>
+
+<p>After the warping layer, which is differentiable, they perform the standard max pooling operation for a grid say like 7x7.</p>
+
+<p>The difference between ROI warping and ROI align is that warping changes the shape of the feature map. It’s not clear how max pooling is done after they warps. Perhaps still uses bipolar interpolation? But if you define a fixed size warped feature map. Then there may not be any issue with floating number. Anyway, they are both differentiable thanks to bipolar interpolation which includes positions when caculation scores for classification.</p>
+
+<hr />
+<p>More references:</p>
+
+<p><a href="http://dubur.github.io/">Good blog to browse</a></p>
+
+<p><a href="https://arxiv.org/abs/1512.04412">Instance-aware Semantic Segmentation via Multi-task Network Cascades</a></p>
+
+  </div>
+  
+  <!-- Related posts -->
+  
+  
+  
+    <div class="row related-posts">
+      <h2 class="text-center" style="font-family: initial">Related blog posts:</h2>
+      <div class="medium-12 small-12 columns">
+        
+          
+        
+          
+
+           <h3>
+            <a href="http://localhost:8080/blog/2019/01/26/decision-tree.html">
+              Decision Tree Variants
+            </a>
+           </h3>
+
+          
+        
+          
+
+           <h3>
+            <a href="http://localhost:8080/blog/2019/01/25/bagging.html">
+              Boosting & Bagging
+            </a>
+           </h3>
+
+          
+        
+      </div>
+    </div>
+  
+
+
+  <!-- Disqus --><a class="u-url" href="/blog/2019/02/07/RoI-Explained.html" hidden></a>
+</article>
+
+
+<script id="dsq-count-scr" src="//everitt257.disqus.com/count.js" async></script>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Everitt&#39;s blog</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Everitt&#39;s blog</li><li><a class="u-email" href="mailto:everitt257@gmail.com">everitt257@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/everitt257"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">everitt257</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>This site fancies machine learning and problems in engineerning in general.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
