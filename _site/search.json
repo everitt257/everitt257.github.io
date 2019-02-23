@@ -2,11 +2,21 @@
   
     {
     
+      "title"    : "DeepMask Review",
+      "url"      : "/blog/2019/02/18/DeepMaskReview.html",
+      "category" : "blog",
+      "tags"     : "deep learning, semantic, segmentation",
+      "date"     : "2019-02-18 00:00:00 +0900"
+      
+    } ,
+  
+    {
+    
       "title"    : "ROI pooling, align, warping",
       "url"      : "/blog/2019/02/07/RoI-Explained.html",
       "category" : "blog",
       "tags"     : "deep learning, ROI, detection",
-      "date"     : "2019-02-07 00:00:00 +0800"
+      "date"     : "2019-02-07 00:00:00 +0900"
       
     } ,
   
@@ -16,7 +26,7 @@
       "url"      : "/blog/2019/01/26/decision-tree.html",
       "category" : "blog",
       "tags"     : "machine learning, trees",
-      "date"     : "2019-01-26 00:00:00 +0800"
+      "date"     : "2019-01-26 00:00:00 +0900"
       
     } ,
   
@@ -26,7 +36,7 @@
       "url"      : "/blog/2019/01/25/bagging.html",
       "category" : "blog",
       "tags"     : "machine learning, trees",
-      "date"     : "2019-01-25 00:00:00 +0800"
+      "date"     : "2019-01-25 00:00:00 +0900"
       
     } ,
   
@@ -36,7 +46,7 @@
       "url"      : "/2018/10/17/ssd-fc8.html",
       "category" : "",
       "tags"     : "deep learning, detection",
-      "date"     : "2018-10-17 00:00:00 +0800"
+      "date"     : "2018-10-17 00:00:00 +0900"
       
     } ,
   
@@ -46,7 +56,7 @@
       "url"      : "/post/2018/08/30/ctpn-crnn-stn.html",
       "category" : "post",
       "tags"     : "deep learning, detection",
-      "date"     : "2018-08-30 00:00:00 +0800"
+      "date"     : "2018-08-30 00:00:00 +0900"
       
     } ,
   
@@ -56,7 +66,7 @@
       "url"      : "/post/2018/08/10/object_detection.html",
       "category" : "post",
       "tags"     : "deep learning, detection",
-      "date"     : "2018-08-10 00:00:00 +0800"
+      "date"     : "2018-08-10 00:00:00 +0900"
       
     } ,
   
@@ -66,7 +76,7 @@
       "url"      : "/blog/2018/07/05/VAE_GAN.html",
       "category" : "blog",
       "tags"     : "deep learning, generative modeling",
-      "date"     : "2018-07-05 00:00:00 +0800"
+      "date"     : "2018-07-05 00:00:00 +0900"
       
     } ,
   
@@ -76,7 +86,7 @@
       "url"      : "/blog/2018/06/22/discrete_embeddings.html",
       "category" : "blog",
       "tags"     : "deep learning, algorithm",
-      "date"     : "2018-06-22 00:00:00 +0800"
+      "date"     : "2018-06-22 00:00:00 +0900"
       
     } ,
   
@@ -86,7 +96,7 @@
       "url"      : "/blog/2018/06/04/ternary-and-one-hot-neuron.html",
       "category" : "blog",
       "tags"     : "deep learning, algorithm",
-      "date"     : "2018-06-04 00:00:00 +0800"
+      "date"     : "2018-06-04 00:00:00 +0900"
       
     } ,
   
@@ -96,7 +106,7 @@
       "url"      : "/work/2018/06/02/april-may-complains.html",
       "category" : "work",
       "tags"     : "algorithm",
-      "date"     : "2018-06-02 00:00:00 +0800"
+      "date"     : "2018-06-02 00:00:00 +0900"
       
     } ,
   
@@ -106,7 +116,7 @@
       "url"      : "/blog/2018/05/29/kramdown_img_notes.html",
       "category" : "blog",
       "tags"     : "Kramdown",
-      "date"     : "2018-05-29 00:00:00 +0800"
+      "date"     : "2018-05-29 00:00:00 +0900"
       
     } ,
   
@@ -116,7 +126,7 @@
       "url"      : "/blog/2018/05/29/bsn.html",
       "category" : "blog",
       "tags"     : "deep learning, algorithm",
-      "date"     : "2018-05-29 00:00:00 +0800"
+      "date"     : "2018-05-29 00:00:00 +0900"
       
     } ,
   
@@ -126,7 +136,7 @@
       "url"      : "/work/2018/05/25/bigdataflowchart.html",
       "category" : "work",
       "tags"     : "work",
-      "date"     : "2018-05-25 00:00:00 +0800"
+      "date"     : "2018-05-25 00:00:00 +0900"
       
     } ,
   
@@ -136,7 +146,7 @@
       "url"      : "/work/2018/05/25/bigdataapply.html",
       "category" : "work",
       "tags"     : "apply, work",
-      "date"     : "2018-05-25 00:00:00 +0800"
+      "date"     : "2018-05-25 00:00:00 +0900"
       
     } ,
   
@@ -146,7 +156,7 @@
       "url"      : "/blog/2018/05/24/instant-search.html",
       "category" : "blog",
       "tags"     : "jekyll, json",
-      "date"     : "2018-05-24 00:00:00 +0800"
+      "date"     : "2018-05-24 00:00:00 +0900"
       
     } ,
   
@@ -156,7 +166,7 @@
       "url"      : "/work/2018/05/24/transformer-cluster-trial.html",
       "category" : "work",
       "tags"     : "algorithm, tf-idf, deep-learning",
-      "date"     : "2018-05-24 00:00:00 +0800"
+      "date"     : "2018-05-24 00:00:00 +0900"
       
     } ,
   
@@ -166,7 +176,7 @@
       "url"      : "/blog/2018/05/24/test_tag2.html",
       "category" : "blog",
       "tags"     : "js, html",
-      "date"     : "2018-05-24 00:00:00 +0800"
+      "date"     : "2018-05-24 00:00:00 +0900"
       
     } ,
   
@@ -176,7 +186,7 @@
       "url"      : "/blog/2018/05/24/test_tag1.html",
       "category" : "blog",
       "tags"     : "js, html",
-      "date"     : "2018-05-24 00:00:00 +0800"
+      "date"     : "2018-05-24 00:00:00 +0900"
       
     } ,
   
@@ -186,7 +196,7 @@
       "url"      : "/blog/2018/05/24/mermaid.html",
       "category" : "blog",
       "tags"     : "mermaid, js",
-      "date"     : "2018-05-24 00:00:00 +0800"
+      "date"     : "2018-05-24 00:00:00 +0900"
       
     } ,
   
@@ -196,7 +206,7 @@
       "url"      : "/work/2018/05/24/bigdatalab.html",
       "category" : "work",
       "tags"     : "news",
-      "date"     : "2018-05-24 00:00:00 +0800"
+      "date"     : "2018-05-24 00:00:00 +0900"
       
     } ,
   
@@ -206,7 +216,7 @@
       "url"      : "/blog/2018/05/23/welcome-to-jekyll.html",
       "category" : "blog",
       "tags"     : "welcome",
-      "date"     : "2018-05-23 11:31:55 +0800"
+      "date"     : "2018-05-23 12:31:55 +0900"
       
     } ,
   
@@ -216,7 +226,7 @@
       "url"      : "/blog/2018/05/23/test_md1.html",
       "category" : "blog",
       "tags"     : "math, excerpt, code-hightlight",
-      "date"     : "2018-05-23 00:00:00 +0800"
+      "date"     : "2018-05-23 00:00:00 +0900"
       
     } ,
   
@@ -226,7 +236,7 @@
       "url"      : "/blog/2018/05/21/various-length-rnn.html",
       "category" : "blog",
       "tags"     : "algorithm",
-      "date"     : "2018-05-21 00:00:00 +0800"
+      "date"     : "2018-05-21 00:00:00 +0900"
       
     } ,
   
@@ -236,7 +246,7 @@
       "url"      : "/blog/2018/02/23/hidden-markov.html",
       "category" : "blog",
       "tags"     : "algorithm",
-      "date"     : "2018-02-23 00:00:00 +0800"
+      "date"     : "2018-02-23 00:00:00 +0900"
       
     } ,
   
@@ -246,7 +256,7 @@
       "url"      : "/work/2017/12/25/data-desensitization.html",
       "category" : "work",
       "tags"     : "security, data",
-      "date"     : "2017-12-25 00:00:00 +0800"
+      "date"     : "2017-12-25 00:00:00 +0900"
       
     } ,
   
@@ -256,7 +266,7 @@
       "url"      : "/blog/2017/12/23/cs231-side-note.html",
       "category" : "blog",
       "tags"     : "deep learning, image, vision",
-      "date"     : "2017-12-23 00:00:00 +0800"
+      "date"     : "2017-12-23 00:00:00 +0900"
       
     } ,
   
@@ -266,7 +276,7 @@
       "url"      : "/blog/2017/11/23/activation_functions.html",
       "category" : "blog",
       "tags"     : "deep, learning",
-      "date"     : "2017-11-23 00:00:00 +0800"
+      "date"     : "2017-11-23 00:00:00 +0900"
       
     } ,
   
@@ -276,7 +286,7 @@
       "url"      : "/blog/2017/09/01/naive-bayes.html",
       "category" : "blog",
       "tags"     : "algorithm",
-      "date"     : "2017-09-01 00:00:00 +0800"
+      "date"     : "2017-09-01 00:00:00 +0900"
       
     } ,
   
@@ -286,7 +296,7 @@
       "url"      : "/2017/08/02/learning_theory.html",
       "category" : "",
       "tags"     : "",
-      "date"     : "2017-08-02 00:00:00 +0800"
+      "date"     : "2017-08-02 00:00:00 +0900"
       
     } 
   

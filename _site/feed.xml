@@ -1,4 +1,20 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.2">Jekyll</generator><link href="http://localhost:8080/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:8080/" rel="alternate" type="text/html" /><updated>2019-02-07T17:19:38+08:00</updated><id>http://localhost:8080/</id><title type="html">Everitt’s blog</title><subtitle>This site fancies machine learning and problems in engineerning in general.</subtitle><entry><title type="html">ROI pooling, align, warping</title><link href="http://localhost:8080/blog/2019/02/07/RoI-Explained.html" rel="alternate" type="text/html" title="ROI pooling, align, warping" /><published>2019-02-07T00:00:00+08:00</published><updated>2019-02-07T00:00:00+08:00</updated><id>http://localhost:8080/blog/2019/02/07/RoI%20Explained</id><content type="html" xml:base="http://localhost:8080/blog/2019/02/07/RoI-Explained.html">&lt;p&gt;First question. How how ROI (region of interest) in the original image get mapped to a feature map?&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.2">Jekyll</generator><link href="http://localhost:8080/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:8080/" rel="alternate" type="text/html" /><updated>2019-02-23T10:58:09+09:00</updated><id>http://localhost:8080/</id><title type="html">Everitt’s blog</title><subtitle>This site fancies machine learning and problems in engineerning in general.</subtitle><entry><title type="html">DeepMask Review</title><link href="http://localhost:8080/blog/2019/02/18/DeepMaskReview.html" rel="alternate" type="text/html" title="DeepMask Review" /><published>2019-02-18T00:00:00+09:00</published><updated>2019-02-18T00:00:00+09:00</updated><id>http://localhost:8080/blog/2019/02/18/DeepMaskReview</id><content type="html" xml:base="http://localhost:8080/blog/2019/02/18/DeepMaskReview.html">&lt;p&gt;This is a review of “DEEP MASK” which is in the category of semantic segmentation. The network consist of two branches. One branch is to predict which pixel belongs to which category. Another branch is to predict whether the object is properly centered in the picture.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://ws1.sinaimg.cn/large/007BQ0gBgy1g0g4i1z17bj30ys0edajn.jpg&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The criteria for the second branch is whether the object is centered in the middle and the object must be fully contained in the patch in a given scale range.&lt;/p&gt;
+
+&lt;p&gt;Some tricks were used in this paper were:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Fine stride max pooling.&lt;/li&gt;
+  &lt;li&gt;1x1 convolution&lt;/li&gt;
+  &lt;li&gt;Bipolar interpolation for scaling&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;I highly question the use of fine stride max pooling. It’s basically takes max pooling many times. And each time you shift the pixels to some degree. After all max pooling are done, combine them then feed them to a FC layer or something. Haven’t seen this trick applied anywhere else. Also the paper’s model adopt “Fully connected layer”. However it did mention about multiple scaling and feeding into the model with stride of 16 pixels. “FC” if not changed to CONV the code would spit out error. And it requires many forward passes get the final result. Hence efficiency is low. I’m guessing the author did change FC to CONV but didn’t mention.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://towardsdatascience.com/review-deepmask-instance-segmentation-30327a072339&quot;&gt;Reference&lt;/a&gt;&lt;/p&gt;</content><author><name></name></author><category term="blog" /><category term="deep learning" /><category term="semantic" /><category term="segmentation" /><summary type="html">This is a review of “DEEP MASK” which is in the category of semantic segmentation. The network consist of two branches. One branch is to predict which pixel belongs to which category. Another branch is to predict whether the object is properly centered in the picture.</summary></entry><entry><title type="html">ROI pooling, align, warping</title><link href="http://localhost:8080/blog/2019/02/07/RoI-Explained.html" rel="alternate" type="text/html" title="ROI pooling, align, warping" /><published>2019-02-07T00:00:00+09:00</published><updated>2019-02-07T00:00:00+09:00</updated><id>http://localhost:8080/blog/2019/02/07/RoI%20Explained</id><content type="html" xml:base="http://localhost:8080/blog/2019/02/07/RoI-Explained.html">&lt;p&gt;First question. How how ROI (region of interest) in the original image get mapped to a feature map?&lt;/p&gt;
 
 &lt;ol&gt;
   &lt;li&gt;Computation of receptive field&lt;/li&gt;
@@ -124,7 +140,7 @@ Region of interest pooling is a neural-net layer used for object detection tasks
 
 &lt;p&gt;&lt;a href=&quot;http://dubur.github.io/&quot;&gt;Good blog to browse&lt;/a&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/1512.04412&quot;&gt;Instance-aware Semantic Segmentation via Multi-task Network Cascades&lt;/a&gt;&lt;/p&gt;</content><author><name></name></author><category term="blog" /><category term="deep learning" /><category term="ROI" /><category term="detection" /><summary type="html">First question. How how ROI (region of interest) in the original image get mapped to a feature map?</summary></entry><entry><title type="html">Decision Tree Variants</title><link href="http://localhost:8080/blog/2019/01/26/decision-tree.html" rel="alternate" type="text/html" title="Decision Tree Variants" /><published>2019-01-26T00:00:00+08:00</published><updated>2019-01-26T00:00:00+08:00</updated><id>http://localhost:8080/blog/2019/01/26/decision%20tree</id><content type="html" xml:base="http://localhost:8080/blog/2019/01/26/decision-tree.html">&lt;p&gt;In this post we dicuss different decision trees.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/1512.04412&quot;&gt;Instance-aware Semantic Segmentation via Multi-task Network Cascades&lt;/a&gt;&lt;/p&gt;</content><author><name></name></author><category term="blog" /><category term="deep learning" /><category term="ROI" /><category term="detection" /><summary type="html">First question. How how ROI (region of interest) in the original image get mapped to a feature map?</summary></entry><entry><title type="html">Decision Tree Variants</title><link href="http://localhost:8080/blog/2019/01/26/decision-tree.html" rel="alternate" type="text/html" title="Decision Tree Variants" /><published>2019-01-26T00:00:00+09:00</published><updated>2019-01-26T00:00:00+09:00</updated><id>http://localhost:8080/blog/2019/01/26/decision%20tree</id><content type="html" xml:base="http://localhost:8080/blog/2019/01/26/decision-tree.html">&lt;p&gt;In this post we dicuss different decision trees.&lt;/p&gt;
 
 &lt;p&gt;Two types of decision tree exists.&lt;/p&gt;
 &lt;ul&gt;
@@ -190,7 +206,7 @@ Region of interest pooling is a neural-net layer used for object detection tasks
       &lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
-&lt;/ul&gt;</content><author><name></name></author><category term="blog" /><category term="machine learning" /><category term="trees" /><summary type="html">In this post we dicuss different decision trees.</summary></entry><entry><title type="html">Boosting &amp;amp; Bagging</title><link href="http://localhost:8080/blog/2019/01/25/bagging.html" rel="alternate" type="text/html" title="Boosting &amp; Bagging" /><published>2019-01-25T00:00:00+08:00</published><updated>2019-01-25T00:00:00+08:00</updated><id>http://localhost:8080/blog/2019/01/25/bagging</id><content type="html" xml:base="http://localhost:8080/blog/2019/01/25/bagging.html">&lt;p&gt;In this post we discuss boostrap sampling and the bagging framework. And many of its applications.&lt;/p&gt;
+&lt;/ul&gt;</content><author><name></name></author><category term="blog" /><category term="machine learning" /><category term="trees" /><summary type="html">In this post we dicuss different decision trees.</summary></entry><entry><title type="html">Boosting &amp;amp; Bagging</title><link href="http://localhost:8080/blog/2019/01/25/bagging.html" rel="alternate" type="text/html" title="Boosting &amp; Bagging" /><published>2019-01-25T00:00:00+09:00</published><updated>2019-01-25T00:00:00+09:00</updated><id>http://localhost:8080/blog/2019/01/25/bagging</id><content type="html" xml:base="http://localhost:8080/blog/2019/01/25/bagging.html">&lt;p&gt;In this post we discuss boostrap sampling and the bagging framework. And many of its applications.&lt;/p&gt;
 
 &lt;h1 id=&quot;boostrap-sampling--bagging&quot;&gt;Boostrap Sampling &amp;amp; Bagging&lt;/h1&gt;
 &lt;ul&gt;
@@ -263,7 +279,7 @@ Region of interest pooling is a neural-net layer used for object detection tasks
     &lt;/ul&gt;
   &lt;/li&gt;
   &lt;li&gt;xgboost, see “More about Decision Tree”&lt;/li&gt;
-&lt;/ul&gt;</content><author><name></name></author><category term="blog" /><category term="machine learning" /><category term="trees" /><summary type="html">In this post we discuss boostrap sampling and the bagging framework. And many of its applications.</summary></entry><entry><title type="html">Detection and Drivable road segmentation</title><link href="http://localhost:8080/2018/10/17/ssd-fc8.html" rel="alternate" type="text/html" title="Detection and Drivable road segmentation" /><published>2018-10-17T00:00:00+08:00</published><updated>2018-10-17T00:00:00+08:00</updated><id>http://localhost:8080/2018/10/17/ssd-fc8</id><content type="html" xml:base="http://localhost:8080/2018/10/17/ssd-fc8.html">&lt;p&gt;This post showcases the training result of a combination of SSD and FC8 network. Modified SSD which classifies 41 classes and FC8 network that outputs 3 types of road.&lt;/p&gt;
+&lt;/ul&gt;</content><author><name></name></author><category term="blog" /><category term="machine learning" /><category term="trees" /><summary type="html">In this post we discuss boostrap sampling and the bagging framework. And many of its applications.</summary></entry><entry><title type="html">Detection and Drivable road segmentation</title><link href="http://localhost:8080/2018/10/17/ssd-fc8.html" rel="alternate" type="text/html" title="Detection and Drivable road segmentation" /><published>2018-10-17T00:00:00+09:00</published><updated>2018-10-17T00:00:00+09:00</updated><id>http://localhost:8080/2018/10/17/ssd-fc8</id><content type="html" xml:base="http://localhost:8080/2018/10/17/ssd-fc8.html">&lt;p&gt;This post showcases the training result of a combination of SSD and FC8 network. Modified SSD which classifies 41 classes and FC8 network that outputs 3 types of road.&lt;/p&gt;
 
 &lt;ul&gt;
   &lt;li&gt;Training specs
@@ -287,7 +303,7 @@ Region of interest pooling is a neural-net layer used for object detection tasks
 
 &lt;p&gt;Something I failed to solve to fit a polynomial line on the segmentation map. I actually just realized I should predict polynomial points on the label set instead of doing the full segmentation prediction. So ideally the network should just spits out polynomial points for the contour of the segmentation map.&lt;/p&gt;
 
-&lt;p&gt;Finally I didn’t put these code on my github. Perhaps it will stay on my hard drive forever. Most of the time was spend on writing miscellanous stuffs such as parsing the data and writing code for post-processing. I felt that AI needs proper engineerning more than just designing the network itself.&lt;/p&gt;</content><author><name></name></author><category term="deep learning" /><category term="detection" /><summary type="html">This post showcases the training result of a combination of SSD and FC8 network. Modified SSD which classifies 41 classes and FC8 network that outputs 3 types of road.</summary></entry><entry><title type="html">文本检测与识别 CTPN &amp;amp;&amp;amp; CRNN &amp;amp;&amp;amp; STN</title><link href="http://localhost:8080/post/2018/08/30/ctpn-crnn-stn.html" rel="alternate" type="text/html" title="文本检测与识别 CTPN &amp;&amp; CRNN &amp;&amp; STN" /><published>2018-08-30T00:00:00+08:00</published><updated>2018-08-30T00:00:00+08:00</updated><id>http://localhost:8080/post/2018/08/30/ctpn-crnn-stn</id><content type="html" xml:base="http://localhost:8080/post/2018/08/30/ctpn-crnn-stn.html">&lt;h2 id=&quot;总结&quot;&gt;总结&lt;/h2&gt;
+&lt;p&gt;Finally I didn’t put these code on my github. Perhaps it will stay on my hard drive forever. Most of the time was spend on writing miscellanous stuffs such as parsing the data and writing code for post-processing. I felt that AI needs proper engineerning more than just designing the network itself.&lt;/p&gt;</content><author><name></name></author><category term="deep learning" /><category term="detection" /><summary type="html">This post showcases the training result of a combination of SSD and FC8 network. Modified SSD which classifies 41 classes and FC8 network that outputs 3 types of road.</summary></entry><entry><title type="html">文本检测与识别 CTPN &amp;amp;&amp;amp; CRNN &amp;amp;&amp;amp; STN</title><link href="http://localhost:8080/post/2018/08/30/ctpn-crnn-stn.html" rel="alternate" type="text/html" title="文本检测与识别 CTPN &amp;&amp; CRNN &amp;&amp; STN" /><published>2018-08-30T00:00:00+09:00</published><updated>2018-08-30T00:00:00+09:00</updated><id>http://localhost:8080/post/2018/08/30/ctpn-crnn-stn</id><content type="html" xml:base="http://localhost:8080/post/2018/08/30/ctpn-crnn-stn.html">&lt;h2 id=&quot;总结&quot;&gt;总结&lt;/h2&gt;
 &lt;ul&gt;
   &lt;li&gt;端到端文本检测，端到端日期识别&lt;/li&gt;
   &lt;li&gt;不需要进行字符分割和水平缩放，可识别任意长度序列&lt;/li&gt;
@@ -365,7 +381,7 @@ Bipolar interpolation.&lt;/p&gt;
 
 &lt;hr /&gt;
 &lt;p&gt;附图：
-&lt;img src=&quot;http://om1hdizoc.bkt.clouddn.com/18-8-30/50991810.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;</content><author><name></name></author><category term="post" /><category term="deep learning" /><category term="detection" /><summary type="html">总结 端到端文本检测，端到端日期识别 不需要进行字符分割和水平缩放，可识别任意长度序列 CNN+RNN架构，检测结果更具鲁棒性 CTC选择最优序列 可检测部分旋转后的日期 无需对旋转后的角度进行数据标注 STN + CTPN + CRNN</summary></entry><entry><title type="html">YOLO vs Faster RCNN</title><link href="http://localhost:8080/post/2018/08/10/object_detection.html" rel="alternate" type="text/html" title="YOLO vs Faster RCNN" /><published>2018-08-10T00:00:00+08:00</published><updated>2018-08-10T00:00:00+08:00</updated><id>http://localhost:8080/post/2018/08/10/object_detection</id><content type="html" xml:base="http://localhost:8080/post/2018/08/10/object_detection.html">&lt;p&gt;This post talks about YOLO and Faster-RCNN. These are the two popular approaches for doing object detection that are anchor based. Faster RCNN offers a regional of interest region for doing convolution while YOLO does detection and classification at the same time. I would say that YOLO appears to be a cleaner way of doing object detection since it’s fully end-to-end training. The Faster RCNN offers end-to-end training as well, but the steps are much more involved. Nevertheless I will describe both approaches carefully in detail.&lt;/p&gt;
+&lt;img src=&quot;http://om1hdizoc.bkt.clouddn.com/18-8-30/50991810.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;</content><author><name></name></author><category term="post" /><category term="deep learning" /><category term="detection" /><summary type="html">总结 端到端文本检测，端到端日期识别 不需要进行字符分割和水平缩放，可识别任意长度序列 CNN+RNN架构，检测结果更具鲁棒性 CTC选择最优序列 可检测部分旋转后的日期 无需对旋转后的角度进行数据标注 STN + CTPN + CRNN</summary></entry><entry><title type="html">YOLO vs Faster RCNN</title><link href="http://localhost:8080/post/2018/08/10/object_detection.html" rel="alternate" type="text/html" title="YOLO vs Faster RCNN" /><published>2018-08-10T00:00:00+09:00</published><updated>2018-08-10T00:00:00+09:00</updated><id>http://localhost:8080/post/2018/08/10/object_detection</id><content type="html" xml:base="http://localhost:8080/post/2018/08/10/object_detection.html">&lt;p&gt;This post talks about YOLO and Faster-RCNN. These are the two popular approaches for doing object detection that are anchor based. Faster RCNN offers a regional of interest region for doing convolution while YOLO does detection and classification at the same time. I would say that YOLO appears to be a cleaner way of doing object detection since it’s fully end-to-end training. The Faster RCNN offers end-to-end training as well, but the steps are much more involved. Nevertheless I will describe both approaches carefully in detail.&lt;/p&gt;
 
 &lt;h2 id=&quot;faster-rcnn&quot;&gt;Faster RCNN&lt;/h2&gt;
 
@@ -465,7 +481,7 @@ graph TB
 
 &lt;h3 id=&quot;reference&quot;&gt;Reference&lt;/h3&gt;
 &lt;p&gt;&lt;a href=&quot;https://zhuanlan.zhihu.com/p/24916624?refer=xiaoleimlnote&quot;&gt;Faster RCNN reference&lt;/a&gt;
-&lt;a href=&quot;https://zhuanlan.zhihu.com/p/24916786?refer=xiaoleimlnote&quot;&gt;YOLO explained reference&lt;/a&gt;&lt;/p&gt;</content><author><name></name></author><category term="post" /><category term="deep learning" /><category term="detection" /><summary type="html">This post talks about YOLO and Faster-RCNN. These are the two popular approaches for doing object detection that are anchor based. Faster RCNN offers a regional of interest region for doing convolution while YOLO does detection and classification at the same time. I would say that YOLO appears to be a cleaner way of doing object detection since it’s fully end-to-end training. The Faster RCNN offers end-to-end training as well, but the steps are much more involved. Nevertheless I will describe both approaches carefully in detail.</summary></entry><entry><title type="html">A comparison between VAE and GAN</title><link href="http://localhost:8080/blog/2018/07/05/VAE_GAN.html" rel="alternate" type="text/html" title="A comparison between VAE and GAN" /><published>2018-07-05T00:00:00+08:00</published><updated>2018-07-05T00:00:00+08:00</updated><id>http://localhost:8080/blog/2018/07/05/VAE_GAN</id><content type="html" xml:base="http://localhost:8080/blog/2018/07/05/VAE_GAN.html">&lt;h3 id=&quot;this-post-concludes-vae-and-gan&quot;&gt;This post concludes VAE and GAN&lt;/h3&gt;
+&lt;a href=&quot;https://zhuanlan.zhihu.com/p/24916786?refer=xiaoleimlnote&quot;&gt;YOLO explained reference&lt;/a&gt;&lt;/p&gt;</content><author><name></name></author><category term="post" /><category term="deep learning" /><category term="detection" /><summary type="html">This post talks about YOLO and Faster-RCNN. These are the two popular approaches for doing object detection that are anchor based. Faster RCNN offers a regional of interest region for doing convolution while YOLO does detection and classification at the same time. I would say that YOLO appears to be a cleaner way of doing object detection since it’s fully end-to-end training. The Faster RCNN offers end-to-end training as well, but the steps are much more involved. Nevertheless I will describe both approaches carefully in detail.</summary></entry><entry><title type="html">A comparison between VAE and GAN</title><link href="http://localhost:8080/blog/2018/07/05/VAE_GAN.html" rel="alternate" type="text/html" title="A comparison between VAE and GAN" /><published>2018-07-05T00:00:00+09:00</published><updated>2018-07-05T00:00:00+09:00</updated><id>http://localhost:8080/blog/2018/07/05/VAE_GAN</id><content type="html" xml:base="http://localhost:8080/blog/2018/07/05/VAE_GAN.html">&lt;h3 id=&quot;this-post-concludes-vae-and-gan&quot;&gt;This post concludes VAE and GAN&lt;/h3&gt;
 &lt;p&gt;I’ve took some time going over multiple post regarding VAE and GAN. To help myself to better understand these generative model, I decided to write a post about them, comparing them side by side. Also I want to include the necessary implementation details regarding these two models. For this model, I will use the toy dataset which is MNIST. The code in this post will be mainly implemented with Tensorflow.&lt;/p&gt;
 
 &lt;h4 id=&quot;vae&quot;&gt;VAE&lt;/h4&gt;
@@ -728,7 +744,7 @@ graph TB
 .mycenter {
     text-align:center;
 }
-&lt;/style&gt;</content><author><name></name></author><category term="blog" /><category term="deep learning" /><category term="generative modeling" /><summary type="html">This post concludes VAE and GAN I’ve took some time going over multiple post regarding VAE and GAN. To help myself to better understand these generative model, I decided to write a post about them, comparing them side by side. Also I want to include the necessary implementation details regarding these two models. For this model, I will use the toy dataset which is MNIST. The code in this post will be mainly implemented with Tensorflow.</summary></entry><entry><title type="html">Discussion of generation models, sequential generation</title><link href="http://localhost:8080/blog/2018/06/22/discrete_embeddings.html" rel="alternate" type="text/html" title="Discussion of generation models, sequential generation" /><published>2018-06-22T00:00:00+08:00</published><updated>2018-06-22T00:00:00+08:00</updated><id>http://localhost:8080/blog/2018/06/22/discrete_embeddings</id><content type="html" xml:base="http://localhost:8080/blog/2018/06/22/discrete_embeddings.html">&lt;p&gt;Previously I’ve read about R2RT’s post regarding sequential generation and discrete embeddings. I thought I’ll write something to remind myself the details of this post and to compare it with other generation models.&lt;/p&gt;
+&lt;/style&gt;</content><author><name></name></author><category term="blog" /><category term="deep learning" /><category term="generative modeling" /><summary type="html">This post concludes VAE and GAN I’ve took some time going over multiple post regarding VAE and GAN. To help myself to better understand these generative model, I decided to write a post about them, comparing them side by side. Also I want to include the necessary implementation details regarding these two models. For this model, I will use the toy dataset which is MNIST. The code in this post will be mainly implemented with Tensorflow.</summary></entry><entry><title type="html">Discussion of generation models, sequential generation</title><link href="http://localhost:8080/blog/2018/06/22/discrete_embeddings.html" rel="alternate" type="text/html" title="Discussion of generation models, sequential generation" /><published>2018-06-22T00:00:00+09:00</published><updated>2018-06-22T00:00:00+09:00</updated><id>http://localhost:8080/blog/2018/06/22/discrete_embeddings</id><content type="html" xml:base="http://localhost:8080/blog/2018/06/22/discrete_embeddings.html">&lt;p&gt;Previously I’ve read about R2RT’s post regarding sequential generation and discrete embeddings. I thought I’ll write something to remind myself the details of this post and to compare it with other generation models.&lt;/p&gt;
 
 &lt;p&gt;Discrete embedding can prevent overfitting as we’ve seen it in my other post. It can also communicate fuzzy ideas with concrete symbols. This means (1) we can create a language model over the embeddings, which give us give RNN-based generation of internal embeddings, and (2) index sub-parts of the embeddings, whichi gives us access to the search techniques that go beyong cosine similarity, such as phrase search.&lt;/p&gt;
 
@@ -777,7 +793,7 @@ graph TB
 .mycenter {
     text-align:center;
 }
-&lt;/style&gt;</content><author><name></name></author><category term="blog" /><category term="deep learning" /><category term="algorithm" /><summary type="html">Previously I’ve read about R2RT’s post regarding sequential generation and discrete embeddings. I thought I’ll write something to remind myself the details of this post and to compare it with other generation models.</summary></entry><entry><title type="html">承接Binary, 拥抱ternary和one-hot-neurons</title><link href="http://localhost:8080/blog/2018/06/04/ternary-and-one-hot-neuron.html" rel="alternate" type="text/html" title="承接Binary, 拥抱ternary和one-hot-neurons" /><published>2018-06-04T00:00:00+08:00</published><updated>2018-06-04T00:00:00+08:00</updated><id>http://localhost:8080/blog/2018/06/04/ternary-and-one-hot-neuron</id><content type="html" xml:base="http://localhost:8080/blog/2018/06/04/ternary-and-one-hot-neuron.html">&lt;p&gt;之前有个blog是转载R2RT的BSN网络。后续他又发了一篇关于BSN的进阶，不过没有做深度优化。在这里我再把他用中文转载出来说一下。如果对原贴感兴趣可以查看&lt;a href=&quot;https://r2rt.com/binary-stochastic-neurons-in-tensorflow.html&quot;&gt;这里&lt;/a&gt;. 如果对我注释的代码感兴趣，或者对里面各种矩阵的形状感兴趣可以看&lt;a href=&quot;/blog/2018/05/29/bsn.html&quot;&gt;这里&lt;/a&gt;.&lt;/p&gt;
+&lt;/style&gt;</content><author><name></name></author><category term="blog" /><category term="deep learning" /><category term="algorithm" /><summary type="html">Previously I’ve read about R2RT’s post regarding sequential generation and discrete embeddings. I thought I’ll write something to remind myself the details of this post and to compare it with other generation models.</summary></entry><entry><title type="html">承接Binary, 拥抱ternary和one-hot-neurons</title><link href="http://localhost:8080/blog/2018/06/04/ternary-and-one-hot-neuron.html" rel="alternate" type="text/html" title="承接Binary, 拥抱ternary和one-hot-neurons" /><published>2018-06-04T00:00:00+09:00</published><updated>2018-06-04T00:00:00+09:00</updated><id>http://localhost:8080/blog/2018/06/04/ternary-and-one-hot-neuron</id><content type="html" xml:base="http://localhost:8080/blog/2018/06/04/ternary-and-one-hot-neuron.html">&lt;p&gt;之前有个blog是转载R2RT的BSN网络。后续他又发了一篇关于BSN的进阶，不过没有做深度优化。在这里我再把他用中文转载出来说一下。如果对原贴感兴趣可以查看&lt;a href=&quot;https://r2rt.com/binary-stochastic-neurons-in-tensorflow.html&quot;&gt;这里&lt;/a&gt;. 如果对我注释的代码感兴趣，或者对里面各种矩阵的形状感兴趣可以看&lt;a href=&quot;/blog/2018/05/29/bsn.html&quot;&gt;这里&lt;/a&gt;.&lt;/p&gt;
 
 &lt;h2 id=&quot;n-ary-neurons&quot;&gt;N-ary neurons&lt;/h2&gt;
 &lt;p&gt;Binary神经元只能输出0或者1。万一我们希望有更多选择，像是不同颜色，渐变起来我们希望给他赋予整数值好区分。[0,1,2,3…]或许是个好的选择。在这里我们考虑一下简单的case。也就是当我们只有3种颜色的时候，我们可以定义他们为[-1,0,1]。我们希望有这样一个激活函数，像是梯子一样经过这3个区间。为什么呢？因为如果不是梯子，不是扁平的，如果是倾斜的像斜率为1的曲线的话那么当这个神经元在学习的时候就不会好好待在那个地方，而是被迫往其他地方转移。&lt;/p&gt;
@@ -869,369 +885,4 @@ graph TB
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h2 id=&quot;结论&quot;&gt;结论&lt;/h2&gt;
-&lt;p&gt;从实验上来看，ternary表现似乎没有binary好，这也可能是作者并没有完全优化与实现slope-annealing的原因。还有可能是因为MNIST本身不够复杂，ternary可能更适合用在大型，更多维度的数据集上。&lt;/p&gt;</content><author><name></name></author><category term="blog" /><category term="deep learning" /><category term="algorithm" /><summary type="html">之前有个blog是转载R2RT的BSN网络。后续他又发了一篇关于BSN的进阶，不过没有做深度优化。在这里我再把他用中文转载出来说一下。如果对原贴感兴趣可以查看这里. 如果对我注释的代码感兴趣，或者对里面各种矩阵的形状感兴趣可以看这里.</summary></entry><entry><title type="html">来电描述分类器</title><link href="http://localhost:8080/work/2018/06/02/april-may-complains.html" rel="alternate" type="text/html" title="来电描述分类器" /><published>2018-06-02T00:00:00+08:00</published><updated>2018-06-02T00:00:00+08:00</updated><id>http://localhost:8080/work/2018/06/02/april-may-complains</id><content type="html" xml:base="http://localhost:8080/work/2018/06/02/april-may-complains.html">&lt;p&gt;目标是统计4月和5月因为联系方式错误而产生的抱怨工单。本身只有少量标注的信息，本次探索是从一个非业务人员的角度去探索如何分类抱怨的类型。&lt;/p&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;numpy&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;np&lt;/span&gt;
-&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;matplotlib.pyplot&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;plt&lt;/span&gt;
-&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;pandas&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pd&lt;/span&gt;
-&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;re&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;统计4月与5月联系方式错误的抱怨工单。&lt;/p&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pd&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;read_excel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;april-may.xlsx&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# 分成4月与5月的数据&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;april&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;受理时间&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dt&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;month&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;may&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;受理时间&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dt&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;month&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;大概看一下四月分的抱怨工单长什么样，先看看字段名。&lt;/p&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;april&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;columns&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Index(['工作单编号', '用户地址', '来电内容', '来电号码', '诉求人', '业务类型', '业务子类', '服务座席', '受理时间',
-       '处理意见', '市提级意见', '当前环节', '处理状态', '工单转办次数', '服务渠道', '信息来源', '首次评议',
-       '归档评议', '当前部门', '当前处理人员', '供电所', '供电单位', '供电局', '回复信息', '归档人', '坐席意见',
-       '用户编号', '用户名称', '用电类别', '线路名称', '台区名称', '归档时间', '后续工单号', '是否属实', '涉及部门',
-       '处理单位', '处理时限', '是否销号', '销号时间', '预计销号时间'],
-      dtype='object')
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;在看看四月的3条工单抱怨内容。&lt;/p&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;index&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;item&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;enumerate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;april&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;来电内容&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;values&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]):&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;序号：{}， 内容：{}&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;{}&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;format&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;index&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;item&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;-&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;序号：0， 内容：投诉
-
-市政热线客户来电反映前单：08000010000027151200已到海珠局本部申请办理增容，表示现已更换新电表，但现在电容量还是不够用，称已向营业厅咨询，由于街线直径过细无法满足客户需求，要求相关部门提供解决方案问题，表示至今未有工作人员联系及处理，对此感到不满，认为处理时间过长，要求尽快处理。（已上报）
-
-地址：新港西路88号
-----------------------------------------------------------------------------------------------------
-
-序号：1， 内容：（该号码近6个月来电总数：1，投诉数：0）客户反映该址自最近两个月开始出现停电频繁：客户表示一下雨就会出现停电,影响用户日常生活与作息，客户对此意见较大，要求贵局能够出具一定有效的整改处理措施去改善，请核查跟进，请尽快与客户联系。
-
-地址：花都区狮岭镇康政西路47号
-----------------------------------------------------------------------------------------------------
-
-序号：2， 内容：（手动开单，话机签入）客户来电反映2018年4月8号到黄埔营业厅办理新装手续，表示已有工作人员到场勘察及告答复客户由于门牌地址：黄埔区登穗路44-1与产权地址：黄埔区登穗路44号相隔比较远，报装不成功。客户不接受，表示街道及居委都已经批了同意安装电表文件（客户未能提供是什么文件），为何我局还不给安装电表，对此感到不满，要求我局给予合理答复，请核查处理。（未能提供受理号）
-
-地址：黄埔区登穗路44号-1
-----------------------------------------------------------------------------------------------------
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;尝试query一下，看看会不会有惊喜。&lt;/p&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;april_contacts&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;april&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;april&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;来电内容&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;contains&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;没收到&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;april&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;来电内容&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;contains&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;联系方式&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;april&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;来电内容&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;contains&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;乱发&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))]&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;item&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;april_contacts&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;来电内容&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;values&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]:&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;{}&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;{}&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;format&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;item&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;-&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;回复08000010000027163934，客户此前反映收不到欠费停电通知书导致被停电的问题，中心已按前单反馈解释，客户表示有工作人员联系，但只是简单告知客户有派单，目前提出新问题：
-1.为何手机号码13825133330一致没有收到201803期电费短信通知，通知经查系统该号码在联系人“李高铭“的联系方式有登记，时间是2016年8月，但该号码手机的的联系方式未添加“电费通知”，导致客户不知道有欠费，2017年全年都有收到通知（经查属于客户通过其他渠道缴费后的通知，并非电费通知），中心已再致歉，已重新为客户开通短信通知（机主：李高铭 手机：13825133330），请客户留意下期短信发送情况。经查请贵局核查当时短信没有成功开通的原因。
-2.表示当时工作人员在4月26日下午14:30才致电客户询问其复电情况，也没有询问客户是否在现场，因此无法确认复电情况（前单反馈客户201803期电费已于2018-04-26 00:24:24交清，4月26日上午10:30已为客户复电），客户也提及当时致电中心的时候表示家里冰箱里的东西已经坏掉，请求我局工作人员致电给上址管理处，让管理处人员帮客户恢复供电，但也不满为何工作人员没有联系管理处复电，中心也尝试解释欠费停复电工作属我局工作，管理处没有权限或义务实施复电，客户不接受，意见较大，表示以往肯定有我局人员进行过此操作，管理处才知情的，客户通话中提及要对其损失进行赔偿。随后客户表示有其他电话进，因此自行挂机。请贵局核查处理，再次给出上述问题的明确答复。
-----------------------------------------------------------------------------------------------------
-
-手动开单
-
-客户来电反映该址计划停电，并客户表示该址停电时间为：2018/04/26 08:30，实际复电时间为：2018/04/26 20:00 ，客户不满此次停电时间比较久，现因天气寒冷家里有小孩子不愿耐心等待到复电时间，中心多次都无法安抚成功且也请客户耐心等待复电时间，但客户坚称会致电12315还有发起村民致电95598投诉计划停电的复电时间较久，现客户要求贵局人员尽快安排复电，请协办。（中心已记录客户诉求未承诺并已上报）
-
-客户要求半小时内联系答复，联系人：涂先生   联系方式：16620093528
-----------------------------------------------------------------------------------------------------
-
-（该号码近6个月来电总数：1，投诉数：0）
-客户来电反映上址没有收到停电通知短信，表示之前也有反映同样的问题但也没彻底解决问题，已跟客户解释可能性，经查客户有开通停电通知短信但客户表示从2017年开始就没收到过停电通知单只有收电费通知单，现客户意见较大要求我局工作人员核查处理给出答复，并以后能正常发送短信。
-号码：13640698244
-----------------------------------------------------------------------------------------------------
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;并没有什么惊喜，内容混乱，字符错误。甚至部分内容对不上子类别。&lt;/p&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;types&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;drop_duplicates&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'业务子类'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;业务子类&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;业务类别预览：&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;{}&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;总业务子类数：{}&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;format&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;types&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;types&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;values&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)))&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;业务类别预览：
-0                              NaN
-1                   供电可靠/故障停电/频繁停电
-9              用电缴费/单据派发/电费发票收取不到位
-16         信息沟通/停电信息沟通/计划停电信息通知不及时
-17            供电可靠/预安排停电/停电安排时间不合理
-21            业务办理/服务效率/业务办理超时（其他）
-23    业务办理/业务办理条件与流程/条件设置不合理（光伏发电）
-27       服务态度/营销服务人员服务态度/营业厅人员服务态度
-29            用电缴费/计费/客户感知电量电费变化异常
-30                  供电安全/供电设备/设备噪音
-Name: 业务子类, dtype: object
-
-总业务子类数：114
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;我们挑一个看起来最符合因为联系方式不对而抱怨系统的子类别，查询整个系统的工单看看。可以看到都是5月份的，对此我表示怀疑。前面月份的也可能存在问题。&lt;/p&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;due_to_system&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;业务子类&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;服务渠道/短信平台/发送内容有误（系统问题）&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;due_to_system&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;来电内容&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;受理时间&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]])&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;                                                   来电内容                受理时间
-2298  （该号码近6个月来电总数：2，投诉数：0）\n客户来电投诉我局短信乱发送，表示2018年5月... 2018-05-17 11:45:24
-2339  （该号码近6个月来电总数：2，投诉数：0），客户反映上址不是其户主，经常收到该户电费信息，客... 2018-05-15 16:50:55
-2347  （该号码近6个月来电总数：1，投诉数：0）客户来电反映上址在今早接受到我局发布的欠费通知，但... 2018-05-15 13:16:28
-2407  我是13288613280电话主人，我不叫陈子超，我新市合益街B3西梯605也没有物业，为什... 2018-05-13 19:06:32
-2498  （该号码近6个月来电总数：1，投诉数：0）\n客户来电反映上址不属于其物业，并表示已经接收了... 2018-05-10 08:56:41
-2543  该号码近6个月来电总数：1，投诉数：0  客户反映该户已开通手机短信服务（手机号码：1302... 2018-05-07 11:56:25
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;选3条看看效果：&lt;/p&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;item&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;due_to_system&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;来电内容&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;values&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]:&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;{}&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;format&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;item&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;（该号码近6个月来电总数：2，投诉数：0）
-客户来电投诉我局短信乱发送，表示2018年5月17号本机号码收到9559801发送的上址201805期电费短信，表示半年前已致电我局取消短信的接受，但至今还是会收到我局的短信，中心经查询上址并未绑定手机号码：18922234445，短信明细也未查询到有发送记录，请核查处理。
-
-（该号码近6个月来电总数：2，投诉数：0），客户反映上址不是其户主，经常收到该户电费信息，客户建议我局以后开通手机电费通知单，要验证手机号码，不要再有这种事情发生了。
-
-（该号码近6个月来电总数：1，投诉数：0）客户来电反映上址在今早接受到我局发布的欠费通知，但客户强烈表示在昨天已经收到银行发布扣费成功的短信，经中心上址是正在代扣当中，中心已尝试向客户解释，但客户不接受对于此事件意见非常大表示我局工作不认真，乱发短信打扰客户，请核查清楚并答复客户。
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;观察了一下，感觉客户或者记录员并没有统一的格式，否定语气出现的地方也是不确定的，否定的词也是不定的，有关联系方式的描述也是多样的。因此我们假设几个条件：&lt;/p&gt;
-&lt;ol&gt;
-  &lt;li&gt;否定语气出现位置随机分布，否定语气的出现的概率跟位置无关系&lt;/li&gt;
-  &lt;li&gt;不同词汇可以修饰同一个情况&lt;/li&gt;
-  &lt;li&gt;词与词之间没有必然关联性&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h3 id=&quot;思路&quot;&gt;思路&lt;/h3&gt;
-&lt;p&gt;目的是做一个关于是否是系统原因而投诉的分类器，感觉上比较靠谱的方案是做一个&lt;strong&gt;贝叶斯分类器&lt;/strong&gt;与&lt;strong&gt;EM收敛&lt;/strong&gt;。前提是需要部分正确的数据。&lt;/p&gt;
-&lt;ol&gt;
-  &lt;li&gt;数据准备
-    &lt;ul&gt;
-      &lt;li&gt;去除无用信息，分词，存储，生成bag-of-words模型&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;生成假设模型
-    &lt;ul&gt;
-      &lt;li&gt;用正确标注的数据做假设的模型&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;EM
-    &lt;ul&gt;
-      &lt;li&gt;加上未标注的数据提高准确性&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# 数据准备&lt;/span&gt;
-&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;jieba&lt;/span&gt;
-&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;jieba.analyse&lt;/span&gt;
-&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;pickle&lt;/span&gt;
-&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;sklearn.feature_extraction.text&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CountVectorizer&lt;/span&gt;
-&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;operator&lt;/span&gt;
-&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;sklearn.naive_bayes&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;MultinomialNB&lt;/span&gt;
-&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;scipy.sparse&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sp&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;features&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;来电内容&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;labels&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;np&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;zeros&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;features&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;jieba&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;analyse&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;set_stop_words&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;chineseStopwords.txt&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;corpus&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;seg_lists&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;item&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;features&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;item&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;item&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;replace&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;：&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;item&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;item&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;replace&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\r\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;item&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;item&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;replace&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot; &quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;item&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;item&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;replace&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;。&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;item&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;item&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;replace&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;:&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;item&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;re&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sub&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;\&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;d'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;''&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;item&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;seg_list&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;jieba&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;lcut&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;item&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cut_all&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;False&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;corpus&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot; &quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;join&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;seg_list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;seg_lists&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;seg_list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Building prefix dict from the default dictionary ...
-Dumping model to file cache /tmp/jieba.cache
-Loading model cost 0.788 seconds.
-Prefix dict has been built succesfully.
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;查看分词结果&lt;/p&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;index&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;item&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;enumerate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;corpus&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]):&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;index&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;:&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;item&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;0 : 手机号 留言 内容 整个 菊树村 电压 都 不 稳定 空调 开着 开着 都 自动 关 的 请 尽快 解决
-
-
-1 : 接 南方 能 监局 线下 投诉 案件 （ 工作 单 编号 NO ) 客户 反映 因 当地 频繁 停电 ， 所以 在 年 月 开始 扩容 ， 现在 变压器 和 线路 已经 安装 完成 ， 但是 一直 没有 接电 ， 现在 又 开始 停电 ， 向 和 供电所 反馈 未 解决 ， 不 认可 ， 诉求 彻底解决 频繁 停电 问题
-
-
-2 : 手机号 留言 内容 明明 没有 复电 ， 但是 你们 公众 号 却说 复电 了 ， 每晚 这样 停电 真的 很 难熬 的 啊 ， 第二天 还要 那么 早 起床 睡觉 ， 没有 复电 就别 在 公众 号 说 复电 给 我 希望 好 吗 ？ ？
-
-
-3 : 手机号 留言 内容 停电 没人管 ， 电话 没人接 ， 还 让 不让 人活 ？
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;将分词转成向量, 同时需要保持这个向量空间的维度，意味着我们需要将vocab词汇量给保留下来&lt;/p&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;vectorizer&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CountVectorizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;max_df&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;0.5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;tqm&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;vectorizer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit_transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;corpus&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;vocab&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;vectorizer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;vocabulary_&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;我们挑频率出现最多的几个词看看&lt;/p&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;sorted_vocab&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;sorted&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;vocab&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;items&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(),&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;operator&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;itemgetter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;top100&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sorted_vocab&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:]&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;top100&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[::&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[('龙碧巷', 7824), ('龙石金', 7823), ('龙濠', 7822), ('龙潭', 7821), ('龙湖', 7820), ('龙洞', 7819), ('龙归', 7818), ('龙帝荣', 7817), ('龙岗', 7816), ('龙壁巷', 7815), ('龙口', 7814), ('龙博路', 7813), ('鼓动', 7812), ('黑点', 7811), ('黑夜', 7810), ('黎锡桐', 7809), ('黎铭威', 7808), ('黎灼兴', 7807), ('黎杏潮', 7806), ('黎伟洪', 7805), ('黄陂', 7804), ('黄阁', 7803), ('黄锦英', 7802), ('黄进华', 7801), ('黄英照', 7800), ('黄芳', 7799), ('黄胜培', 7798), ('黄耀良', 7797), ('黄维', 7796), ('黄石路', 7795), ('黄登', 7794), ('黄猄', 7793), ('黄润', 7792), ('黄浦区', 7791), ('黄泥', 7790), ('黄河', 7789), ('黄沙', 7788), ('黄汉钊', 7787), ('黄村', 7786), ('黄朗仪', 7785), ('黄景', 7784), ('黄新艳', 7783), ('黄志胜', 7782), ('黄应', 7781), ('黄少尚', 7780), ('黄埔区', 7779), ('黄埔', 7778), ('黄国', 7777), ('黄先生', 7776), ('麻黑', 7775), ('麻烦', 7774), ('麻将馆', 7773), ('麦村', 7772), ('麒麟', 7771), ('鹿鸣', 7770), ('鹤边员村', 7769), ('鹤边', 7768), ('鹤南', 7767), ('鹤北', 7766), ('鹅潭湾', 7765), ('鸿福', 7764), ('鸭塘', 7763), ('鸦湖', 7762), ('鱼珠', 7761), ('鱼塘', 7760), ('魏先生', 7759), ('鬼鬼祟祟', 7758), ('鬼操', 7757), ('鬼天气', 7756), ('高额', 7755), ('高达度', 7754), ('高考', 7753), ('高烧', 7752), ('高点', 7751), ('高溫', 7750), ('高温', 7749), ('高楼', 7748), ('高桥', 7747), ('高昂', 7746), ('高德', 7745), ('高度重视', 7744), ('高峰期', 7743), ('高峰', 7742), ('高层', 7741), ('高处', 7740), ('高城街', 7739), ('高地', 7738), ('高园', 7737), ('高压线', 7736), ('高压电', 7735), ('高压柜', 7734), ('高压', 7733), ('高出', 7732), ('高伟洪', 7731), ('高价', 7730), ('骚扰', 7729), ('骗人', 7728), ('骏景', 7727), ('验证码', 7726), ('验证', 7725)]
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;出现频率最高的100个，刨除地名，其中&lt;code class=&quot;highlighter-rouge&quot;&gt;高温&lt;/code&gt;,&lt;code class=&quot;highlighter-rouge&quot;&gt;骗人&lt;/code&gt;,&lt;code class=&quot;highlighter-rouge&quot;&gt;骚扰&lt;/code&gt;,&lt;code class=&quot;highlighter-rouge&quot;&gt;验证&lt;/code&gt;，&lt;code class=&quot;highlighter-rouge&quot;&gt;验证码&lt;/code&gt;出现得也比较高。&lt;/p&gt;
-
-&lt;p&gt;当有新的数据进来的时候我们可以用这个更新我们的词汇空间。前提是保证词汇量不变。很遗憾这里用不上这个函数。&lt;/p&gt;
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;vectorizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;vocab&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;features&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;0.5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-    &lt;span class=&quot;s&quot;&gt;&quot;&quot;&quot;
-    This is used to update vectorized space based on the same vocab
-    &quot;&quot;&quot;&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;vectorizer&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CountVectorizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;vocabulary&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;vocab&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;max_df&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;tqm&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;vectorizer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit_transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;features&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tqm&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;用有限的标签训练初步的贝叶斯分类器, 然后再用这个分类器去识别部分未标注的数据。假设这些数据是正确的，再重新训练。这样反复5-6次。&lt;/p&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;labeld_index&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;due_to_system&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;index&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# craft some feature matrix&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;features_with_labels&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tqm&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;labeld_index&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;labels_pre_trained&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;np&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ones&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;features_with_labels&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;shape&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# number of unlabeled data&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;num_steps&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;epochs&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;trained_labels&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;range&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;epochs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;trained_labels&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;labels_pre_trained&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;trained_labels&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;features_with_labels&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;trained_features&lt;/span&gt;
-    
-    &lt;span class=&quot;n&quot;&gt;features_without_labels&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tqm&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;num_steps&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;num_steps&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;vertical_stack_features&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sp&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;vstack&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;features_with_labels&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;features_without_labels&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;format&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'csr'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-    &lt;span class=&quot;c&quot;&gt;# craft some labels&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;labels_untrained&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;np&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;zeros&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;features_without_labels&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;shape&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;vertical_stack_labels&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;np&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;concatenate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;labels_pre_trained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;labels_untrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;axis&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-    &lt;span class=&quot;c&quot;&gt;# create a classifier&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;classifier&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;MultinomialNB&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;alpha&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;0.1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;vertical_stack_features&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;vertical_stack_labels&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;trained_labels&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;classifier&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;predict&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;vertical_stack_features&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;trained_features&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;vertical_stack_features&lt;/span&gt;
-    
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# predicts probability&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;predicts_prob&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;classifier&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;predict_proba&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tqm&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;predicts&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;classifier&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;predict&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tqm&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;c&quot;&gt;# set a treshhold for the predicted label, thershhold=0.85&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;predicts_result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;np&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;max&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;predicts_prob&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;masked_labels&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;np&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;zeros&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;predicts_result&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# masking&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;masked_labels&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;predicts_result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.9&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;predicts&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
-
-&lt;span class=&quot;c&quot;&gt;# find the resulting index&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;result_index&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;np&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;argwhere&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;masked_labels&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;result_index&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;125
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;result_index_list&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;result_index&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;reshape&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;result_index&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;result_comments&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;iloc&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;result_index_list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;来电内容&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;item&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;result_comments&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;values&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]:&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;item&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;-&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;90&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;（该号码近6个月来电总数：1，投诉数：0）
-客户来电投诉我局在未发送电费通知单以及短信提醒的情况下就计收上址电费的违约金，客户表示不是自己原因而导致产生的违约金，自己出差一段时间，不知道上址有欠费，中心经查询系统上址客户有绑定手机号码及邮箱，已跟客户解释，客户不接受，表示是我局的责任，要求我局返还违约金金额，请核查处理。
-联系人：王先生
-联系电话：13718877936
-------------------------------------------------------------------------------------------
-（该号码近6个月来电总数：1，投诉数：0）客户不满201805期电费通知单没有派发到位，导致该址没有准时缴费并且产生滞纳金，要求贵局减免该期滞纳金并要求日后务必准时派发纸质电费通知单，请协调处理。中心已向客户解释并开通手机短信通知，但客户仍表示需要投诉，要求贵局务必派发纸质通知单。请跟进。
-------------------------------------------------------------------------------------------
-（该号码近6个月来电总数：1，投诉数：0）客户来电反映上址欠201805期电费，现已缴清，但客户表示201805期电费没有收到我局任何纸质的电费通知及手机电费短信通知，导致不清楚201805期欠费并接到通知将于6月14日执行停电，对此客户意见十分大，表示是我局电费通知派发不到位，要求我局保证日后电费通知派发质量，并给予答复，请跟进。
-------------------------------------------------------------------------------------------
-（该号码近6个月来电总数：1，投诉数：0）
-客户反映上址户名为姚锐明有窃电行为，接了街外的电线使用，据客户了解，已长达两年，表示这种行为非常不好，窃电客户在大队做事的，要求我局核查，最好穿便衣，另客户强烈强调保密客户信息，不能透露客户的手机号的该次举报，因客户担心个人安危，请跟进。
-------------------------------------------------------------------------------------------
-（该号码近6个月来电总数：2，投诉数：0）客户来电表示上址在5月收到我局欠费停止供电执行通知书，对欠费停止供电执行通知书张贴在自家门口十分不满，已按口径向客户解释，客户不接受，表示损害客户的个人名义权，现客户咨询我局是否有规定可以张贴欠费停止供电执行通知书，如有这项规定请出示书面文字，请相关人员联系处理。  
-------------------------------------------------------------------------------------------
-回访工单08000010000027535650关于领取发票问题。
-客户表示已有工作人员联系跟进，现客户就领取发票问题提出建议：
-客户对于我局前往营业厅领取发票的手续感到繁琐，客户表示现时大部分都是通过银行划账进行缴费，很多客户不愿意为了发票特地前往银行打印缴费凭证，现客户建议我局对于领取发票的手续可以优化，取消缴费凭证这一项，请记录。
-------------------------------------------------------------------------------------------
-（该号码近6个月来电总数：1，投诉数：0）南洲北路燕安一街239号904房，客户反映对201805期电费在2018-5-27 00:00已缴费，但在5-28日家门口张贴了一张欠费停电通知书的情况有意见，要求注意以后派送通知单的时间，请贵局核查。
-------------------------------------------------------------------------------------------
-（该号码近6个月来电总数：1，投诉数：0）客户反映我局于201805期电费，对其收取了1.34元违约金，对我局收取违约金表示不满（描述不满的原因），表示从未收到我局欠费停电通知书或通知信息，中心已向客户解释，客户不接受，要求将其退还。请协调处理。  客户要求今天内联系答复。中心只作记录。
-------------------------------------------------------------------------------------------
-（该号码近6个月来电总数：6，投诉数：0）
-1、客户来电反映上址为新户表工程，表示当时已将该户的业主姓名，联系电话，银行划账等相关资料递交给我局，但该户的户名和结算户名显示的是地址，并无登记个人名字，客户于5月25号在我局微信公众号办理过户（工单08000010000027518501）业务，今天本机号码接收到过户不成功的短信，中心已向客户解释因该户没有上传相关的产权资料故办理过户不成功，客户不满，表示产权证正在办理，表示上址小区其他住户都是上传完税证明和购房发票都可以办理，为何客户办理就不通过，客户十分不满意，表示完税证明和购房发票足以证明该房子是王先生的，中心尝试解释，客户不接受，要求我局尽快为其办理该户的过户业务，并表示当时王先生已将该户业主的相关资料递交给我局，表示是我局没有登记好属我局责任，要求尽快更正户名
-2、王先生反映该户已经办理了银行划账业务，但我局登记的结算户名是鹤园中一巷1号1号门1611房，导致客户不能开具出个人名字的发票，要求我局尽快更正结算户名，请协办。
-（客户通话过程中多次提及投诉，和表示如果我局再处理不好客户将反映给市委，已上报值长催办）
-------------------------------------------------------------------------------------------
-（该号码近6个月来电总数：6，投诉数：0）客户反映我局于201805期电费，对其收取了1元违约金，对我局收取违约金表示不满，称在2018年4月初到我局营业厅办理更改银行划扣业务（客户不清楚具体到那间营业厅办理），称当时营业厅工作人员告知客户已更改成功，现客户要求划扣201805期电费，经查询系统，划扣失败，失败原因为：借记卡对帐折，该项业务不支持，中心已向客户解释，但客户不接受，表示当时到营业厅办理更改银行划扣时为何不告知客户对账折不能用于办理银行划扣业务，通话中要求投诉营业厅工作人员没有告知客户对账折不能用于划扣电费，现客户要求我局尽快核查清楚，并退还违约金，请处理。注：已建议客户通过其他方式缴交201805期电费，客户同意。
-------------------------------------------------------------------------------------------
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;感觉有一些效果，基本上是一个Multinomial Bayes加上典型的Semi-supervised training做的效果。选择参数是&lt;code class=&quot;highlighter-rouge&quot;&gt;epoch=5&lt;/code&gt;与&lt;code class=&quot;highlighter-rouge&quot;&gt;num_steps=10&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;具体参照了一下这个截图里的过程。
-&lt;img src=&quot;http://om1hdizoc.bkt.clouddn.com/18-6-2/52688653.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Naive Bayes本质：&lt;/p&gt;
-
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
-\begin{split}
-\arg\max_{y}p(y\mid x) &amp;= \arg\max_{y}\frac{p(x\mid y)p(y)}{p(x)} \\
-&amp;= \arg\max_{y}p(x\mid y)p(y)
-\end{split} %]]&gt;&lt;/script&gt;
-
-&lt;p&gt;假设的是个特征本身是独立的：&lt;/p&gt;
-
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;p(x_1,x_2,x_3...x_n\mid y) = p(x_1\mid y)p(x_2\mid y)p(x_3\mid y)...p(x_n\mid y)&lt;/script&gt;
-
-&lt;p&gt;我们假设的$p(x_i \mid y)$是multinomial分布的，这意味着每个文章在归内的时候只考虑它自己本身存在的词汇。具体Naive Bayes与multinomial结合算出来的最优解可以去查看Andrew Ng的课件。&lt;/p&gt;
-
-&lt;p&gt;现在让我们利用统计一下4月和5月的数量对比。从结果看5月份比4月份还上升了。算法本身或需要更多的业务人员的标注。数据本身也需要提升本身的质量。&lt;/p&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;resulting_data&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;iloc&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;result_index_list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;april_complains&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;resulting_data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;resulting_data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;受理时间&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dt&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;month&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;may_complains&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;resulting_data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;resulting_data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;受理时间&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dt&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;month&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;april_counts&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;april_complains&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;may_counts&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;may_complains&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;april_may_changes&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;may_counts&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;april_counts&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;/&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;april_counts&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt; 
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;使用自定义的分类器统计的，四月份因系统问题产生抱怨数{}, 五月份因系统问题产生抱怨数{}, 变化率{:.2f}&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;format&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;april_counts&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;may_counts&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;april_may_changes&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;使用自定义的分类器统计的，四月份因系统问题产生抱怨数54, 五月份因系统问题产生抱怨数71, 变化率31.48%
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;april_complains&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;to_excel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;april_complains.xlsx&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;may_complains&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;to_excel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;may_complains.xlsx&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name></name></author><category term="work" /><category term="algorithm" /><summary type="html">目标是统计4月和5月因为联系方式错误而产生的抱怨工单。本身只有少量标注的信息，本次探索是从一个非业务人员的角度去探索如何分类抱怨的类型。</summary></entry></feed>
+&lt;p&gt;从实验上来看，ternary表现似乎没有binary好，这也可能是作者并没有完全优化与实现slope-annealing的原因。还有可能是因为MNIST本身不够复杂，ternary可能更适合用在大型，更多维度的数据集上。&lt;/p&gt;</content><author><name></name></author><category term="blog" /><category term="deep learning" /><category term="algorithm" /><summary type="html">之前有个blog是转载R2RT的BSN网络。后续他又发了一篇关于BSN的进阶，不过没有做深度优化。在这里我再把他用中文转载出来说一下。如果对原贴感兴趣可以查看这里. 如果对我注释的代码感兴趣，或者对里面各种矩阵的形状感兴趣可以看这里.</summary></entry></feed>

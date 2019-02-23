@@ -31,19 +31,19 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.5.0 -->
-<title>Implement Jekyll instant search | Everitt’s blog</title>
+<title>DeepMask Review | Everitt’s blog</title>
 <meta name="generator" content="Jekyll v3.8.2" />
-<meta property="og:title" content="Implement Jekyll instant search" />
+<meta property="og:title" content="DeepMask Review" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="Since Jekyll has no server side execution, we have to rely on storing all the required content in a single file and search our keyword from that file." />
-<meta property="og:description" content="Since Jekyll has no server side execution, we have to rely on storing all the required content in a single file and search our keyword from that file." />
-<link rel="canonical" href="http://localhost:8080/blog/2018/05/24/instant-search.html" />
-<meta property="og:url" content="http://localhost:8080/blog/2018/05/24/instant-search.html" />
+<meta name="description" content="This is a review of “DEEP MASK” which is in the category of semantic segmentation. The network consist of two branches. One branch is to predict which pixel belongs to which category. Another branch is to predict whether the object is properly centered in the picture." />
+<meta property="og:description" content="This is a review of “DEEP MASK” which is in the category of semantic segmentation. The network consist of two branches. One branch is to predict which pixel belongs to which category. Another branch is to predict whether the object is properly centered in the picture." />
+<link rel="canonical" href="http://localhost:8080/blog/2019/02/18/DeepMaskReview.html" />
+<meta property="og:url" content="http://localhost:8080/blog/2019/02/18/DeepMaskReview.html" />
 <meta property="og:site_name" content="Everitt’s blog" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2018-05-24T00:00:00+09:00" />
+<meta property="article:published_time" content="2019-02-18T00:00:00+09:00" />
 <script type="application/ld+json">
-{"description":"Since Jekyll has no server side execution, we have to rely on storing all the required content in a single file and search our keyword from that file.","@type":"BlogPosting","url":"http://localhost:8080/blog/2018/05/24/instant-search.html","headline":"Implement Jekyll instant search","dateModified":"2018-05-24T00:00:00+09:00","datePublished":"2018-05-24T00:00:00+09:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:8080/blog/2018/05/24/instant-search.html"},"@context":"http://schema.org"}</script>
+{"description":"This is a review of “DEEP MASK” which is in the category of semantic segmentation. The network consist of two branches. One branch is to predict which pixel belongs to which category. Another branch is to predict whether the object is properly centered in the picture.","@type":"BlogPosting","url":"http://localhost:8080/blog/2019/02/18/DeepMaskReview.html","headline":"DeepMask Review","dateModified":"2019-02-18T00:00:00+09:00","datePublished":"2019-02-18T00:00:00+09:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:8080/blog/2019/02/18/DeepMaskReview.html"},"@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:8080/feed.xml" title="Everitt's blog" /></head>
 <body><header class="site-header" role="banner">
@@ -66,26 +66,42 @@
         <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-    <h1 class="post-title p-name" itemprop="name headline">Implement Jekyll instant search</h1>
+    <h1 class="post-title p-name" itemprop="name headline">DeepMask Review</h1>
     <p class="post-meta">
-      <time class="dt-published" datetime="2018-05-24T00:00:00+09:00" itemprop="datePublished">May 24, 2018
+      <time class="dt-published" datetime="2019-02-18T00:00:00+09:00" itemprop="datePublished">Feb 18, 2019
       </time></p>
   </header>
 
   <!-- Tags -->
   <ul class="tags">
     
-      <li><a href="/tags#jekyll" class="tag">jekyll</a></li>
+      <li><a href="/tags#deep learning" class="tag">deep learning</a></li>
     
-      <li><a href="/tags#json" class="tag">json</a></li>
+      <li><a href="/tags#semantic" class="tag">semantic</a></li>
+    
+      <li><a href="/tags#segmentation" class="tag">segmentation</a></li>
     
   </ul>
 
   <!-- Body -->
   <div class="post-content e-content" itemprop="articleBody">
-    <p>Since Jekyll has no server side execution, we have to rely on storing all the required content in a single file and search our keyword from that file.</p>
+    <p>This is a review of “DEEP MASK” which is in the category of semantic segmentation. The network consist of two branches. One branch is to predict which pixel belongs to which category. Another branch is to predict whether the object is properly centered in the picture.</p>
 
-<p><a href="https://blog.webjeda.com/instant-jekyll-search/">Instant Search Implementation.</a></p>
+<p><img src="https://ws1.sinaimg.cn/large/007BQ0gBgy1g0g4i1z17bj30ys0edajn.jpg" alt="image" /></p>
+
+<p>The criteria for the second branch is whether the object is centered in the middle and the object must be fully contained in the patch in a given scale range.</p>
+
+<p>Some tricks were used in this paper were:</p>
+
+<ol>
+  <li>Fine stride max pooling.</li>
+  <li>1x1 convolution</li>
+  <li>Bipolar interpolation for scaling</li>
+</ol>
+
+<p>I highly question the use of fine stride max pooling. It’s basically takes max pooling many times. And each time you shift the pixels to some degree. After all max pooling are done, combine them then feed them to a FC layer or something. Haven’t seen this trick applied anywhere else. Also the paper’s model adopt “Fully connected layer”. However it did mention about multiple scaling and feeding into the model with stride of 16 pixels. “FC” if not changed to CONV the code would spit out error. And it requires many forward passes get the final result. Hence efficiency is low. I’m guessing the author did change FC to CONV but didn’t mention.</p>
+
+<p><a href="https://towardsdatascience.com/review-deepmask-instance-segmentation-30327a072339">Reference</a></p>
 
   </div>
   
@@ -97,14 +113,6 @@
       <h2 class="text-center" style="font-family: initial">Related blog posts:</h2>
       <div class="medium-12 small-12 columns">
         
-          
-
-           <h3>
-            <a href="http://localhost:8080/blog/2019/02/18/DeepMaskReview.html">
-              DeepMask Review
-            </a>
-           </h3>
-
           
         
           
@@ -132,29 +140,8 @@
   
 
 
-  <!-- Disqus --><a class="u-url" href="/blog/2018/05/24/instant-search.html" hidden></a>
+  <!-- Disqus --><a class="u-url" href="/blog/2019/02/18/DeepMaskReview.html" hidden></a>
 </article>
-
-<div id="disqus_thread"></div>
-<script>
-
-/**
-*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
-*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
-/*
-var disqus_config = function () {
-this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
-this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-};
-*/
-(function() { // DON'T EDIT BELOW THIS LINE
-var d = document, s = d.createElement('script');
-s.src = 'https://everitt257.disqus.com/embed.js';
-s.setAttribute('data-timestamp', +new Date());
-(d.head || d.body).appendChild(s);
-})();
-</script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 
 
 <script id="dsq-count-scr" src="//everitt257.disqus.com/count.js" async></script>
