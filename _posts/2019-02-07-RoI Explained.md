@@ -128,3 +128,7 @@ More references:
 [Good blog to browse](http://dubur.github.io/)
 
 [Instance-aware Semantic Segmentation via Multi-task Network Cascades](https://arxiv.org/abs/1512.04412)
+
+[Mask RCNN](https://engineering.matterport.com/splash-of-color-instance-segmentation-with-mask-r-cnn-and-tensorflow-7c761e238b46)
+
+There's a link in the Mask RCNN which talks about annotating tools. Very useful.
